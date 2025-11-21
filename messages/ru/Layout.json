@@ -1,0 +1,47 @@
+{
+  "Brand": {
+    "companyName": "Medical Vraneš",
+    "companyPlan": "Система HMS"
+  },
+  "Breadcrumbs": {
+    "statistics": "Статистика",
+    "patients": "Пациенты",
+    "servicesList": "Список услуг",
+    "employees": "Сотрудники",
+    "employeesNew": "Новый сотрудник",
+    "employeesId": "Информация о сотруднике",
+    "settings": "Настройки",
+    "users": "Пользователи",
+    "systemData": "Системные данные",
+    "company": "Компания",
+    "ambulances": "Амбулатории",
+    "patientNew": "Новый пациент",
+    "patientid": "Информация о пациенте"
+  },
+  "Sidebar": {
+    "clinic": "Клиника",
+    "statistics": "Статистика",
+    "patients": "Пациенты",
+    "examinations": "Осмотры",
+    "examinationsType": "Типы осмотров",
+    "examinationsList": "Список осмотров",
+    "employees": "Сотрудники",
+    "employeesNew": "Новый сотрудник",
+    "settings": "Настройки",
+    "users": "Пользователи",
+    "company": "Компания",
+    "companyInfo": "Информация о компании",
+    "ambulances": "Амбулатории",
+    "servicesList": "Список услуг",
+    "systemData": "Системные данные"
+  },
+  "NavUser": {
+    "profile": "Профиль",
+    "signOut": "Выход"
+  },
+  "TeamSwitcher": {
+    "workUnit": "Рабочее подразделение",
+    "company": "Компания",
+    "addUnit": "Добавить подразделение"
+  }
+}

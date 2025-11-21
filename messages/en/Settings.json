@@ -1,0 +1,15 @@
+{
+  "Insurance": {
+    "Validation": {
+      "providerNameRequired": "Provider name is required.",
+      "planNameRequired": "Plan name is required."
+    }
+  },
+  "DocTypes": {
+    "Validation": {
+      "nameRequired": "Document type name is required.",
+      "keyRequired": "Document type key is required.",
+      "keyInvalidFormat": "Document type key must be alphanumeric and can include underscores."
+    }
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "sericesTypes": "Tipovi usluga",
+  "servicesSubtitleTypes": "Ovde možete upravljati tipovima usluga",
+  "subtitle": "Ovde možete upravljati informacijama o pregledima",
+  "searchPlaceholder": "Pretraži preglede...",
+  "name": "Naziv",
+  "label": "Oznaka",
+  "time": "Vreme",
+  "price": "Cena",
+  "actions": "Akcije",
+  "options": "Opcije",
+  "Form": {
+    "formName": "Naziv",
+    "formNamePlaceholder": "Unesite naziv pregleda",
+    "formLabel": "Oznaka",
+    "formLabelPlaceholder": "Unesite oznaku pregleda",
+    "formTime": "Vreme",
+    "formTimePlaceholder": "Unesite vreme pregleda",
+    "formPrice": "Cena",
+    "formPricePlaceholder": "Unesite cenu pregleda",
+    "formDescription": "Opis",
+    "formDescriptionPlaceholder": "Unesite kratak opis pregleda",
+    "formNameIsRequired": "Naziv pregleda je obavezan",
+    "formLabelIsRequired": "Oznaka pregleda je obavezna",
+    "formTimeIsRequired": "Vreme pregleda je obavezno",
+    "formPriceIsRequired": "Cena pregleda je obavezna"
+  },
+  "Validation": {
+    "formNameMinLength": "Naziv pregleda mora imati najmanje 3 karaktera",
+    "formNameMaxLength": "Naziv pregleda može imati najviše 50 karaktera",
+    "formLabelMinLength": "Oznaka pregleda mora imati najmanje 3 karaktera",
+    "formLabelMaxLength": "Oznaka pregleda može imati najviše 50 karaktera",
+    "formTimeMin": "Vreme pregleda mora biti najmanje 1 minut",
+    "formTimeMax": "Vreme pregleda može biti najviše 480 minuta",
+    "formPriceMin": "Cena pregleda mora biti najmanje 0",
+    "formPriceMax": "Cena pregleda može biti najviše 10000",
+    "formDescriptionMaxLength": "Opis pregleda može imati najviše 200 karaktera"
+  },
+  "Notification": {
+    "addSuccess": "Pregled je uspešno dodat!",
+    "addError": "Došlo je do greške prilikom dodavanja pregleda!",
+    "addModalTitle": "Dodaj pregled",
+    "addModalDescription": "Unesite informacije o pregledu",
+    "deleteModalTitle": "Obriši pregled",
+    "deleteModalDescription": "Da li ste sigurni da želite da obrišete pregled?",
+    "updateModalTitle": "Izmeni pregled",
+    "updateModalDescription": "Izmenite informacije o pregledu",
+    "updateSuccess": "Pregled je uspešno izmenjen!",
+    "updateError": "Došlo je do greške prilikom izmene pregleda!",
+    "deleteSuccess": "Pregled je uspešno obrisan!",
+    "deleteError": "Došlo je do greške prilikom brisanja pregleda!"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "title": "Ambulance",
+  "subtitle": "Here you can manage ambulance information",
+  "searchPlaceholder": "Search ambulances...",
+  "name": "Name",
+  "address": "Address",
+  "phone": "Phone",
+  "email": "Email",
+  "description": "Description",
+  "examinationTypes": "Examination Types",
+  "info": "Ambulance information",
+  "actions": "Actions",
+
+  "Form": {
+    "formName": "Name",
+    "formNamePlaceholder": "Enter ambulance name",
+    "formAddress": "Address",
+    "formAddressPlaceholder": "Enter ambulance address",
+    "formPhone": "Phone",
+    "formPhonePlaceholder": "Enter ambulance phone number",
+    "formEmail": "Email",
+    "formEmailPlaceholder": "Enter ambulance email address",
+    "formDescription": "Description",
+    "formDescriptionPlaceholder": "Enter a short description of the ambulance",
+    "formStep1": "Step 1",
+    "formStep2": "Step 2",
+    "formExaminationSelect": "Select examination types"
+  },
+
+  "Notification": {
+    "addSuccess": "Ambulance successfully added!",
+    "addError": "An error occurred while adding the ambulance!",
+    "addModalTitle": "Add Ambulance",
+    "addModalDescription": "Enter ambulance information",
+    "deleteModalTitle": "Delete Ambulance",
+    "deleteModalDescription": "Are you sure you want to delete the ambulance?",
+    "updateModalTitle": "Edit Ambulance",
+    "updateModalDescription": "Edit ambulance information",
+    "infoModalTitle": "Ambulance Details",
+    "infoModalDescription": "Ambulance information",
+    "updateSuccess": "Ambulance successfully updated!",
+    "updateError": "An error occurred while updating the ambulance!",
+    "deleteSuccess": "Ambulance successfully deleted!",
+    "deleteError": "An error occurred while deleting the ambulance!"
+  }
+}

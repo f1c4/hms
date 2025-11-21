@@ -1,0 +1,15 @@
+{
+  "Insurance": {
+    "Validation": {
+      "providerNameRequired": "Naziv provajdera je obavezan.",
+      "planNameRequired": "Naziv plana je obavezan."
+    }
+  },
+  "DocTypes": {
+    "Validation": {
+      "nameRequired": "Naziv tipa dokumenta je obavezan.",
+      "keyRequired": "Ključ tipa dokumenta je obavezan.",
+      "keyInvalidFormat": "Ključ tipa dokumenta mora biti alfanumerički i može sadržati donje crte."
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "title": "Kompanija",
+  "subtitle": "Ovde možete upravljati informacijama o kompaniji",
+  "companyInformation": "Informacije o kompaniji",
+  "name": "Naziv",
+  "namePlaceholder": "Unesite naziv kompanije",
+  "address": "Adresa",
+  "addressPlaceholder": "Unesite adresu",
+  "phone": "Telefon",
+  "phonePlaceholder": "Unesite broj telefona",
+  "email": "E-mail",
+  "emailPlaceholder": "Unesite e-mail adresu",
+  "website": "Veb-sajt",
+  "websitePlaceholder": "Unesite adresu veb-sajta",
+  "description": "Opis usluge",
+  "serviceDescriptionPlaceholder": "Unesite opis usluge",
+  "reset": "Resetuj",
+  "vat": "PDV",
+  "vatPlaceholder": "Unesite PDV",
+  "tin": "PIB",
+  "tinPlaceholder": "Unesite PIB",
+  "info": "Ove informacije će se pojavljivati na fakturama i drugim dokumentima.",
+  "Validation": {
+    "formNameMinLength": "Naziv kompanije mora imati najmanje 3 karaktera",
+    "formNameMaxLength": "Naziv kompanije može imati najviše 50 karaktera",
+    "formTinMaxLength": "PIB može imati najviše 50 karaktera",
+    "formVatMaxLength": "PDV može imati najviše 50 karaktera",
+    "formAddressMaxLength": "Adresa može imati najviše 50 karaktera",
+    "formPhoneMaxLength": "Broj telefona može imati najviše 50 karaktera",
+    "formEmailMaxLength": "E-mail adresa može imati najviše 50 karaktera",
+    "formWebsiteMaxLength": "Adresa veb-sajta može imati najviše 50 karaktera",
+    "formDescriptionMaxLength": "Opis usluge može imati najviše 50 karaktera"
+  },
+  "Notification": {
+    "updateModalTitle": "Izmena informacija o kompaniji",
+    "updateModalDescription": "Izmenite informacije o kompaniji",
+    "saveSuccess": "Podaci su uspešno sačuvani!",
+    "saveError": "Došlo je do greške pri čuvanju podataka!"
+  }
+}

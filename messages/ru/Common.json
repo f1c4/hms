@@ -1,0 +1,34 @@
+{
+  "createdAt": "Создано",
+  "updatedAt": "Обновлено",
+  "unnamedFile": "Безымянный файл",
+
+  "Buttons": {
+    "openButton": "Открыть",
+    "createButton": "Создать",
+    "viewButton": "Подробнее",
+    "editButton": "Редактировать",
+    "cancelButton": "Отмена",
+    "deleteButton": "Удалить",
+    "updateButton": "Обновить",
+    "updateButtonPending": "Обновление...",
+    "saveButton": "Сохранить",
+    "saveButtonPending": "Сохранение...",
+    "searchButton": "Поиск",
+    "clearButton": "Очистить",
+    "addButton": "Добавить",
+    "resetButton": "Сбросить",
+    "prevButton": "Предыдущий",
+    "nextButton": "Следующий",
+    "confirmLeaveButton": "Покинуть",
+    "addExaminationButton": "Обследование"
+  },
+  "Progress": {
+    "loading": "Загрузка...",
+    "saving": "Сохранение...",
+    "deleting": "Удаление...",
+    "updating": "Обновление...",
+    "uploading": "Отправка...",
+    "compressing": "Сжатие..."
+  }
+}

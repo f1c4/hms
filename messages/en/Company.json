@@ -1,0 +1,41 @@
+{
+  "title": "Company",
+  "subtitle": "Here you can manage your company information",
+  "companyInformation": "Company Information",
+  "name": "Name",
+  "namePlaceholder": "Enter company name",
+  "address": "Address",
+  "addressPlaceholder": "Enter address",
+  "phone": "Phone",
+  "phonePlaceholder": "Enter phone number",
+  "email": "Email",
+  "emailPlaceholder": "Enter email address",
+  "website": "Website",
+  "websitePlaceholder": "Enter website address",
+  "description": "Service Description",
+  "serviceDescriptionPlaceholder": "Enter service description",
+  "reset": "Reset",
+  "vat": "VAT",
+  "vatPlaceholder": "Enter VAT",
+  "tin": "TIN",
+  "tinPlaceholder": "Enter TIN",
+  "info": "This information will apear on invoices and other documents.",
+
+  "Validation": {
+    "formNameMinLength": "Company name must be at least 3 characters long",
+    "formNameMaxLength": "Company name must be at most 50 characters long",
+    "formTinMaxLength": "TIN must be at most 50 characters long",
+    "formVatMaxLength": "VAT must be at most 50 characters long",
+    "formAddressMaxLength": "Address must be at most 50 characters long",
+    "formPhoneMaxLength": "Phone number must be at most 50 characters long",
+    "formEmailMaxLength": "Email address must be at most 50 characters long",
+    "formWebsiteMaxLength": "Website address must be at most 50 characters long",
+    "formDescriptionMaxLength": "Service description must be at most 50 characters long"
+  },
+  "Notification": {
+    "updateModalTitle": "Edit Company Information",
+    "updateModalDescription": "Edit company information",
+    "saveSuccess": "Data saved successfully!",
+    "saveError": "An error occurred while saving data!"
+  }
+}

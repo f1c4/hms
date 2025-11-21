@@ -1,0 +1,41 @@
+{
+  "MKB10": {
+    "groupName": "Naziv grupe",
+    "enterGroupName": "Unesite naziv grupe",
+    "code": "Šifra",
+    "enterCode": "Unesite šifru",
+    "diagnosisSr": "Dijagnoza (sr)",
+    "enterDiagnosisSr": "Unesite dijagnozu (sr)",
+    "diagnosisLat": "Dijagnoza (lat)",
+    "enterDiagnosisLat": "Unesite dijagnozu (lat)",
+    "title": "MKB-10",
+    "description": "Međunarodna statistička klasifikacija bolesti i srodnih zdravstvenih problema"
+  },
+  "DrugRegister": {
+    "title": "Registar lekova",
+    "description": "Crnogorski registar lekova",
+    "drugName": "Naziv leka",
+    "drugNamePlaceholder": "Unesite naziv leka",
+    "drugComposition": "Sastav",
+    "drugCompositionPlaceholder": "Unesite sastav leka",
+    "drugRegime": "Režim",
+    "drugRegimePlaceholder": "Unesite režim leka",
+    "drugDescription": "Opis",
+    "drugDescriptionPlaceholder": "Unesite opis leka"
+  },
+  "Kbar": {
+    "navigation": "Navigacija",
+    "goTo": "Idi na",
+    "portalSearch": "Pretraga portala",
+    "searchPlaceholder": "Pretraži..."
+  },
+  "ThemeSwitcher": {
+    "light": "Svetla",
+    "dark": "Tamna",
+    "system": "Sistem",
+    "theme": "Tema",
+    "toggleTheme": "Promeni temu",
+    "setLightTheme": "Postavi svetlu temu",
+    "setDarkTheme": "Postavi tamnu temu"
+  }
+}

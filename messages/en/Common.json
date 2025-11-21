@@ -1,0 +1,34 @@
+{
+  "createdAt": "Created at",
+  "updatedAt": "Updated at",
+  "unnamedFile": "Unnamed File",
+
+  "Buttons": {
+    "openButton": "Open",
+    "createButton": "Create",
+    "viewButton": "Details",
+    "editButton": "Edit",
+    "cancelButton": "Cancel",
+    "deleteButton": "Delete",
+    "updateButton": "Update",
+    "updateButtonPending": "Updating...",
+    "saveButton": "Save",
+    "saveButtonPending": "Saving...",
+    "searchButton": "Search",
+    "clearButton": "Clear",
+    "addButton": "Add",
+    "resetButton": "Reset",
+    "prevButton": "Previous",
+    "nextButton": "Next",
+    "confirmLeaveButton": "Leave",
+    "addExaminationButton": "Examination"
+  },
+  "Progress": {
+    "loading": "Loading...",
+    "saving": "Saving...",
+    "deleting": "Deleting...",
+    "updating": "Updating...",
+    "uploading": "Uploading...",
+    "compressing": "Compressing..."
+  }
+}

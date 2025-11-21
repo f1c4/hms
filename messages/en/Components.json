@@ -1,0 +1,42 @@
+{
+  "MKB10": {
+    "groupName": "Group Name",
+    "enterGroupName": "Enter group name",
+    "code": "Code",
+    "enterCode": "Enter code",
+    "diagnosisSr": "Diagnosis (sr)",
+    "enterDiagnosisSr": "Enter diagnosis (sr)",
+    "diagnosisLat": "Diagnosis (lat)",
+    "enterDiagnosisLat": "Enter diagnosis (lat)",
+    "title": "MKB-10",
+    "description": "International Statistical Classification of Diseases and Related Health Problems"
+  },
+
+  "DrugRegister": {
+    "title": "Drug Register",
+    "description": "Montenegro Drug Register",
+    "drugName": "Drug name",
+    "drugNamePlaceholder": "Enter drug name",
+    "drugComposition": "Composition",
+    "drugCompositionPlaceholder": "Enter drug composition",
+    "drugRegime": "Regime",
+    "drugRegimePlaceholder": "Enter drug regime",
+    "drugDescription": "Description",
+    "drugDescriptionPlaceholder": "Enter drug description"
+  },
+  "Kbar": {
+    "navigation": "Navigation",
+    "goTo": "Go to",
+    "portalSearch": "Portal search",
+    "searchPlaceholder": "Search..."
+  },
+  "ThemeSwitcher": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System",
+    "theme": "Theme",
+    "toggleTheme": "Toggle theme",
+    "setLightTheme": "Set light theme",
+    "setDarkTheme": "Set dark theme"
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "Brand": {
+    "companyName": "Medical Vraneš",
+    "companyPlan": "HMS sistem"
+  },
+  "Breadcrumbs": {
+    "statistics": "Statistika",
+    "patients": "Pacijenti",
+    "servicesList": "Lista usluga",
+    "employees": "Zaposleni",
+    "employeesNew": "Novi zaposleni",
+    "employeesId": "Informacije o zaposlenom",
+    "settings": "Podešavanja",
+    "users": "Korisnici",
+    "systemData": "Sistemski podaci",
+    "company": "Kompanija",
+    "ambulances": "Ambulante",
+    "patientNew": "Novi pacijent",
+    "patientid": "Informacije o pacijentu"
+  },
+  "Sidebar": {
+    "clinic": "Klinika",
+    "statistics": "Statistika",
+    "patients": "Pacijenti",
+    "examinations": "Pregledi",
+    "examinationsType": "Tipovi pregleda",
+    "examinationsList": "Lista pregleda",
+    "employees": "Zaposleni",
+    "employeesNew": "Novi zaposleni",
+    "settings": "Podešavanja",
+    "users": "Korisnici",
+    "company": "Kompanija",
+    "companyInfo": "Informacije o kompaniji",
+    "ambulances": "Ambulante",
+    "servicesList": "Lista usluga",
+    "systemData": "Sistemski podaci"
+  },
+  "NavUser": {
+    "profile": "Profil",
+    "signOut": "Odjava"
+  },
+  "TeamSwitcher": {
+    "workUnit": "Radna jedinica",
+    "company": "Kompanija",
+    "addUnit": "Dodaj jedinicu"
+  }
+}

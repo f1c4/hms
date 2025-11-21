@@ -1,0 +1,54 @@
+{
+  "sericesTypes": "Services types",
+  "servicesSubtitleTypes": "Here you can manage types of services",
+  "subtitle": "Here you can manage examination information",
+  "searchPlaceholder": "Search examinations...",
+  "name": "Name",
+  "label": "Label",
+  "time": "Time",
+  "price": "Price",
+  "actions": "Actions",
+  "options": "Options",
+
+  "Form": {
+    "formName": "Name",
+    "formNamePlaceholder": "Enter examination name",
+    "formLabel": "Label",
+    "formLabelPlaceholder": "Enter examination label",
+    "formTime": "Time",
+    "formTimePlaceholder": "Enter examination time",
+    "formPrice": "Price",
+    "formPricePlaceholder": "Enter examination price",
+    "formDescription": "Description",
+    "formDescriptionPlaceholder": "Enter a short description of the examination",
+    "formNameIsRequired": "Examination name is required",
+    "formLabelIsRequired": "Examination label is required",
+    "formTimeIsRequired": "Examination time is required",
+    "formPriceIsRequired": "Examination price is required"
+  },
+  "Validation": {
+    "formNameMinLength": "Examination name must be at least 3 characters long",
+    "formNameMaxLength": "Examination name must be at most 50 characters long",
+    "formLabelMinLength": "Examination label must be at least 3 characters long",
+    "formLabelMaxLength": "Examination label must be at most 50 characters long",
+    "formTimeMin": "Examination time must be at least 1 minute",
+    "formTimeMax": "Examination time must be at most 480 minutes",
+    "formPriceMin": "Examination price must be at least 0",
+    "formPriceMax": "Examination price must be at most 10000",
+    "formDescriptionMaxLength": "Examination description must be at most 200 characters long"
+  },
+  "Notification": {
+    "addSuccess": "Examination successfully added!",
+    "addError": "An error occurred while adding the examination!",
+    "addModalTitle": "Add Examination",
+    "addModalDescription": "Enter examination information",
+    "deleteModalTitle": "Delete Examination",
+    "deleteModalDescription": "Are you sure you want to delete the examination?",
+    "updateModalTitle": "Edit Examination",
+    "updateModalDescription": "Edit examination information",
+    "updateSuccess": "Examination successfully updated!",
+    "updateError": "An error occurred while updating the examination!",
+    "deleteSuccess": "Examination successfully deleted!",
+    "deleteError": "An error occurred while deleting the examination!"
+  }
+}

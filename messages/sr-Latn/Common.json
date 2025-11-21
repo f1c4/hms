@@ -1,0 +1,33 @@
+{
+  "createdAt": "Kreirano",
+  "updatedAt": "Ažurirano",
+  "unnamedFile": "Neimenovana datoteka",
+  "Buttons": {
+    "openButton": "Otvori",
+    "createButton": "Kreiraj",
+    "viewButton": "Detalji",
+    "editButton": "Izmeni",
+    "cancelButton": "Otkaži",
+    "deleteButton": "Obriši",
+    "updateButton": "Ažuriraj",
+    "updateButtonPending": "Ažuriranje...",
+    "saveButton": "Sačuvaj",
+    "saveButtonPending": "Čuvanje...",
+    "searchButton": "Pretraži",
+    "clearButton": "Očisti",
+    "addButton": "Dodaj",
+    "resetButton": "Resetuj",
+    "prevButton": "Prethodno",
+    "nextButton": "Sledeće",
+    "confirmLeaveButton": "Napusti",
+    "addExaminationButton": "Pregled"
+  },
+  "Progress": {
+    "loading": "Učitavanje...",
+    "saving": "Čuvanje...",
+    "deleting": "Brisanje...",
+    "updating": "Ažuriranje...",
+    "uploading": "Otpremanje...",
+    "compressing": "Kompresovanje..."
+  }
+}

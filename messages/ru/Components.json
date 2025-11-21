@@ -1,0 +1,42 @@
+{
+  "MKB10": {
+    "groupName": "Название группы",
+    "enterGroupName": "Введите название группы",
+    "code": "Код",
+    "enterCode": "Введите код",
+    "diagnosisSr": "Диагноз (sr)",
+    "enterDiagnosisSr": "Введите диагноз (sr)",
+    "diagnosisLat": "Диагноз (lat)",
+    "enterDiagnosisLat": "Введите диагноз (lat)",
+    "title": "МКБ-10",
+    "description": "Международная статистическая классификация болезней и проблем, связанных со здоровьем"
+  },
+
+  "DrugRegister": {
+    "title": "Реестр лекарственных средств",
+    "description": "Реестр лекарственных средств Черногории",
+    "drugName": "Название препарата",
+    "drugNamePlaceholder": "Введите название препарата",
+    "drugComposition": "Состав",
+    "drugCompositionPlaceholder": "Введите состав препарата",
+    "drugRegime": "Режим",
+    "drugRegimePlaceholder": "Введите режим",
+    "drugDescription": "Описание",
+    "drugDescriptionPlaceholder": "Введите описание препарата"
+  },
+  "Kbar": {
+    "navigation": "Навигация",
+    "goTo": "Перейти к",
+    "portalSearch": "Поиск по порталу",
+    "searchPlaceholder": "Поиск..."
+  },
+  "ThemeSwitcher": {
+    "light": "Светлая",
+    "dark": "Тёмная",
+    "system": "Системная",
+    "theme": "Тема",
+    "toggleTheme": "Переключить тему",
+    "setLightTheme": "Установить светлую тему",
+    "setDarkTheme": "Установить тёмную тему"
+  }
+}

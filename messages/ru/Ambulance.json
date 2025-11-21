@@ -1,0 +1,46 @@
+{
+  "title": "Скорая помощь",
+  "subtitle": "Здесь вы можете управлять информацией о скорой помощи",
+  "searchPlaceholder": "Поиск скорых...",
+  "name": "Название",
+  "address": "Адрес",
+  "phone": "Телефон",
+  "email": "Электронная почта",
+  "description": "Описание",
+  "examinationTypes": "Виды обследований",
+  "info": "Информация о скорой помощи",
+  "actions": "Действия",
+
+  "Form": {
+    "formName": "Название",
+    "formNamePlaceholder": "Введите название скорой помощи",
+    "formAddress": "Адрес",
+    "formAddressPlaceholder": "Введите адрес скорой помощи",
+    "formPhone": "Телефон",
+    "formPhonePlaceholder": "Введите номер телефона скорой помощи",
+    "formEmail": "Электронная почта",
+    "formEmailPlaceholder": "Введите электронную почту скорой помощи",
+    "formDescription": "Описание",
+    "formDescriptionPlaceholder": "Введите краткое описание скорой помощи",
+    "formStep1": "Шаг 1",
+    "formStep2": "Шаг 2",
+    "formExaminationSelect": "Выберите виды обследований"
+  },
+
+  "Notification": {
+    "addSuccess": "Скорая помощь успешно добавлена!",
+    "addError": "Произошла ошибка при добавлении скорой помощи!",
+    "addModalTitle": "Добавить скорую помощь",
+    "addModalDescription": "Введите информацию о скорой помощи",
+    "deleteModalTitle": "Удалить скорую помощь",
+    "deleteModalDescription": "Вы уверены, что хотите удалить скорую помощь?",
+    "updateModalTitle": "Редактировать скорую помощь",
+    "updateModalDescription": "Редактировать информацию о скорой помощи",
+    "infoModalTitle": "Детали скорой помощи",
+    "infoModalDescription": "Информация о скорой помощи",
+    "updateSuccess": "Скорая помощь успешно обновлена!",
+    "updateError": "Произошла ошибка при обновлении скорой помощи!",
+    "deleteSuccess": "Скорая помощь успешно удалена!",
+    "deleteError": "Произошла ошибка при удалении скорой помощи!"
+  }
+}

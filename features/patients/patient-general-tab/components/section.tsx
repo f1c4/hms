@@ -29,7 +29,7 @@ export function GeneralInfoSection() {
   const router = useRouter();
   const formatDate = useFormatDate();
   const tTranslations = useTranslations("Patient");
-  const tCommon = useTranslations("Common.Buttons");
+  const tCommon = useTranslations("Common");
   const { mutate: saveInfo, isPending: isSaving } = usePatientInfoMutation();
 
   const {
@@ -118,7 +118,7 @@ export function GeneralInfoSection() {
               <CardAction>
                 <Button variant="outline" size="sm" onClick={handleEdit}>
                   <PencilIcon className="mr-2 h-4 w-4" />
-                  {tCommon("editButton")}
+                  {tCommon("Buttons.editButton")}
                 </Button>
               </CardAction>
             </CardHeader>
@@ -129,10 +129,14 @@ export function GeneralInfoSection() {
               <CardFooter className="text-xs text-muted-foreground">
                 <div className="flex flex-col md:flex-row md:justify-between w-full gap-2">
                   {createdAt && (
-                    <span>Created: {formatDate(createdAt, "Pp")}</span>
+                    <span>
+                      {tCommon("createdAt")} : {formatDate(createdAt, "PPPp")}
+                    </span>
                   )}
                   {updatedAt && (
-                    <span>Last Updated: {formatDate(updatedAt, "Pp")}</span>
+                    <span>
+                      {tCommon("updatedAt")} : {formatDate(updatedAt, "PPPp")}
+                    </span>
                   )}
                 </div>
               </CardFooter>

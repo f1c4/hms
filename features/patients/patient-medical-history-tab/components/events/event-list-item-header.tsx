@@ -1,6 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { MedicalHistoryEventClientModel } from "@/types/client-models";
 import { useLocale, useTranslations } from "next-intl";
+import { useFormatDate } from "@/hooks/use-format-date";
 
 interface EventListItemHeaderProps {
   event: MedicalHistoryEventClientModel;
@@ -9,12 +10,7 @@ interface EventListItemHeaderProps {
 export function EventListItemHeader({ event }: EventListItemHeaderProps) {
   const locale = useLocale();
   const t = useTranslations("Patient.MedicalHistory");
-
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat(locale, {
-      dateStyle: "long",
-    }).format(date);
-  };
+  const formatDate = useFormatDate();
 
   return (
     <div className="flex flex-col md:flex-row justify-between w-full">
@@ -34,7 +30,7 @@ export function EventListItemHeader({ event }: EventListItemHeaderProps) {
         )}
       </div>
       <span className="text-muted-foreground text-sm">
-        {formatDate(event.event_date)}
+        {formatDate(event.event_date, "PPP")}
       </span>
     </div>
   );

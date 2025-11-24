@@ -146,3 +146,9 @@ export function deepSnakeToCamel(obj: unknown): unknown {
   // If it's not an object or array, return the value as is.
   return obj;
 }
+
+export const formatDate = (date: Date, locale: string) => {
+  return new Intl.DateTimeFormat(locale, {
+    dateStyle: "long",
+  }).format(date);
+};

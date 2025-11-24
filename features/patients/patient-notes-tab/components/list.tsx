@@ -3,6 +3,7 @@
 import { PatientNotesTypeDb } from "../types";
 import { NotesListItem } from "./list-item";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { useTranslations } from "next-intl";
 
 interface NotesListProps {
   notes: PatientNotesTypeDb["Row"][];
@@ -10,6 +11,7 @@ interface NotesListProps {
 }
 
 export function NotesList({ notes, onEdit }: NotesListProps) {
+  const tSection = useTranslations("Patient.Notes");
   return (
     <>
       {notes.length !== 0 ? (
@@ -23,7 +25,7 @@ export function NotesList({ notes, onEdit }: NotesListProps) {
       ) : (
         <Alert variant="default">
           <AlertDescription className="px-3 py-2 text-sm">
-            No notes found.
+            {tSection("noNotesFound")}
           </AlertDescription>
         </Alert>
       )}

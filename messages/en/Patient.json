@@ -354,7 +354,8 @@
     "patientIdNotFound": "Patient ID not found.",
     "editPatientRisks": "Edit risks factors",
     "insertPatientRisks": "Insert risks factors",
-    "viewPatientRisks": "Risks factors"
+    "viewPatientRisks": "Risks factors",
+    "noRisksData": "No risks data available. Please add risks factors."
   },
   "MedicalDataForm": {
     "bloodType": "Blood type",
@@ -396,7 +397,8 @@
     "addNoteError": "An error occurred while adding the patient note!",
     "updateNoteSuccess": "Patient note successfully updated!",
     "updateNoteError": "An error occurred while updating the patient note!",
-    "noteMaxLength": "Note can be 1000 characters long"
+    "noteMaxLength": "Note can be 1000 characters long",
+    "noNotesFound": "No notes found for this patient."
   },
   "MedicalHistory": {
     "title": "Medical History",

@@ -3,7 +3,7 @@
 import { useLocale } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { InsuranceProviderAdminModel } from "@/types/data-models";
-import { cn } from "@/utils/functions/utils";
+import { cn } from "@/lib/utils";
 
 interface ProviderListItemProps {
   provider: InsuranceProviderAdminModel;
@@ -39,7 +39,7 @@ export function ProviderListItem({
       <button
         type="button"
         onClick={onSelect}
-        className="flex-grow text-left min-w-0"
+        className="grow text-left min-w-0"
       >
         <p className="font-medium text-sm truncate" title={providerName}>
           {providerName}

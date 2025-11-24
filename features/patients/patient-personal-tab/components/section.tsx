@@ -30,6 +30,7 @@ import { SectionButton } from "../../shared/components/section-button";
 export function PersonalInfoSection() {
   const formatDate = useFormatDate();
   const tSection = useTranslations("Patient.PersonalNotifications");
+  const tCommon = useTranslations("Common");
   const { mutate: saveInfo, isPending: isSaving } =
     usePatientPersonalMutation();
 
@@ -150,10 +151,14 @@ export function PersonalInfoSection() {
               <CardFooter className="text-xs text-muted-foreground">
                 <div className="flex flex-col md:flex-row md:justify-between w-full gap-2">
                   {createdAt && (
-                    <span>Created: {formatDate(createdAt, "Pp")}</span>
+                    <span>
+                      {tCommon("createdAt")} : {formatDate(createdAt, "PPPp")}
+                    </span>
                   )}
                   {updatedAt && (
-                    <span>Last Updated: {formatDate(updatedAt, "Pp")}</span>
+                    <span>
+                      {tCommon("updatedAt")} : {formatDate(updatedAt, "PPPp")}
+                    </span>
                   )}
                 </div>
               </CardFooter>

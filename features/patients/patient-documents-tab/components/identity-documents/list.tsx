@@ -7,6 +7,7 @@ import { PatientIdDocumentClientModel } from "@/types/client-models";
 import { useMutation } from "@tanstack/react-query";
 import { getSignedViewUrl } from "../../actions/actions-docs";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface IdentityDocumentListProps {
   documents: PatientIdDocumentClientModel[];
@@ -22,6 +23,7 @@ export function IdentityDocumentList({
   isFormOpen,
 }: IdentityDocumentListProps) {
   const [loadingFileId, setLoadingFileId] = useState<number | null>(null);
+  const tSection = useTranslations("Patient.GeneralIdDocumentNotifications");
 
   const openFileMutation = useMutation({
     mutationFn: (filePath: string) => getSignedViewUrl(filePath),
@@ -66,7 +68,7 @@ export function IdentityDocumentList({
       ) : (
         <Alert variant="default">
           <AlertDescription className="px-3 py-2 text-sm">
-            No identity documents found.
+            {tSection("noDocumentsFound")}
           </AlertDescription>
         </Alert>
       )}

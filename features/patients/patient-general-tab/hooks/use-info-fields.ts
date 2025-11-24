@@ -40,7 +40,7 @@ export function useFields() {
       // --- Handle Date Formatting ---
       if (field.type === "date") {
         // If the value is a Date object, format it; otherwise, it's null.
-        value = value instanceof Date ? formatDate(value, "PP") : null;
+        value = value instanceof Date ? formatDate(value, "PPP") : null;
       } // --- Handle Select Formatting ---
       else if (field.type === "select" && field.options && value !== null) {
         const selectedOption = field.options.find((opt) => opt.value === value);

@@ -24,7 +24,7 @@ export function PlanListItem({ plan, onEdit, onDelete }: PlanListItemProps) {
 
   return (
     <li className="flex items-center justify-between p-3">
-      <div className="flex-grow text-left min-w-0">
+      <div className="grow text-left min-w-0">
         <p className="font-medium text-sm truncate" title={planName}>
           {planName}
         </p>

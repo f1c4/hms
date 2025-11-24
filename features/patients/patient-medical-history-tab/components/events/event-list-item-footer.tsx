@@ -1,31 +1,26 @@
 import { MedicalHistoryEventClientModel } from "@/types/client-models";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
+import { useFormatDate } from "@/hooks/use-format-date";
 
 interface EventListItemFooterProps {
   event: MedicalHistoryEventClientModel;
 }
 
 export function EventListItemFooter({ event }: EventListItemFooterProps) {
-  const locale = useLocale();
   const tCommon = useTranslations("Common");
+  const formatTimestamp = useFormatDate();
 
-  const formatTimestamp = (date: string) => {
-    return new Intl.DateTimeFormat(locale, {
-      dateStyle: "long",
-      timeStyle: "short",
-    }).format(new Date(date));
-  };
   return (
     <div className="mt-4 flex items-center justify-between gap-4">
       <div className="flex flex-col gap-1 text-xs text-muted-foreground">
         {event.created_at && (
           <p>
-            {tCommon("createdAt")}: {formatTimestamp(event.created_at)}
+            {tCommon("createdAt")}: {formatTimestamp(event.created_at, "PPPp")}
           </p>
         )}
         {event.updated_at && (
           <p>
-            {tCommon("updatedAt")}: {formatTimestamp(event.updated_at)}
+            {tCommon("updatedAt")}: {formatTimestamp(event.updated_at, "PPPp")}
           </p>
         )}
       </div>

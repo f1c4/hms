@@ -30,6 +30,7 @@ import { SectionButton } from "../../shared/components/section-button";
 export function RiskInfoSection() {
   const formatDate = useFormatDate();
   const tSection = useTranslations("Patient.RisksNotifications");
+  const tCommon = useTranslations("Common");
   const { mutate: saveInfo, isPending: isSaving } = usePatientRiskMutation();
 
   const {
@@ -150,7 +151,7 @@ export function RiskInfoSection() {
               ) : (
                 <Alert variant="default">
                   <AlertDescription className="px-3 py-2 text-sm">
-                    No risk factors information found.
+                    {tSection("noRisksData")}
                   </AlertDescription>
                 </Alert>
               )}
@@ -159,10 +160,14 @@ export function RiskInfoSection() {
               <CardFooter className="text-xs text-muted-foreground">
                 <div className="flex flex-col md:flex-row md:justify-between w-full gap-2">
                   {createdAt && (
-                    <span>Created: {formatDate(createdAt, "Pp")}</span>
+                    <span>
+                      {tCommon("createdAt")} : {formatDate(createdAt, "PPPp")}
+                    </span>
                   )}
                   {updatedAt && (
-                    <span>Last Updated: {formatDate(updatedAt, "Pp")}</span>
+                    <span>
+                      {tCommon("updatedAt")} : {formatDate(updatedAt, "PPPp")}
+                    </span>
                   )}
                 </div>
               </CardFooter>

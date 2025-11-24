@@ -35,7 +35,7 @@ export default function Patient() {
     : contactInfo || t("viewPatientSubtitle");
 
   return (
-    <PageContainer scrollable={true}>
+    <PageContainer scrollable={false}>
       <Heading title={title} description={description} />
       <PatientTabs setActiveTab={actions.setActiveTab} activeTab={activeTab} />
     </PageContainer>

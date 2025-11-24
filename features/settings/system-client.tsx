@@ -4,7 +4,7 @@ import PageContainer from "@/components/layout/page-container";
 import InsuranceTab from "./system-data/insirance-tab";
 import DocumentTab from "./system-data/document-tab"; // Import the new component
 import { Settings, Loader2 } from "lucide-react";
-import { Heading } from "@/components/ui/heading";
+import { Heading } from "@/components/heading";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 

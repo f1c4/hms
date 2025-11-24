@@ -354,7 +354,8 @@
     "patientIdNotFound": "ID pacijenta nije pronađen.",
     "editPatientRisks": "Izmeni faktore rizika",
     "insertPatientRisks": "Unesi faktore rizika",
-    "viewPatientRisks": "Faktori rizika"
+    "viewPatientRisks": "Faktori rizika",
+    "noRisksData": "Nema dostupnih podataka o faktorima rizika. Molimo dodajte faktore rizika."
   },
   "MedicalDataForm": {
     "bloodType": "Krvna grupa",
@@ -396,7 +397,8 @@
     "addNoteError": "Došlo je do greške pri dodavanju beleške pacijenta!",
     "updateNoteSuccess": "Beleška pacijenta uspešno ažurirana!",
     "updateNoteError": "Došlo je do greške pri ažuriranju beleške pacijenta!",
-    "noteMaxLength": "Beleška može sadržati najviše 1000 karaktera"
+    "noteMaxLength": "Beleška može sadržati najviše 1000 karaktera",
+    "noNotesFound": "Nema dostupnih beleški za ovog pacijenta."
   },
   "MedicalHistory": {
     "title": "Medicinska istorija",

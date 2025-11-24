@@ -5,15 +5,8 @@ import { City } from "@/features/patients/patient-general-tab/types";
 // GENERIC DATABASE TYPES
 // ===========================================================================
 export type CompanyInfoTypeDb = Database["public"]["Tables"]["company_info"];
-export type EmployeeTypeDb = Database["public"]["Tables"]["employees"];
-export type AmbulanceTypeDb = Database["public"]["Tables"]["ambulances"];
-export type ExaminationTypeDb = Database["public"]["Tables"]["exam_types"];
 export type PatientNotesTypeDb = Database["public"]["Tables"]["patient_notes"];
-export type EmplyeeTypeDb = Database["public"]["Tables"]["employees"];
-export type EmployeeVocationTypeDb =
-  Database["public"]["Tables"]["employee_type"];
 export type DocumentsTypeDb = Database["public"]["Tables"]["document_types"];
-export type VocationTypeDb = Database["public"]["Tables"]["employee_type"];
 
 // ===========================================================================
 // SYSTEM / ADMIN DATA MODELS (for settings pages)

@@ -7,7 +7,7 @@ import {
   fadeScaleTransition,
   fadeScaleVariants,
   MotionDivProps,
-} from "./animation";
+} from "../config/animation";
 
 interface AnimatedSwapProps extends Omit<MotionDivProps, "children"> {
   activeKey: string | number;

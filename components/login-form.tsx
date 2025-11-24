@@ -21,12 +21,9 @@ import {
 import { Spinner } from "./spinner";
 import { loginFormSchema } from "@/schemas/form-schemas";
 import { signInAction } from "@/lib/auth-actions";
-import { useSearchParams } from "next/navigation";
 
-export default function LoginForm() {
+export function LoginForm() {
   const t = useTranslations("Auth.LoginForm");
-  const searchParams = useSearchParams();
-  const returnUrl = searchParams.get("returnUrl");
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -37,12 +34,12 @@ export default function LoginForm() {
   });
 
   async function onSubmit(values: z.infer<typeof loginFormSchema>) {
-    await signInAction(values, returnUrl || "/dashboard/patients");
+    await signInAction(values);
   }
 
   return (
-    <Card className="overflow-hidden p-0">
-      <CardContent className="grid p-0 md:grid-cols-2">
+    <Card className="overflow-hidden p-0 w-full">
+      <CardContent className="grid p-0 md:grid-cols-2 ">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 md:p-10">
             <div className="flex flex-col gap-6">

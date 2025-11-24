@@ -1,0 +1,22 @@
+3;N;X;01;A00;A00.-;A00;A00;Cholera;Cholera;;;001;4-002;3-003;2-001;1-002
+4;T;X;01;A00;A00.0;A00.0;A000;Cholera due to Vibrio cholerae 01, biovar cholerae;Cholera;Cholera due to Vibrio cholerae 01, biovar cholerae;;001;4-002;3-003;2-001;1-002
+4;T;X;01;A00;A00.1;A00.1;A001;Cholera due to Vibrio cholerae 01, biovar eltor;Cholera;Cholera due to Vibrio cholerae 01, biovar eltor;;001;4-002;3-003;2-001;1-002
+4;T;X;01;A00;A00.9;A00.9;A009;Cholera, unspecified;Cholera;Cholera, unspecified;;001;4-002;3-003;2-001;1-002
+3;N;X;01;A00;A01.-;A01;A01;Typhoid and paratyphoid fevers;Typhoid and paratyphoid fevers;;;002;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A01.0;A01.0;A010;Typhoid fever;Typhoid and paratyphoid fevers;Typhoid fever;;002;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A01.1;A01.1;A011;Paratyphoid fever A;Typhoid and paratyphoid fevers;Paratyphoid fever A;;002;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A01.2;A01.2;A012;Paratyphoid fever B;Typhoid and paratyphoid fevers;Paratyphoid fever B;;002;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A01.3;A01.3;A013;Paratyphoid fever C;Typhoid and paratyphoid fevers;Paratyphoid fever C;;002;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A01.4;A01.4;A014;Paratyphoid fever, unspecified;Typhoid and paratyphoid fevers;Paratyphoid fever, unspecified;;002;4-002;3-003;2-003;1-004
+3;N;X;01;A00;A02.-;A02;A02;Other salmonella infections;Other salmonella infections;;;006;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A02.0;A02.0;A020;Salmonella enteritis;Other salmonella infections;Salmonella enteritis;;006;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A02.1;A02.1;A021;Salmonella sepsis;Other salmonella infections;Salmonella sepsis;;006;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A02.2;A02.2;A022;Localized salmonella infections;Other salmonella infections;Localized salmonella infections;;006;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A02.8;A02.8;A028;Other specified salmonella infections;Other salmonella infections;Other specified salmonella infections;;006;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A02.9;A02.9;A029;Salmonella infection, unspecified;Other salmonella infections;Salmonella infection, unspecified;;006;4-002;3-003;2-003;1-004
+3;N;X;01;A00;A03.-;A03;A03;Shigellosis;Shigellosis;;;003;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A03.0;A03.0;A030;Shigellosis due to Shigella dysenteriae;Shigellosis;Shigellosis due to Shigella dysenteriae;;003;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A03.1;A03.1;A031;Shigellosis due to Shigella flexneri;Shigellosis;Shigellosis due to Shigella flexneri;;003;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A03.2;A03.2;A032;Shigellosis due to Shigella boydii;Shigellosis;Shigellosis due to Shigella boydii;;003;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A03.3;A03.3;A033;Shigellosis due to Shigella sonnei;Shigellosis;Shigellosis due to Shigella sonnei;;003;4-002;3-003;2-003;1-004
+4;T;X;01;A00;A03.8;A03.8;A038;Other shigellosis;Shigellosis;Other shigellosis;;003;4-002;3-003;2-003;1-004

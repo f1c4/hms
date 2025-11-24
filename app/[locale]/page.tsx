@@ -1,6 +1,6 @@
-import LoginForm from "@/components/login-form";
+import { LoginForm } from "@/components/login-form";
 import { LocaleSwitcher } from "@/components/locale-switcher";
-import ThemeToggle from "@/components/theme-toggle";
+import { ThemeToggle } from "@/components/theme-toggle";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 
 export default async function LoginPage({

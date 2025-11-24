@@ -1,17 +1,41 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2.81.0";
-import OpenAI from "https://esm.sh/openai@6.8.1";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2.84.0";
 
-// Initialize the OpenAI client.
-// For local dev, you might need to pass the key directly if the .env file isn't working.
-// For production, it will read the OPENAI_API_KEY from the secrets you set.
-const openai = new OpenAI({
-  apiKey: Deno.env.get("OPENAI_API_KEY")!,
-});
+// Remove the OpenAI SDK import
+// import OpenAI from "https://esm.sh/openai@6.9.1";
 
-// This is the main function that will be executed when the edge function is invoked.
+// Helper to call OpenAI Chat Completions
+async function createChatCompletionJSON(params: {
+  model: string;
+  messages: Array<{ role: "system" | "user" | "assistant"; content: string }>;
+}) {
+  const apiKey = Deno.env.get("OPENAI_API_KEY");
+  if (!apiKey) {
+    throw new Error("Missing OPENAI_API_KEY environment variable");
+  }
+
+  const response = await fetch("https://api.openai.com/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      ...params,
+      response_format: { type: "json_object" },
+    }),
+  });
+
+  if (!response.ok) {
+    const text = await response.text();
+    throw new Error(`OpenAI API error: ${response.status} ${text}`);
+  }
+
+  const data = await response.json();
+  return data;
+}
+
 serve(async (req: Request) => {
-  // This is required for CORS to allow the function to be called from a browser or server
   if (req.method === "OPTIONS") {
     return new Response("ok", {
       headers: {
@@ -23,13 +47,11 @@ serve(async (req: Request) => {
   }
 
   try {
-    // Create a Supabase client with the service_role key to bypass RLS for this trusted operation
     const supabase = createClient(
-      Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
+      Deno.env.get("NEXT_PUBLIC_SUPABASE_URL")!,
+      Deno.env.get("NEXT_PUBLIC_SUPABASE_ANON_KEY")!,
     );
 
-    // Get the data passed to the function from our server action
     const { recordId, tableName, sourceLocale, targetLocales, fields } =
       await req.json();
 
@@ -37,7 +59,6 @@ serve(async (req: Request) => {
       throw new Error("Missing required parameters in the request body.");
     }
 
-    // Fetch the original record to get the existing JSONB data
     const { data: originalRecord, error: fetchError } = await supabase
       .from(tableName)
       .select(fields.join(","))
@@ -53,18 +74,14 @@ serve(async (req: Request) => {
 
     const updatePayload: { [key: string]: unknown } = {};
 
-    // Loop through each field name that needs translation (e.g., 'title', 'notes')
     for (const fieldName of fields) {
       const sourceJson = originalRecord[fieldName];
-      // Ensure the field exists and is an object (JSONB)
       if (!sourceJson || typeof sourceJson !== "object") continue;
 
-      // Get the text to translate from the source locale (e.g., the 'en' value)
       const textToTranslate = sourceJson[sourceLocale];
-      if (!textToTranslate) continue; // Skip if no source text exists for this field
+      if (!textToTranslate) continue;
 
-      // Call the OpenAI API
-      const response = await openai.chat.completions.create({
+      const completion = await createChatCompletionJSON({
         model: "gpt-4.1",
         messages: [
           {
@@ -79,20 +96,16 @@ serve(async (req: Request) => {
                 targetLocales.join(
                   ", ",
                 )
-              }".
-
-          Text to translate: "${textToTranslate}"`,
+              }".\n\nText to translate: "${textToTranslate}"`,
           },
         ],
-        response_format: { type: "json_object" },
       });
 
-      const result = response.choices[0].message.content;
+      const result = completion.choices?.[0]?.message?.content;
       if (!result) continue;
 
       const newTranslations = JSON.parse(result);
 
-      // Merge new translations with the existing JSONB data for that field
       updatePayload[fieldName] = {
         ...(sourceJson as Record<string, string>),
         ...newTranslations,
@@ -101,7 +114,6 @@ serve(async (req: Request) => {
       console.log(`Translated field "${fieldName}":`, newTranslations);
     }
 
-    // Update the record in the database with the newly translated fields
     if (Object.keys(updatePayload).length > 0) {
       const { error: updateError } = await supabase
         .from(tableName)

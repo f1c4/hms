@@ -13,7 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 type CompProps = object;
-export default function ThemeToggle({}: CompProps) {
+export function ThemeToggle({}: CompProps) {
   const { theme, setTheme } = useTheme();
   const t = useTranslations("Components.ThemeSwitcher");
   return (

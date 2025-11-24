@@ -5,7 +5,12 @@ import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 import { setRequestLocale } from "next-intl/server";
-import { ThemeProvider } from "@/components/providers/theme-provider";
+import { ThemeProvider } from "@/providers/theme-provider";
+import { LastPathTracker } from "@/utils/components/last-path-tracker";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+
+import { Toaster } from "@/components/ui/sonner";
+import { ReactQueryProvider } from "@/providers/react-query";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({
@@ -48,7 +53,11 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            {children}
+            <ReactQueryProvider>
+              <NuqsAdapter>{children}</NuqsAdapter>
+              <LastPathTracker />
+              <Toaster position="bottom-center" richColors />
+            </ReactQueryProvider>
           </ThemeProvider>
         </NextIntlClientProvider>
       </body>

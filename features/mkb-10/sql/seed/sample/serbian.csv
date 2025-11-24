@@ -1,0 +1,21 @@
+number,group_num,group_name,code_length,code,diagnosis_sr,diagnosis_lat
+1,1,Zarazne i parazitarne bolesti,3,A00,Kolera,Cholera
+2,1,Zarazne i parazitarne bolesti,4,A000,"Kolera koju uzrokuje Vibrio cholerae 01, biovar cholerae",Cholera classica
+3,1,Zarazne i parazitarne bolesti,4,A001,"Kolera koju uzrokuje Vibrio cholerae 01, biovar El Tor",Cholera El Tor
+4,1,Zarazne i parazitarne bolesti,4,A009,"Kolera, neoznačena","Cholera, non specificata"
+5,1,Zarazne i parazitarne bolesti,3,A01,Tifusna groznica i paratifusna groznica,Febris typhica et febris paratyphica
+6,1,Zarazne i parazitarne bolesti,4,A010,Trbušni tifus,Typhus abdominalis
+7,1,Zarazne i parazitarne bolesti,4,A011,Paratifus A,Paratyphus A
+8,1,Zarazne i parazitarne bolesti,4,A012,Paratifus B,Paratyphus B
+9,1,Zarazne i parazitarne bolesti,4,A013,Paratifus C,Paratyphus C
+10,1,Zarazne i parazitarne bolesti,4,A014,"Paratifus, neoznačen","Paratyphus, non specificatus"
+11,1,Zarazne i parazitarne bolesti,3,A02,Druge infekcije uzrokovane salmonelama,Salmonelloses aliae
+12,1,Zarazne i parazitarne bolesti,4,A020,Zapaljenje tankog creva uzrokovano salmonelama,Enteritis salmonellosa
+13,1,Zarazne i parazitarne bolesti,4,A021,Sepsa uzrokovana salmonelom,Salmonellosis septica
+14,1,Zarazne i parazitarne bolesti,4,A022,Lokalizovane infekcije uzrokovane salmonelom,Infectiones salmonellosae localisatae
+15,1,Zarazne i parazitarne bolesti,4,A028,Ostale označene infekcije salmonelama,"Infectiones salmonellosae aliae, specificatae"
+16,1,Zarazne i parazitarne bolesti,4,A029,"Infekcija salmonelom, neoznačena","Infectio salmonellosa, non specificata"
+17,1,Zarazne i parazitarne bolesti,3,A03,"Šigeloza, uzročnik Shigellae",Shigellosis
+18,1,Zarazne i parazitarne bolesti,4,A030,"Šigeloza, uzročnik Shigella dysenteriae",Dysenteria bacillaris per Shigellam dysenteriae
+19,1,Zarazne i parazitarne bolesti,4,A031,"Šigeloza, uzročnik Shigell flexneri",Dysenteria bacillaris per Shigellam flexneri
+20,1,Zarazne i parazitarne bolesti,4,A032,"Šigeloza, uzročnik Shigella boydi",Dysenteria bacillaris per Shigellam boydii

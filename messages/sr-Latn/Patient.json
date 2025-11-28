@@ -423,12 +423,17 @@
       "diagnosesLoading": "Učitavanje dijagnoza...",
       "diagnosesNoResults": "Nisu pronađene dijagnoze."
     },
+    "Hints": {
+      "editSourceOnly": "Možete izmeniti događaj samo na njegovom izvornom jeziku."
+    },
     "Notifications": {
       "createSuccess": "Događaj medicinske istorije uspešno kreiran!",
       "createError": "Došlo je do greške pri kreiranju događaja medicinske istorije!",
       "updateSuccess": "Događaj medicinske istorije uspešno ažuriran!",
       "updateError": "Došlo je do greške pri ažuriranju događaja medicinske istorije!",
-      "deleteSuccess": "Događaj medicinske istorije uspešno obrisan!"
+      "deleteSuccess": "Događaj medicinske istorije uspešno obrisan!",
+      "translationStarted": "Prevod događaja medicinske istorije je pokrenut.",
+      "translationFailed": "Prevod događaja medicinske istorije nije uspeo."
     },
     "Validation": {
       "eventTitleRequired": "Naslov događaja je obavezan.",

@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils";
 import { useFormatDate } from "@/hooks/use-format-date";
 import { PatientIdDocumentClientModel } from "@/types/client-models";
 import { Badge } from "@/components/ui/badge";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface IdentityDocumentListItemProps {
   doc: PatientIdDocumentClientModel;
@@ -41,6 +41,7 @@ export function IdentityDocumentListItem({
   const formatDate = useFormatDate();
   const hasFile = !!doc.file_path;
   const locale = useLocale();
+  const tCommon = useTranslations("Common");
 
   const isExpired = doc.expiry_date
     ? new Date(doc.expiry_date) < new Date()
@@ -89,7 +90,9 @@ export function IdentityDocumentListItem({
               {doc.document_number}
             </p>
             <p className="text-xs">
-              Expires on {formatDate(doc.expiry_date ?? undefined, "PP")}
+              {tCommon("expiresAt")}
+              {" : "}
+              {formatDate(doc.expiry_date ?? undefined, "PPP")}
             </p>
           </div>
         </div>

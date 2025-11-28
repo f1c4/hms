@@ -26,7 +26,6 @@ export async function createPatientNote(
       patient_id: patientId,
       note: validatedData.data.note,
       created_by: userData.user.id,
-      updated_by: userData.user.id,
     })
     .select()
     .single();

@@ -11,6 +11,7 @@ import {
 } from "../schemas/event-server-schemas";
 import { MedicalHistoryEventModel } from "@/types/data-models";
 import { getTargetLocales } from "@/i18n/locale-config";
+import { AiTranslationStatus } from "../types";
 
 /**
  * Fetches the complete medical history for a single patient.
@@ -64,7 +65,8 @@ export async function createMedicalHistoryEvent(
   const { patientId, title, event_date, notes, diagnoses, ai_source_locale } =
     validationResult.data;
 
-  // 1. Insert the new event record
+  const hasTranslatableContent = !!title || !!notes;
+
   const { data: insertedEvent, error: eventError } = await supabase
     .from("patient_medical_history_events")
     .insert({
@@ -73,7 +75,9 @@ export async function createMedicalHistoryEvent(
       title: { [ai_source_locale]: title },
       notes: notes ? { [ai_source_locale]: notes } : null,
       created_by: user.id,
-      ai_source_locale: ai_source_locale,
+      ai_source_locale,
+      ai_translation_status: hasTranslatableContent ? "in_progress" : "idle",
+      ai_translation_error: null,
     })
     .select("id")
     .single();
@@ -102,27 +106,27 @@ export async function createMedicalHistoryEvent(
   }
 
   // 3. Trigger background translation (fire-and-forget)
-  const translatableFields = ["title"];
-  if (notes) {
-    translatableFields.push("notes");
-  }
+  if (hasTranslatableContent) {
+    const translatableFields = ["title"];
+    if (notes) translatableFields.push("notes");
 
-  supabase.functions
-    .invoke("translate", {
-      body: {
-        tableName: "patient_medical_history_events",
-        recordId: newEventId,
-        fields: translatableFields,
-        sourceLocale: ai_source_locale,
-        targetLocales: getTargetLocales(ai_source_locale),
-      },
-    })
-    .catch((error) => {
-      console.error(
-        "Failed to invoke translate Edge Function on event create:",
-        error,
-      );
-    });
+    supabase.functions
+      .invoke("translate", {
+        body: {
+          tableName: "patient_medical_history_events",
+          recordId: newEventId,
+          fields: translatableFields,
+          sourceLocale: ai_source_locale,
+          targetLocales: getTargetLocales(ai_source_locale),
+        },
+      })
+      .catch((error) => {
+        console.error(
+          "Failed to invoke translate Edge Function on event create:",
+          error,
+        );
+      });
+  }
 
   // 4. Fetch the complete new event data to return to the client.
   const { data: newEvent, error: fetchError } = await supabase
@@ -141,6 +145,8 @@ export async function createMedicalHistoryEvent(
   // 5. Transform the data for the client
   return {
     ...newEvent,
+    ai_translation_status: newEvent
+      .ai_translation_status as AiTranslationStatus,
     title: newEvent.title as Record<string, string>,
     notes: newEvent.notes as Record<string, string> | null,
     event_date: new Date(newEvent.event_date),
@@ -168,8 +174,8 @@ export async function createMedicalHistoryEvent(
 }
 
 /**
- * Updates an existing medical history event for a patient.
- * @param input The data for the event update, conforming to UpdateMedicalHistoryEventInput.
+ * Updates an existing medical history event and triggers re-translation if needed.
+ * @param input The updated data for the event, conforming to UpdateMedicalHistoryEventInput.
  * @returns The updated and client-ready MedicalHistoryEventClientModel on success.
  */
 export async function updateMedicalHistoryEvent(
@@ -187,22 +193,82 @@ export async function updateMedicalHistoryEvent(
     throw new Error("Invalid server action input");
   }
 
-  const { id, version, title, event_date, notes, diagnoses, ai_source_locale } =
-    validationResult.data;
+  const {
+    id,
+    version,
+    title,
+    event_date,
+    notes,
+    diagnoses,
+    ai_source_locale: clientLocale,
+  } = validationResult.data;
 
-  // 1. Atomically update the event and increment the version.
+  const {
+    data: existing,
+    error: existingError,
+  } = await supabase
+    .from("patient_medical_history_events")
+    .select("title, notes, ai_source_locale, version")
+    .eq("id", id)
+    .single();
+
+  if (existingError || !existing) {
+    console.error("Error loading existing event for update:", existingError);
+    throw new Error("Failed to load event for update.");
+  }
+
+  if (existing.version !== version) {
+    throw new Error(
+      "Conflict: The event has been updated by someone else. Please refresh and try again.",
+    );
+  }
+
+  const trueSourceLocale: string = existing.ai_source_locale ?? clientLocale;
+  const uiLocale = clientLocale;
+  const isEditingSourceLocale = uiLocale === trueSourceLocale;
+
+  const prevTitleForSource =
+    (existing.title as Record<string, string> | null)?.[trueSourceLocale] ?? "";
+  const prevNotesForSource =
+    (existing.notes as Record<string, string> | null)?.[trueSourceLocale] ?? "";
+
+  const titleChanged = isEditingSourceLocale && prevTitleForSource !== title;
+  const notesChanged = isEditingSourceLocale &&
+    (prevNotesForSource ?? "") !== (notes ?? "");
+
+  const shouldRetranslate = titleChanged || notesChanged;
+  const hasTranslatableContent = !!title || !!notes;
+
+  const mergedTitle = isEditingSourceLocale
+    ? {
+      ...(existing.title as Record<string, string> | null) ?? {},
+      [trueSourceLocale]: title,
+    }
+    : (existing.title as Record<string, string> | null) ?? {};
+
+  const mergedNotes = isEditingSourceLocale
+    ? (notes != null
+      ? {
+        ...(existing.notes as Record<string, string> | null) ?? {},
+        [trueSourceLocale]: notes,
+      }
+      : (existing.notes as Record<string, string> | null) ?? null)
+    : (existing.notes as Record<string, string> | null) ?? null;
+
   const { data: updatedEventData, error: updateError } = await supabase
     .from("patient_medical_history_events")
     .update({
       event_date: event_date.toISOString(),
-      title: { [ai_source_locale]: title },
-      notes: notes ? { [ai_source_locale]: notes } : null,
+      title: mergedTitle,
+      notes: mergedNotes,
       updated_by: user.id,
       updated_at: new Date().toISOString(),
       version: version + 1,
-      ai_source_locale: ai_source_locale,
+      ...(shouldRetranslate && hasTranslatableContent
+        ? { ai_translation_status: "in_progress", ai_translation_error: null }
+        : {}),
     })
-    .match({ id: id, version: version }) // Optimistic locking check
+    .match({ id, version })
     .select("id")
     .single();
 
@@ -213,7 +279,6 @@ export async function updateMedicalHistoryEvent(
     );
   }
 
-  // 2. Synchronize the diagnoses
   await supabase.from("patient_medical_history_event_diagnoses").delete().eq(
     "event_id",
     id,
@@ -229,30 +294,28 @@ export async function updateMedicalHistoryEvent(
     );
   }
 
-  // 3. Trigger background translation (fire-and-forget)
-  const translatableFields = ["title"];
-  if (notes) {
-    translatableFields.push("notes");
+  if (shouldRetranslate && hasTranslatableContent) {
+    const translatableFields = ["title"];
+    if (notes) translatableFields.push("notes");
+
+    supabase.functions
+      .invoke("translate", {
+        body: {
+          tableName: "patient_medical_history_events",
+          recordId: id,
+          fields: translatableFields,
+          sourceLocale: trueSourceLocale,
+          targetLocales: getTargetLocales(trueSourceLocale),
+        },
+      })
+      .catch((error) => {
+        console.error(
+          "Failed to invoke translate Edge Function on event update:",
+          error,
+        );
+      });
   }
 
-  supabase.functions
-    .invoke("translate", {
-      body: {
-        tableName: "patient_medical_history_events",
-        recordId: id,
-        fields: translatableFields,
-        sourceLocale: ai_source_locale,
-        targetLocales: getTargetLocales(ai_source_locale),
-      },
-    })
-    .catch((error) => {
-      console.error(
-        "Failed to invoke translate Edge Function on event update:",
-        error,
-      );
-    });
-
-  // 4. Fetch the complete updated event data to return to the client
   const { data: updatedEvent, error: fetchError } = await supabase
     .from("patient_medical_history_events")
     .select(
@@ -266,9 +329,10 @@ export async function updateMedicalHistoryEvent(
     throw new Error("Failed to retrieve the updated event after saving.");
   }
 
-  // 5. Transform the data for the client
   return {
     ...updatedEvent,
+    ai_translation_status: updatedEvent
+      .ai_translation_status as AiTranslationStatus,
     title: updatedEvent.title as Record<string, string>,
     notes: updatedEvent.notes as Record<string, string> | null,
     event_date: new Date(updatedEvent.event_date),

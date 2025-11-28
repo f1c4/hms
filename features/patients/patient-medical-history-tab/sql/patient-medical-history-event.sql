@@ -10,10 +10,25 @@ create table public.patient_medical_history_events (
   created_by uuid not null,
   updated_by uuid null,
   version integer not null default 1,
+  ai_source_locale text not null,
+  ai_translation_status text not null default 'idle'::text,
+  ai_translation_error text null,
   constraint medical_history_events_pkey primary key (id),
   constraint medical_history_events_patient_id_fkey foreign KEY (patient_id) references patient_general (id),
   constraint patient_medical_history_events_created_by_fkey foreign KEY (created_by) references auth.users (id),
-  constraint patient_medical_history_events_updated_by_fkey foreign KEY (updated_by) references auth.users (id)
+  constraint patient_medical_history_events_updated_by_fkey foreign KEY (updated_by) references auth.users (id),
+  constraint chk_ai_translation_status check (
+    (
+      ai_translation_status = any (
+        array[
+          'idle'::text,
+          'in_progress'::text,
+          'completed'::text,
+          'failed'::text
+        ]
+      )
+    )
+  )
 ) TABLESPACE pg_default;
 
 -- Add comments to the table and columns

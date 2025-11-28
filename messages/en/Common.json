@@ -2,6 +2,7 @@
   "createdAt": "Created at",
   "updatedAt": "Updated at",
   "unnamedFile": "Unnamed File",
+  "expiresAt": "Expires at",
 
   "Buttons": {
     "openButton": "Open",

@@ -2,6 +2,7 @@
   "createdAt": "Создано",
   "updatedAt": "Обновлено",
   "unnamedFile": "Безымянный файл",
+  "expiresAt": "Истекает",
 
   "Buttons": {
     "openButton": "Открыть",

@@ -47,6 +47,14 @@ export function useEventMutations() {
     onSuccess: (result) => {
       medicalHistoryActions.addEvent(result);
       toast.success(t("createSuccess"));
+
+      if (result.ai_translation_status === "in_progress") {
+        toast.message(t("translationStarted")); // add key in messages
+      } else if (result.ai_translation_status === "failed") {
+        toast.warning(t("translationFailedShort"), {
+          description: result.ai_translation_error || undefined,
+        });
+      }
     },
     onError: (error) => {
       toast.error(t("createError"), { description: error.message });
@@ -76,6 +84,14 @@ export function useEventMutations() {
     onSuccess: (result) => {
       medicalHistoryActions.updateEvent(result);
       toast.success(t("updateSuccess"));
+
+      if (result.ai_translation_status === "in_progress") {
+        toast.message(t("translationStarted"));
+      } else if (result.ai_translation_status === "failed") {
+        toast.warning(t("translationFailedShort"), {
+          description: result.ai_translation_error || undefined,
+        });
+      }
     },
     onError: (error) => {
       toast.error(t("updateError"), {

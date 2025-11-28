@@ -423,12 +423,17 @@
       "diagnosesLoading": "Loading diagnoses...",
       "diagnosesNoResults": "No diagnoses found."
     },
+    "Hints": {
+      "editSourceOnly": "You can only edit the event in its source language."
+    },
     "Notifications": {
       "createSuccess": "Medical history event successfully created!",
       "createError": "An error occurred while creating the medical history event!",
       "updateSuccess": "Medical history event successfully updated!",
       "updateError": "An error occurred while updating the medical history event!",
-      "deleteSuccess": "Medical history event successfully deleted!"
+      "deleteSuccess": "Medical history event successfully deleted!",
+      "translationStarted": "AI translation for the medical history event has started.",
+      "translationFailedShort": "AI translation failed."
     },
     "Validation": {
       "eventTitleRequired": "Event title is required.",

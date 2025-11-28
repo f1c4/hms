@@ -1,6 +1,6 @@
 "use client";
 
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 // UI Components
 import {
@@ -29,6 +29,10 @@ interface EventFormProps {
 
 export function EventForm({ onClose, initialData }: EventFormProps) {
   const tFields = useTranslations("Patient.MedicalHistory.Form");
+  const locale = useLocale();
+  const isSourceLocale = initialData
+    ? initialData.ai_source_locale === locale
+    : true;
 
   const { form, onSubmit, isPending } = useMedicalEventForm(
     onClose,
@@ -48,7 +52,7 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
                 <FormControl>
                   <Input
                     {...field}
-                    disabled={isPending}
+                    disabled={isPending || (!isSourceLocale && !!initialData)}
                     placeholder={tFields("eventTitlePlaceholder")}
                   />
                 </FormControl>
@@ -102,7 +106,7 @@ export function EventForm({ onClose, initialData }: EventFormProps) {
               <FormControl>
                 <Textarea
                   {...field}
-                  disabled={isPending}
+                  disabled={isPending || (!isSourceLocale && !!initialData)}
                   placeholder={tFields("notesPlaceholder")}
                   rows={3}
                 />

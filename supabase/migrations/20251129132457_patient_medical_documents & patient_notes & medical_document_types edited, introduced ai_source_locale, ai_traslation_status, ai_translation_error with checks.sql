@@ -1,8 +1,40 @@
-CREATE OR REPLACE FUNCTION get_patient_medical_history(p_patient_id BIGINT)
-RETURNS JSON
-LANGUAGE plpgsql
-SECURITY DEFINER
-AS $$
+alter table "public"."patient_notes" drop constraint "patient_notes_patient_id_fkey";
+
+alter table "public"."medical_document_types" add column "ai_source_locale" text;
+
+alter table "public"."patient_medical_documents" add column "ai_translation_error" text;
+
+alter table "public"."patient_medical_documents" add column "ai_translation_status" text not null default 'idle'::text;
+
+alter table "public"."patient_notes" add column "ai_source_locale" text not null default '''en'''::text;
+
+alter table "public"."patient_notes" add column "ai_translation_error" text;
+
+alter table "public"."patient_notes" add column "ai_translation_status" text not null default '''idle'''::text;
+
+alter table "public"."patient_notes" alter column "created_by" set not null;
+
+alter table "public"."patient_notes" alter column "note" set not null;
+
+alter table "public"."patient_notes" alter column "note" set data type jsonb using "note"::jsonb;
+
+alter table "public"."patient_notes" alter column "patient_id" set not null;
+
+alter table "public"."patient_medical_documents" add constraint "chk_patient_medical_documents_ai_translation_status" CHECK ((ai_translation_status = ANY (ARRAY['idle'::text, 'in_progress'::text, 'completed'::text, 'failed'::text]))) not valid;
+
+alter table "public"."patient_medical_documents" validate constraint "chk_patient_medical_documents_ai_translation_status";
+
+alter table "public"."patient_notes" add constraint "patient_notes_patient_id_fkey" FOREIGN KEY (patient_id) REFERENCES public.patient_general(id) not valid;
+
+alter table "public"."patient_notes" validate constraint "patient_notes_patient_id_fkey";
+
+set check_function_bodies = off;
+
+CREATE OR REPLACE FUNCTION public.get_patient_medical_history(p_patient_id bigint)
+ RETURNS json
+ LANGUAGE plpgsql
+ SECURITY DEFINER
+AS $function$
 DECLARE
   history_events_data JSON;
 BEGIN
@@ -79,4 +111,17 @@ BEGIN
 
   RETURN history_events_data;
 END;
-$$;
+$function$
+;
+
+
+  create policy "DEV-ONLY: Allow all authenticated users full access to medical "
+  on "storage"."objects"
+  as permissive
+  for all
+  to public
+using (((bucket_id = 'patient-medical-documents'::text) AND (auth.role() = 'authenticated'::text)))
+with check (((bucket_id = 'patient-medical-documents'::text) AND (auth.role() = 'authenticated'::text)));
+
+
+

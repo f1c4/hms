@@ -134,11 +134,17 @@ export type PatientPersonalModel =
 export type PatientRisksModel =
   Database["public"]["Views"]["patient_risk_view"]["Row"];
 
+export type PatientNotesModel =
+  & Omit<Database["public"]["Tables"]["patient_notes"]["Row"], "note">
+  & {
+    note: Record<string, string> | null;
+  };
+
 export type FullPatientDataModel = {
   general: PatientGeneralModel;
   id_documents: PatientIdDocumentModel[] | null;
   insurances: PatientInsuranceModel[] | null;
   personal: PatientPersonalModel | null;
   risk: PatientRisksModel | null;
-  notes: Database["public"]["Tables"]["patient_notes"]["Row"][] | null;
+  notes: PatientNotesModel[] | null;
 };

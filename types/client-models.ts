@@ -6,7 +6,10 @@ import {
   PatientGeneralModel,
   PatientIdDocumentModel,
   PatientInsuranceModel,
+  PatientNotesModel,
 } from "./data-models";
+
+import { AiTranslationStatus } from "@/features/patients/patient-medical-history-tab/types";
 
 // ===========================================================================
 // GENERIC CLIENT-SIDE TYPES
@@ -47,12 +50,23 @@ export type PatientInsuranceClientModel =
     expiry_date: Date | null;
   };
 
+export type PatientNotesClientModel =
+  & Omit<PatientNotesModel, "created_at" | "updated_at">
+  & {
+    created_at: Date;
+    updated_at: Date | null;
+  };
+
 export type FullPatientClientModel =
-  & Omit<FullPatientDataModel, "general" | "id_documents" | "insurances">
+  & Omit<
+    FullPatientDataModel,
+    "general" | "id_documents" | "insurances" | "notes"
+  >
   & {
     general: PatientGeneralClientModel;
     id_documents: PatientIdDocumentClientModel[] | null;
     insurances: PatientInsuranceClientModel[] | null;
+    notes: PatientNotesClientModel[] | null;
   };
 
 // ===========================================================================
@@ -64,10 +78,11 @@ export type MedicalHistoryDiagnosisClientModel = MedicalHistoryDiagnosisModel;
 export type MedicalHistoryDocumentClientModel =
   & Omit<
     MedicalHistoryDocumentModel,
-    "document_date" | "diagnoses"
+    "document_date" | "diagnoses" | "ai_translation_status"
   >
   & {
     document_date: Date;
+    ai_translation_status?: AiTranslationStatus;
     diagnoses: MedicalHistoryDiagnosisClientModel[];
   };
 
@@ -78,7 +93,7 @@ export type MedicalHistoryEventClientModel =
   >
   & {
     event_date: Date;
-    ai_translation_status?: "idle" | "in_progress" | "completed" | "failed";
+    ai_translation_status?: AiTranslationStatus;
     documents: MedicalHistoryDocumentClientModel[];
     diagnoses: MedicalHistoryDiagnosisClientModel[];
   };

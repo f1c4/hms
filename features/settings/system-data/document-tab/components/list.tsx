@@ -7,10 +7,9 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 interface DocTypeListProps {
   docTypes: MedicalDocumentTypeModel[];
   onEdit: (docType: MedicalDocumentTypeModel) => void;
-  onDelete: (docType: MedicalDocumentTypeModel) => void;
 }
 
-export function DocTypeList({ docTypes, onEdit, onDelete }: DocTypeListProps) {
+export function DocTypeList({ docTypes, onEdit }: DocTypeListProps) {
   return (
     <div className="space-y-4">
       {docTypes.length > 0 ? (
@@ -21,7 +20,6 @@ export function DocTypeList({ docTypes, onEdit, onDelete }: DocTypeListProps) {
                 key={docType.id}
                 docType={docType}
                 onEdit={() => onEdit(docType)}
-                onDelete={() => onDelete(docType)}
               />
             ))}
           </ul>

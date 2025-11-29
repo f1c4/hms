@@ -111,7 +111,7 @@ export async function createMedicalHistoryEvent(
     if (notes) translatableFields.push("notes");
 
     supabase.functions
-      .invoke("translate", {
+      .invoke("translate_medical", {
         body: {
           tableName: "patient_medical_history_events",
           recordId: newEventId,
@@ -158,6 +158,7 @@ export async function createMedicalHistoryEvent(
     })),
     documents: newEvent.documents.map((doc) => ({
       ...doc,
+      ai_translation_status: doc.ai_translation_status as AiTranslationStatus,
       document_date: new Date(doc.document_date),
       notes: doc.notes as Record<string, string> | null,
       document_type_translations: doc.document_type.name_translations as
@@ -299,7 +300,7 @@ export async function updateMedicalHistoryEvent(
     if (notes) translatableFields.push("notes");
 
     supabase.functions
-      .invoke("translate", {
+      .invoke("translate_medical", {
         body: {
           tableName: "patient_medical_history_events",
           recordId: id,
@@ -344,6 +345,7 @@ export async function updateMedicalHistoryEvent(
     })),
     documents: updatedEvent.documents.map((doc) => ({
       ...doc,
+      ai_translation_status: doc.ai_translation_status as AiTranslationStatus,
       document_date: new Date(doc.document_date),
       notes: doc.notes as Record<string, string> | null,
       document_type_translations: doc.document_type.name_translations as

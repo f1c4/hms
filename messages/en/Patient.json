@@ -398,7 +398,8 @@
     "updateNoteSuccess": "Patient note successfully updated!",
     "updateNoteError": "An error occurred while updating the patient note!",
     "noteMaxLength": "Note can be 1000 characters long",
-    "noNotesFound": "No notes found for this patient."
+    "noNotesFound": "No notes found for this patient.",
+    "editSourceOnly": "You can only edit the note in its source language."
   },
   "MedicalHistory": {
     "title": "Medical History",
@@ -466,6 +467,9 @@
         "fileLabel": "File",
         "filePlaceholder": "Upload document file"
       },
+      "Hints": {
+        "editSourceOnly": "You can only edit the document in its source language."
+      },
       "Validation": {
         "titleRequired": "Document title is required.",
         "titleMinLength": "Document title must be at least 3 characters.",
@@ -481,7 +485,9 @@
         "createError": "An error occurred while creating the medical history document!",
         "updateSuccess": "Medical history document successfully updated!",
         "updateError": "An error occurred while updating the medical history document!",
-        "deleteSuccess": "Medical history document successfully deleted!"
+        "deleteSuccess": "Medical history document successfully deleted!",
+        "translationStarted": "Translating document notes in background…",
+        "translationFailedShort": "Automatic translation of document notes failed."
       }
     }
   }

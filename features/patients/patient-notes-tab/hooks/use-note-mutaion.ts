@@ -6,7 +6,7 @@ import { useMainStore } from "@/store/main-store";
 import { createPatientNote, updatePatientNote } from "../actions/actions";
 import { PatientNotesFormType } from "../schemas/schemas";
 import { useShallow } from "zustand/react/shallow";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 interface SaveNoteArgs {
   data: PatientNotesFormType;
@@ -15,6 +15,7 @@ interface SaveNoteArgs {
 
 export function useNotesMutation() {
   const tValidation = useTranslations("Patient.Notes");
+  const locale = useLocale();
   const { patientId, setPristineData, setSectionState } = useMainStore(
     useShallow((state) => ({
       patientId: state.patient.patientId,
@@ -28,9 +29,9 @@ export function useNotesMutation() {
       if (!patientId) throw new Error("Patient ID not found.");
 
       if (noteIdToEdit) {
-        return updatePatientNote(data, noteIdToEdit);
+        return updatePatientNote(data, noteIdToEdit, locale);
       } else {
-        return createPatientNote(data, patientId);
+        return createPatientNote(data, patientId, locale);
       }
     },
     onSuccess: (updatedData, { noteIdToEdit }) => {

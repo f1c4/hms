@@ -20,14 +20,13 @@ import {
 import { Button } from "@/components/ui/button";
 import { NotesList } from "./list";
 import { NoteForm } from "./form";
-import { PatientNotesTypeDb } from "../types";
 import { useTranslations } from "next-intl";
 import { PlusIcon } from "lucide-react";
+import { PatientNotesClientModel } from "@/types/client-models";
 
 export function NotesSection() {
-  const [selectedNote, setSelectedNote] = useState<
-    PatientNotesTypeDb["Row"] | null
-  >(null);
+  const [selectedNote, setSelectedNote] =
+    useState<PatientNotesClientModel | null>(null);
 
   const tSection = useTranslations("Patient.Notes");
   const tCommon = useTranslations("Common.Buttons");
@@ -51,7 +50,7 @@ export function NotesSection() {
     setSectionState("notes", "info", { mode: "create" });
   };
 
-  const handleEdit = (note: PatientNotesTypeDb["Row"]) => {
+  const handleEdit = (note: PatientNotesClientModel) => {
     setSelectedNote(note);
     setSectionState("notes", "info", { mode: "edit" });
   };

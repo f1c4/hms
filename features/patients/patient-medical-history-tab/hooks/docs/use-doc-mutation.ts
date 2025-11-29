@@ -50,6 +50,9 @@ function hasActionError(result: unknown): result is { error: ActionError } {
  */
 export function useDocumentMutations() {
   const t = useTranslations();
+  const tDocHints = useTranslations(
+    "Patient.MedicalHistory.Documents.Notifications",
+  );
   const locale = useLocale();
   const { medicalHistoryActions, patientId } = useMainStore(
     useShallow((state) => ({
@@ -102,12 +105,25 @@ export function useDocumentMutations() {
     },
     onSuccess: (result) => {
       if (isSuccessful(result)) {
-        // Type assertion to ensure we have the full document model
         const newDoc = result.data as MedicalHistoryDocumentClientModel;
         medicalHistoryActions.addDocument(newDoc);
         toast.success(
           t("Patient.MedicalHistory.Documents.Notifications.createSuccess"),
         );
+
+        if (newDoc.ai_translation_status === "in_progress") {
+          setTimeout(() => {
+            toast.message(
+              tDocHints("translationStarted"),
+            );
+          }, 1000);
+        } else if (newDoc.ai_translation_status === "failed") {
+          setTimeout(() => {
+            toast.warning(
+              tDocHints("translationFailedShort"),
+            );
+          }, 1000);
+        }
       } else if (hasActionError(result)) {
         toast.error(t(result.error.messageKey));
       }
@@ -167,6 +183,18 @@ export function useDocumentMutations() {
         toast.success(
           t("Patient.MedicalHistory.Documents.Notifications.updateSuccess"),
         );
+
+        if (updatedDoc.ai_translation_status === "in_progress") {
+          setTimeout(() => {
+            toast.message(tDocHints("translationStarted"));
+          }, 1000);
+        } else if (updatedDoc.ai_translation_status === "failed") {
+          setTimeout(() => {
+            toast.warning(
+              tDocHints("translationFailedShort"),
+            );
+          }, 1000);
+        }
       } else if (hasActionError(result)) {
         toast.error("Error updating document");
       }

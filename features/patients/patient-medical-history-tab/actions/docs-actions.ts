@@ -12,6 +12,7 @@ import { Database } from "@/types/database-custom";
 import { MedicalHistoryDocumentClientModel } from "@/types/client-models";
 import z from "zod";
 import { getTargetLocales } from "@/i18n/locale-config";
+import { AiTranslationStatus } from "../types";
 
 type ZodTreeError = {
   errors: string[];
@@ -87,6 +88,7 @@ export async function getMedicalDocumentUploadPath(
 
 /**
  * Creates a new patient medical document record and links it to an event and diagnoses.
+ * Triggers background translation if notes are provided.
  */
 export async function createPatientMedicalDocument(
   input: CreateMedicalDocumentInput,
@@ -109,16 +111,16 @@ export async function createPatientMedicalDocument(
   const { data: validatedData } = validation;
   const locale = validatedData.ai_source_locale;
 
-  console.log("Creating medical document with locale:", locale);
+  const hasTranslatableContent = !!validatedData.notes;
 
   const dataToInsert: MedicalDocumentsInsert = {
     event_id: validatedData.eventId,
     document_type_id: validatedData.documentType,
     document_date: validatedData.documentDate.toISOString(),
-    // Structure the title and notes into JSONB format
     notes: validatedData.notes ? { [locale]: validatedData.notes } : null,
     ai_source_locale: locale,
-    // File details
+    ai_translation_status: hasTranslatableContent ? "in_progress" : "idle",
+    ai_translation_error: null,
     file_path: validatedData.file.filePath,
     file_name: validatedData.file.fileName,
     file_size: validatedData.file.fileSize,
@@ -160,7 +162,7 @@ export async function createPatientMedicalDocument(
   // Trigger background translation if notes were provided
   if (validatedData.notes) {
     supabase.functions
-      .invoke("translate", {
+      .invoke("translate_medical", {
         body: {
           tableName: "patient_medical_documents",
           recordId: newDocumentId,
@@ -213,6 +215,8 @@ export async function createPatientMedicalDocument(
 
   const clientReadyDocument: MedicalHistoryDocumentClientModel = {
     ...finalDocument,
+    ai_translation_status: finalDocument
+      .ai_translation_status as AiTranslationStatus,
     document_date: new Date(finalDocument.document_date),
     document_type_translations: finalDocument.document_type.name_translations as
       | Record<string, string>
@@ -231,12 +235,16 @@ export async function createPatientMedicalDocument(
 
 /**
  * Updates an existing patient medical document.
+ * Triggers background translation if notes are provided.
+ * Handles optimistic locking via version checking.
  */
 export async function updatePatientMedicalDocument(
   input: UpdateMedicalDocumentInput,
 ): Promise<{ data?: MedicalHistoryDocumentClientModel; error?: ActionError }> {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) throw new Error("Authentication required.");
 
   const validation = UpdateMedicalDocumentSchema.safeParse(input);
@@ -253,12 +261,12 @@ export async function updatePatientMedicalDocument(
   const { data: validatedData } = validation;
   const { id, version, wantsToRemoveFile, file: newFile, ...rest } =
     validatedData;
-  const locale = rest.ai_source_locale;
+  const uiLocale = rest.ai_source_locale; // from client; may differ from true source
 
-  // 1. Fetch the current document to check version and get old file path
+  // 1. Fetch the current document to check version, source locale, notes and old file path
   const { data: currentDoc, error: fetchError } = await supabase
     .from("patient_medical_documents")
-    .select("file_path, version, event_id")
+    .select("file_path, version, event_id, ai_source_locale, notes")
     .eq("id", id)
     .single();
 
@@ -273,17 +281,51 @@ export async function updatePatientMedicalDocument(
     };
   }
 
+  const trueSourceLocale: string = currentDoc.ai_source_locale ?? uiLocale;
+
+  const existingNotes = (currentDoc.notes as Record<string, string> | null) ??
+    null;
+
+  const prevNotesForSource = existingNotes?.[trueSourceLocale] ?? "";
+
+  const isEditingSourceLocale = uiLocale === trueSourceLocale;
+
+  const notesChanged = isEditingSourceLocale &&
+    (prevNotesForSource ?? "") !== (rest.notes ?? "");
+
+  const shouldRetranslate = notesChanged;
+  const hasTranslatableContent = !!rest.notes;
+
   const oldFilePath = currentDoc.file_path;
 
-  // 2. Prepare the data for update
+  // 2. Prepare the data for update (excluding notes and status for now)
   const dataToUpdate: Partial<MedicalDocumentsInsert> = {
     document_type_id: rest.documentType,
     document_date: rest.documentDate.toISOString(),
-    notes: rest.notes ? { [locale]: rest.notes } : null,
-    ai_source_locale: locale,
     updated_by: user.id,
     version: version + 1,
   };
+
+  // 2a. Merge notes only when editing source locale
+  if (isEditingSourceLocale) {
+    const mergedNotes = rest.notes != null
+      ? {
+        ...(existingNotes ?? {}),
+        [trueSourceLocale]: rest.notes,
+      }
+      : existingNotes ?? null;
+
+    dataToUpdate.notes = mergedNotes;
+  } else {
+    // Keep existing notes as-is when not editing source locale
+    dataToUpdate.notes = existingNotes;
+  }
+
+  // 2b. Optionally update ai_translation_status
+  if (shouldRetranslate && hasTranslatableContent) {
+    dataToUpdate.ai_translation_status = "in_progress";
+    dataToUpdate.ai_translation_error = null;
+  }
 
   // 3. Handle file property updates and cleanup
   const isReplacingFile = !!newFile;
@@ -295,7 +337,6 @@ export async function updatePatientMedicalDocument(
       .remove([oldFilePath]);
     if (deleteError) {
       console.error("Failed to delete old file from storage:", deleteError);
-      // Non-blocking error, but good to log.
     }
   }
 
@@ -322,7 +363,7 @@ export async function updatePatientMedicalDocument(
     throw new Error("A server error occurred while updating the document.");
   }
 
-  // 4. Synchronize diagnoses
+  // 4b. Synchronize diagnoses
   await supabase.from("patient_medical_document_diagnoses").delete().eq(
     "document_id",
     id,
@@ -338,16 +379,16 @@ export async function updatePatientMedicalDocument(
     );
   }
 
-  // Trigger background translation if notes were provided
-  if (rest.notes) {
+  // 5. Trigger background translation if source notes changed
+  if (shouldRetranslate && hasTranslatableContent) {
     supabase.functions
-      .invoke("translate", {
+      .invoke("translate_medical", {
         body: {
           tableName: "patient_medical_documents",
           recordId: id,
           fields: ["notes"],
-          sourceLocale: locale,
-          targetLocales: getTargetLocales(locale),
+          sourceLocale: trueSourceLocale,
+          targetLocales: getTargetLocales(trueSourceLocale),
         },
       })
       .catch((error) => {
@@ -358,7 +399,7 @@ export async function updatePatientMedicalDocument(
       });
   }
 
-  // 5. Fetch and return the complete, updated document for the client
+  // 6. Fetch and return the complete, updated document for the client
   const { data: finalDocument, error: finalFetchError } = await supabase
     .from("patient_medical_documents")
     .select(
@@ -390,15 +431,15 @@ export async function updatePatientMedicalDocument(
       "Failed to bubble up update to parent event on update:",
       eventUpdateError,
     );
-    // Non-critical error, log and continue.
   }
 
   const clientReadyDocument: MedicalHistoryDocumentClientModel = {
     ...finalDocument,
+    ai_translation_status: finalDocument
+      .ai_translation_status as AiTranslationStatus,
     document_date: new Date(finalDocument.document_date),
-    document_type_translations: finalDocument.document_type.name_translations as
-      | Record<string, string>
-      | null,
+    document_type_translations: finalDocument.document_type
+      .name_translations as Record<string, string> | null,
     diagnoses: finalDocument.diagnoses.map((d) => ({
       diagnosis_code: d.diagnosis_code,
       diagnosis_translations: d.mkb_10.diagnosis_translations as
@@ -410,7 +451,6 @@ export async function updatePatientMedicalDocument(
 
   return { data: clientReadyDocument };
 }
-
 /**
  * Deletes a patient medical document and its associated file from storage.
  */

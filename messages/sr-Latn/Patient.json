@@ -398,7 +398,8 @@
     "updateNoteSuccess": "Beleška pacijenta uspešno ažurirana!",
     "updateNoteError": "Došlo je do greške pri ažuriranju beleške pacijenta!",
     "noteMaxLength": "Beleška može sadržati najviše 1000 karaktera",
-    "noNotesFound": "Nema dostupnih beleški za ovog pacijenta."
+    "noNotesFound": "Nema dostupnih beleški za ovog pacijenta.",
+    "editSourceOnly": "Možete izmeniti belešku samo na njenom izvornom jeziku."
   },
   "MedicalHistory": {
     "title": "Medicinska istorija",
@@ -466,6 +467,9 @@
         "fileLabel": "Fajl",
         "filePlaceholder": "Otpremite fajl dokumenta"
       },
+      "Hints": {
+        "editSourceOnly": "Možete izmeniti dokument samo na njegovom izvornom jeziku."
+      },
       "Validation": {
         "titleRequired": "Naslov dokumenta je obavezan.",
         "titleMinLength": "Naslov dokumenta mora imati najmanje 3 karaktera.",
@@ -481,7 +485,9 @@
         "createError": "Došlo je do greške pri kreiranju dokumenta medicinske istorije!",
         "updateSuccess": "Dokument medicinske istorije uspešno ažuriran!",
         "updateError": "Došlo je do greške pri ažuriranju dokumenta medicinske istorije!",
-        "deleteSuccess": "Dokument medicinske istorije uspešno obrisan!"
+        "deleteSuccess": "Dokument medicinske istorije uspešno obrisan!",
+        "translationStarted": "Prevod beleški dokumenta se izvodi u pozadini…",
+        "translationFailedShort": "Automatski prevod beleški dokumenta nije uspeo."
       }
     }
   }

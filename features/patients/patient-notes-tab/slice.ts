@@ -1,10 +1,10 @@
 import { StateCreator } from "zustand";
 import { PatientSlice } from "../store/patient-slice";
-import { PatientNotesTypeDb } from "./types";
+import { PatientNotesClientModel } from "@/types/client-models";
 
 export interface NotesTabSlice {
   notesActions: {
-    commit: (updatedData: PatientNotesTypeDb["Row"]) => void;
+    commit: (updatedData: PatientNotesClientModel) => void;
   };
 }
 

@@ -18,7 +18,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { ChevronsUpDown, XIcon } from "lucide-react";
-import { MkbSearchResult, searchMkb10 } from "../../actions/idc-search";
+import { MkbSearchResult, searchMkb10 } from "../../actions/mkb-search";
 import { cn } from "@/lib/utils";
 
 // Define the object structure for a selected diagnosis

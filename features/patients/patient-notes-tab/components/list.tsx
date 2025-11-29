@@ -1,13 +1,13 @@
 "use client";
 
-import { PatientNotesTypeDb } from "../types";
+import { PatientNotesClientModel } from "@/types/client-models";
 import { NotesListItem } from "./list-item";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useTranslations } from "next-intl";
 
 interface NotesListProps {
-  notes: PatientNotesTypeDb["Row"][];
-  onEdit: (note: PatientNotesTypeDb["Row"]) => void;
+  notes: PatientNotesClientModel[];
+  onEdit: (note: PatientNotesClientModel) => void;
 }
 
 export function NotesList({ notes, onEdit }: NotesListProps) {

@@ -4,7 +4,7 @@ import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useShallow } from "zustand/react/shallow";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useMainStore } from "@/store/main-store";
 import { useNotesFields } from "../hooks/use-fields";
 import { useNotesMutation } from "../hooks/use-note-mutaion";
@@ -12,7 +12,6 @@ import {
   PatientNotesFormSchema,
   PatientNotesFormType,
 } from "../schemas/schemas";
-import { PatientNotesTypeDb } from "../types";
 import {
   Form,
   FormControl,
@@ -23,13 +22,15 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { FormActions } from "@/features/patients/shared/components/form-actions";
+import { PatientNotesClientModel } from "@/types/client-models";
 
 interface NoteFormProps {
-  noteToEdit?: PatientNotesTypeDb["Row"] | null;
+  noteToEdit?: PatientNotesClientModel | null;
   onClose: () => void;
 }
 
 export function NoteForm({ noteToEdit, onClose }: NoteFormProps) {
+  const locale = useLocale();
   const tValidation = useTranslations("Patient.Notes");
   const fields = useNotesFields();
   const { setSectionState, sectionState } = useMainStore(
@@ -41,9 +42,9 @@ export function NoteForm({ noteToEdit, onClose }: NoteFormProps) {
 
   const defaultValues = useMemo<PatientNotesFormType>(
     () => ({
-      note: noteToEdit?.note ?? "",
+      note: noteToEdit?.note?.[locale] ?? "",
     }),
-    [noteToEdit]
+    [noteToEdit, locale]
   );
 
   const form = useForm<PatientNotesFormType>({

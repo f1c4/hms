@@ -7,14 +7,9 @@ import { MedicalDocumentTypeModel } from "@/types/data-models";
 interface DocTypeListItemProps {
   docType: MedicalDocumentTypeModel;
   onEdit: () => void;
-  onDelete: () => void;
 }
 
-export function DocTypeListItem({
-  docType,
-  onEdit,
-  onDelete,
-}: DocTypeListItemProps) {
+export function DocTypeListItem({ docType, onEdit }: DocTypeListItemProps) {
   const locale = useLocale();
   const defaultLocale = "en";
 
@@ -25,7 +20,7 @@ export function DocTypeListItem({
 
   return (
     <li className="flex items-center justify-between p-3">
-      <div className="flex-grow text-left min-w-0">
+      <div className="grow text-left min-w-0">
         <p className="font-medium text-sm truncate" title={docTypeName}>
           {docTypeName}
         </p>
@@ -39,9 +34,6 @@ export function DocTypeListItem({
       <div className="flex gap-2 pl-4">
         <Button variant="outline" size="sm" onClick={onEdit}>
           Edit
-        </Button>
-        <Button variant="destructive" size="sm" onClick={onDelete}>
-          Delete
         </Button>
       </div>
     </li>

@@ -127,7 +127,7 @@ export function GeneralInfoSection() {
             </CardContent>
             {(createdAt || updatedAt) && (
               <CardFooter className="text-xs text-muted-foreground">
-                <div className="flex flex-col md:flex-row md:justify-between w-full gap-2">
+                <div className="flex flex-col w-full gap-1">
                   {createdAt && (
                     <span>
                       {tCommon("createdAt")} : {formatDate(createdAt, "PPPp")}

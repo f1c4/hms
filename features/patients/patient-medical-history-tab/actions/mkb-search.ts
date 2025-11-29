@@ -20,7 +20,7 @@ const SEARCHABLE_LOCALES = ["en", "sr-Latn", "ru"];
  */
 export async function searchMkb10(
   query: string,
-  limit: number = 10
+  limit: number = 10,
 ): Promise<MkbSearchResult[]> {
   noStore();
   if (!query || query.trim().length < 2) {
@@ -32,7 +32,7 @@ export async function searchMkb10(
 
   // 1. Dynamically create an array of query conditions for each locale.
   const localeQueries = SEARCHABLE_LOCALES.map(
-    (locale) => `diagnosis_translations->>${locale}.ilike.${formattedQuery}`
+    (locale) => `diagnosis_translations->>${locale}.ilike.${formattedQuery}`,
   );
 
   // 2. Combine the code search with the dynamic locale searches.

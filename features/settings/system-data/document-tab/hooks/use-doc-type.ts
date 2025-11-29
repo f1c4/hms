@@ -6,14 +6,12 @@ import { useLocale } from "next-intl";
 import {
   createMedicalDocumentType,
   updateMedicalDocumentType,
-  deleteMedicalDocumentType,
 } from "../actions/actions-admin-document-types";
 import { DocTypeFormInput } from "../schemas/doc-type-schema";
 
 export function useDocTypeMutations() {
   const queryClient = useQueryClient();
   const locale = useLocale();
-  const defaultLocale = "en";
 
   const invalidateQueries = () => {
     queryClient.invalidateQueries({ queryKey: ["full-system-data"] });
@@ -24,11 +22,11 @@ export function useDocTypeMutations() {
     mutationFn: async (formData: DocTypeFormInput) => {
       const nameTranslations = {
         [locale]: formData.name,
-        [defaultLocale]: formData.name,
       };
       const result = await createMedicalDocumentType({
         type_key: formData.key,
         name_translations: nameTranslations,
+        ai_source_locale: locale,
       });
       if (result.error) throw new Error(result.error.message);
       return result;
@@ -53,11 +51,11 @@ export function useDocTypeMutations() {
     }) => {
       const nameTranslations = {
         [locale]: formData.name,
-        [defaultLocale]: formData.name,
       };
       const result = await updateMedicalDocumentType(docTypeId, {
         type_key: formData.key,
         name_translations: nameTranslations,
+        ai_source_locale: locale,
       });
       if (result.error) throw new Error(result.error.message);
       return result;
@@ -71,25 +69,8 @@ export function useDocTypeMutations() {
     },
   });
 
-  // --- DELETE MUTATION ---
-  const deleteDocType = useMutation({
-    mutationFn: async (docTypeId: number) => {
-      const result = await deleteMedicalDocumentType(docTypeId);
-      if (result.error) throw new Error(result.error.message);
-      return result;
-    },
-    onSuccess: () => {
-      invalidateQueries();
-      toast.success("Document type deleted successfully.");
-    },
-    onError: (error: Error) => {
-      toast.error(error.message);
-    },
-  });
-
   return {
     createDocType,
     updateDocType,
-    deleteDocType,
   };
 }

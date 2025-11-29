@@ -29,6 +29,7 @@ export function DocumentListItem({
   const tCommon = useTranslations("Common.Buttons");
   const tDocs = useTranslations("Patient.MedicalHistory.Documents");
   const locale = useLocale();
+  const isSourceLocale = doc.ai_source_locale === locale;
   const [isLoadingUrl, setIsLoadingUrl] = useState(false);
 
   // Get the translated document type name, with a fallback
@@ -83,7 +84,7 @@ export function DocumentListItem({
           if (e.key === "Enter" || e.key === " ") handleOpen();
         }}
       >
-        <FileText className="h-5 w-5 flex-shrink-0 text-muted-foreground" />
+        <FileText className="h-5 w-5 shrink-0 text-muted-foreground" />
         <div className="flex flex-col gap-1 overflow-hidden">
           <div className="flex items-center gap-2">
             <span className="font-medium truncate" title={docTypeName}>
@@ -133,7 +134,7 @@ export function DocumentListItem({
             variant="ghost"
             size="icon"
             disabled={isProcessing || isLoadingUrl}
-            className="flex-shrink-0"
+            className="shrink-0"
           >
             <MoreHorizontal className="h-4 w-4" />
           </Button>
@@ -143,10 +144,14 @@ export function DocumentListItem({
             <FileText className="mr-2 h-4 w-4" />
             <span>{tCommon("openButton")}</span>
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onEdit(doc)}>
-            <PencilIcon className="mr-2 h-4 w-4" />
-            <span>{tCommon("editButton")}</span>
-          </DropdownMenuItem>
+
+          {isSourceLocale ? (
+            <DropdownMenuItem onClick={() => onEdit(doc)}>
+              <PencilIcon className="mr-2 h-4 w-4" />
+              <span>{tCommon("editButton")}</span>
+            </DropdownMenuItem>
+          ) : null}
+
           <DropdownMenuItem
             onClick={() => handleDeleteClick(doc.id)}
             className="text-destructive focus:text-destructive"

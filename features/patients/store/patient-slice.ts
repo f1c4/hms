@@ -8,10 +8,7 @@ import {
   PersonalTabSlice,
 } from "../patient-personal-tab/slice";
 import { createRiskTabSlice, RiskTabSlice } from "../patient-risks-tab/slice";
-import {
-  createNotesTabSlice,
-  NotesTabSlice,
-} from "../patient-notes-tab/notes-data-slice";
+import { createNotesTabSlice, NotesTabSlice } from "../patient-notes-tab/slice";
 import {
   createDocumentsTabSlice,
   DocumentsTabSlice,
@@ -115,12 +112,19 @@ export const createPatientSlice: StateCreator<
             patientData.id_documents?.map(transformIdDocumentForClient) ?? null;
           const insuranceClientData =
             patientData.insurances?.map(transformInsuranceForClient) ?? null;
+          const notesClientData = patientData.notes?.map((note) => ({
+            ...note,
+            created_at: new Date(note.created_at),
+            updated_at: note.updated_at ? new Date(note.updated_at) : null,
+            note: note.note || {},
+          })) ?? null;
 
           const clientReadyData: FullPatientClientModel = {
             ...patientData,
             general: generalClientData,
             id_documents: idDocumentsClientData,
             insurances: insuranceClientData,
+            notes: notesClientData,
           };
 
           const initialData = cloneDeep(clientReadyData);

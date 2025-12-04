@@ -32,7 +32,7 @@ export default async function PatientTable() {
 
   return (
     <PatientTableClient
-      data={patientListData?.data?.patientData || []}
+      data={patientListData || []}
       totalItems={filteredCount ?? totalCount ?? 0}
     />
   );

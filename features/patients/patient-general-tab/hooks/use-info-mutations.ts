@@ -29,7 +29,6 @@ export function usePatientInfoMutation() {
       sectionState: state.patient.uiState.general.info,
       setPristineData: state.patient.infoActions.commit,
       setSectionState: state.patient.actions.setSectionState,
-      startSectionTransition: state.patient.actions.startSectionTransition,
     })),
   );
 

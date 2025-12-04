@@ -9,7 +9,16 @@ export interface PersonalFieldDefinition {
   value: string | number | null;
   error?: string;
   placeholder?: string;
-  type?: "text" | "select"; // Input type for form rendering
-  options?: { label: string; value: string | null }[]; // For select fields
-  group?: "origin" | "social" | "professional"; // For grouping fields in the list
+  type?: "text" | "select";
+  options?: { label: string; value: string | null }[];
+  group?: "origin" | "social" | "professional";
+}
+
+/**
+ * Defines the structure for a City object with JSONB name field.
+ */
+export interface City {
+  id: number;
+  name: Record<string, string>;
+  postal_code: string;
 }

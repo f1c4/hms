@@ -3,6 +3,8 @@
   "updatedAt": "Ažurirano",
   "unnamedFile": "Neimenovana datoteka",
   "expiresAt": "Ističe",
+  "expired": "Isteklo",
+  "valid": "Važi",
 
   "Buttons": {
     "openButton": "Otvori",

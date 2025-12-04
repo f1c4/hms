@@ -20,7 +20,7 @@ import {
 } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import TableContainer from "./table-container";
-import Spinner from "@/components/ui/spinner";
+import { Spinner } from "../spinner";
 
 interface DataTableVirtualizedProps<
   TData extends { id: string | number },

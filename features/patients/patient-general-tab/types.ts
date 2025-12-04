@@ -7,7 +7,7 @@ export interface GeneralFieldDefinition {
   name: keyof PatientGeneralFormInput;
   label: string;
   value: string | number | Date | null;
-  error?: string; 
+  error?: string;
   placeholder?: string;
   type?: "text" | "email" | "tel" | "date" | "select" | "numeric-string";
   options?: { value: string; label: string }[];
@@ -19,8 +19,6 @@ export interface GeneralFieldDefinition {
  */
 export interface City {
   id: number;
-  name: string;
+  name: Record<string, string>;
   postal_code: string;
 }
-  
-

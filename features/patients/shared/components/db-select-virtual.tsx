@@ -47,6 +47,7 @@ interface ComboboxProps<TInsertData extends Record<string, DataValue>> {
   onChange: (value: number | string | undefined) => void;
   onBlur: () => void;
   placeholder?: string;
+  addNewPlaceholder?: string;
   searchPlaceholder?: string;
   emptyPlaceholder?: string;
   isLoading?: boolean;
@@ -68,6 +69,7 @@ function DatabaseSelectVirtualInner<
     onChange,
     onBlur,
     placeholder = "Select an option...",
+    addNewPlaceholder = "Add new...",
     searchPlaceholder = "Search...",
     emptyPlaceholder = "No results found.",
     isLoading = false,
@@ -246,7 +248,7 @@ function DatabaseSelectVirtualInner<
                       className="text-primary cursor-pointer"
                     >
                       <PlusCircle className="mr-2 h-4 w-4" />
-                      Add new...
+                      {addNewPlaceholder}
                     </CommandItem>
                   </PopoverTrigger>
                   <PopoverContent

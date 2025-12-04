@@ -32,9 +32,8 @@ import {
   SortingState,
   getSortedRowModel,
 } from "@tanstack/react-table";
-import { useBreakpoint } from "@/utils/hooks/use-breakpoints";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { useTableFilters } from "./hooks/use-table-filters";
@@ -56,12 +55,10 @@ export function DataTableLocal<TData extends { id: string | number }, TValue>({
   const router = useRouter();
   const pathname = usePathname();
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [isMounted, setIsMounted] = useState(false);
   const { setPageSize, pageSize, currentPage, setCurrentPage } =
     useTableFilters();
 
   const t = useTranslations("DataTable");
-  const { isAboveLg } = useBreakpoint("lg");
 
   const paginationState = {
     pageIndex: currentPage - 1,
@@ -94,10 +91,6 @@ export function DataTableLocal<TData extends { id: string | number }, TValue>({
     setSorting(newSorting); // Update the sorting state
     setCurrentPage(1); // Reset to the first page when sorting changes
   };
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const table = useReactTable({
     data,
@@ -175,24 +168,22 @@ export function DataTableLocal<TData extends { id: string | number }, TValue>({
       </TableContainer>
       <div className="flex flex-row items-center justify-end gap-2 space-x-2 py-2 ">
         <div className="flex w-full items-center justify-between">
-          {isAboveLg && isMounted && (
-            <div className="flex-1 text-sm text-muted-foreground">
-              {totalItems > 0 ? (
-                <>
-                  {t("tableShowing")}{" "}
-                  {paginationState.pageIndex * paginationState.pageSize + 1}{" "}
-                  {t("tableTo")}{" "}
-                  {Math.min(
-                    (paginationState.pageIndex + 1) * paginationState.pageSize,
-                    totalItems
-                  )}{" "}
-                  {t("tableOf")} {totalItems} {t("tableEntries")}
-                </>
-              ) : (
-                t("tableNoEntries")
-              )}
-            </div>
-          )}
+          <div className="flex-1 text-sm text-muted-foreground">
+            {totalItems > 0 ? (
+              <>
+                {t("tableShowing")}{" "}
+                {paginationState.pageIndex * paginationState.pageSize + 1}{" "}
+                {t("tableTo")}{" "}
+                {Math.min(
+                  (paginationState.pageIndex + 1) * paginationState.pageSize,
+                  totalItems
+                )}{" "}
+                {t("tableOf")} {totalItems} {t("tableEntries")}
+              </>
+            ) : (
+              t("tableNoEntries")
+            )}
+          </div>
           <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
             <div className="flex items-center space-x-2">
               <p className="whitespace-nowrap text-sm font-medium">

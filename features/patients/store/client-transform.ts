@@ -1,12 +1,23 @@
-import { MedicalHistoryEventClientModel, PatientGeneralClientModel, PatientIdDocumentClientModel, PatientInsuranceClientModel } from "@/types/client-models";
-import { PatientGeneralModel, PatientIdDocumentModel, PatientInsuranceModel, MedicalHistoryEventModel } from "@/types/data-models";
+import {
+  MedicalHistoryEventClientModel,
+  PatientGeneralClientModel,
+  PatientIdDocumentClientModel,
+  PatientInsuranceClientModel,
+} from "@/types/client-models";
+import {
+  MedicalHistoryEventModel,
+  PatientGeneralModel,
+  PatientIdDocumentModel,
+  PatientInsuranceModel,
+} from "@/types/data-models";
+import { AiTranslationStatus } from "../patient-medical-history-tab/types";
 
 /**
  * Converts date strings in patient data to Date objects for client-side use.
  * This function handles both the full patient data object and the isolated general data object.
  */
 export const transformGeneralDataForClient = (
-  data: PatientGeneralModel
+  data: PatientGeneralModel,
 ): PatientGeneralClientModel => {
   const { date_of_birth, ...rest } = data;
   const newDoc: Partial<PatientGeneralClientModel> = { ...rest };
@@ -22,12 +33,13 @@ export const transformGeneralDataForClient = (
   return newDoc as PatientGeneralClientModel;
 };
 
-
 /**
  * Converts date strings in a single ID Document object to Date objects.
  * It transforms the DB-centric type to a client-centric type.
  */
-export const transformIdDocumentForClient = (doc: PatientIdDocumentModel): PatientIdDocumentClientModel => {
+export const transformIdDocumentForClient = (
+  doc: PatientIdDocumentModel,
+): PatientIdDocumentClientModel => {
   // 1. Destructure the properties that need conversion from the rest of the object.
   const { issue_date, expiry_date, ...rest } = doc;
 
@@ -35,7 +47,7 @@ export const transformIdDocumentForClient = (doc: PatientIdDocumentModel): Patie
   const newDoc: Partial<PatientIdDocumentClientModel> = { ...rest };
 
   // 3. Convert and assign the issue_date.
-  if (issue_date && typeof issue_date === 'string') {
+  if (issue_date && typeof issue_date === "string") {
     const date = new Date(issue_date);
     const timezoneOffset = date.getTimezoneOffset() * 60000;
     newDoc.issue_date = new Date(date.getTime() + timezoneOffset);
@@ -44,7 +56,7 @@ export const transformIdDocumentForClient = (doc: PatientIdDocumentModel): Patie
   }
 
   // 4. Convert and assign the expiry_date.
-  if (expiry_date && typeof expiry_date === 'string') {
+  if (expiry_date && typeof expiry_date === "string") {
     const date = new Date(expiry_date);
     const timezoneOffset = date.getTimezoneOffset() * 60000;
     newDoc.expiry_date = new Date(date.getTime() + timezoneOffset);
@@ -60,7 +72,7 @@ export const transformIdDocumentForClient = (doc: PatientIdDocumentModel): Patie
  * Converts date strings in a single Patient Insurance object to Date objects.
  */
 export const transformInsuranceForClient = (
-  ins: PatientInsuranceModel
+  ins: PatientInsuranceModel,
 ): PatientInsuranceClientModel => {
   const { effective_date, expiry_date, ...rest } = ins;
   const newIns: Partial<PatientInsuranceClientModel> = { ...rest };
@@ -87,15 +99,21 @@ export const transformInsuranceForClient = (
  * This function recursively transforms dates in events and their nested documents.
  */
 export const transformMedicalHistoryForClient = (
-  events: MedicalHistoryEventModel[]
+  events: MedicalHistoryEventModel[],
 ): MedicalHistoryEventClientModel[] => {
   return events.map((event) => {
-    const { event_date, documents, ...restOfEvent } = event;
+    const { event_date, documents, ai_translation_status, ...restOfEvent } =
+      event;
 
     // Convert event_date
     const eventDate = new Date(event_date);
     const eventTimezoneOffset = eventDate.getTimezoneOffset() * 60000;
     const clientEventDate = new Date(eventDate.getTime() + eventTimezoneOffset);
+
+    // Map ai_translation_status from string to AiTranslationStatus | undefined
+    const clientAiTranslationStatus = ai_translation_status !== undefined
+      ? (ai_translation_status as AiTranslationStatus)
+      : undefined;
 
     // Transform documents within the event
     const clientDocuments = documents.map((doc) => {
@@ -112,7 +130,8 @@ export const transformMedicalHistoryForClient = (
     return {
       ...restOfEvent,
       event_date: clientEventDate,
+      ai_translation_status: clientAiTranslationStatus,
       documents: clientDocuments,
-    };
+    } as MedicalHistoryEventClientModel;
   });
 };

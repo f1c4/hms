@@ -60,8 +60,9 @@ export async function getPatientList({
   if (firstName) searchConditions.push(`first_name.ilike.%${firstName}%`);
   if (lastName) searchConditions.push(`last_name.ilike.%${lastName}%`);
   if (searchUid) searchConditions.push(`uid.ilike.%${searchUid}%`);
-  if (searchDocumentNum)
+  if (searchDocumentNum) {
     searchConditions.push(`document.ilike.%${searchDocumentNum}%`);
+  }
 
   // Build the query
   const query = client
@@ -101,3 +102,5 @@ export async function getPatientList({
     data: { patientData, filteredCount, totalCount },
   };
 }
+
+export type PatientListType = Awaited<ReturnType<typeof getPatientList>>;

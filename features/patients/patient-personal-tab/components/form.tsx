@@ -47,6 +47,7 @@ export function PersonalInfoForm({
   const fields = usePersonalFields();
   const tForm = useTranslations("Patient.PersonalForm");
   const tNotification = useTranslations("Patient.PersonalNotifications");
+  const tCommon = useTranslations("Common");
 
   const watchedBirthCountryId = watch("birthCountryId");
   const { countryOptions, isLoadingCountries } = useCountryOptions();
@@ -127,6 +128,7 @@ export function PersonalInfoForm({
               <FormLabel>{formField.label}</FormLabel>
               <FormControl>
                 <DatabaseSelectVirtualNew
+                  addNewPlaceholder={tCommon("Buttons.addButton")}
                   options={cityOptions}
                   value={field.value ?? undefined}
                   onChange={field.onChange}

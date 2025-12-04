@@ -5,12 +5,13 @@ import { useMainStore } from "@/store/main-store";
 import { deepSnakeToCamel } from "@/utils/utils";
 import { createNewPatientData } from "@/features/patients/store/create-new-patient-data";
 import { PersonalFieldDefinition } from "../types";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 export function useFields() {
   const formFields = usePersonalFields();
   const pristineData = useMainStore((state) => state.patient.pristineData);
   const tCountries = useTranslations("Countries");
+  const locale = useLocale();
 
   const infoFields = useMemo((): Omit<PersonalFieldDefinition, "error">[] => {
     const personalData = pristineData?.personal ??
@@ -19,7 +20,11 @@ export function useFields() {
     const defaultValues = deepSnakeToCamel(personalData) as Partial<
       PatientPersonalFormType & {
         birthCountryIso2: string | null;
-        birthCity: { id: number; name: string; postalCode: string } | null;
+        birthCity: {
+          id: number;
+          name: Record<string, string> | string;
+          postalCode: string;
+        } | null;
       }
     >;
 
@@ -50,16 +55,24 @@ export function useFields() {
       mappedFields[countryFieldIndex].value = tCountries(isoCode) || isoCode;
     }
 
+    // Birth City - Handle JSONB name field
     const cityFieldIndex = mappedFields.findIndex(
       (field) => field.name === "birthCityId",
     );
     if (cityFieldIndex !== -1 && defaultValues.birthCity) {
       const city = defaultValues.birthCity;
-      mappedFields[cityFieldIndex].value = `${city.postalCode} - ${city.name}`;
+      const cityName = typeof city.name === "string"
+        ? city.name
+        : city.name?.[locale] ??
+          city.name?.["en"] ??
+          Object.values(city.name ?? {})[0] ??
+          "Unknown";
+
+      mappedFields[cityFieldIndex].value = `${city.postalCode} - ${cityName}`;
     }
 
     return mappedFields;
-  }, [formFields, pristineData, tCountries]);
+  }, [formFields, pristineData, tCountries, locale]);
 
   return { formFields, infoFields };
 }

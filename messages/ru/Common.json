@@ -3,6 +3,8 @@
   "updatedAt": "Обновлено",
   "unnamedFile": "Безымянный файл",
   "expiresAt": "Истекает",
+  "expired": "Истекло",
+  "valid": "Действительно",
 
   "Buttons": {
     "openButton": "Открыть",

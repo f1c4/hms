@@ -12,7 +12,7 @@ export type PatientTabValue =
   | "risks"
   | "history"
   | "notes"
-  | "medical"
+  | "medical";
 
 export interface PatientTab {
   value: PatientTabValue;
@@ -28,26 +28,26 @@ export const usePatientTabs = () => {
       patientId: state.patient.patientId,
       pristineData: state.patient.pristineData,
       medicalHistory: state.patient.medicalHistory,
-    }))
+    })),
   );
 
   return useMemo(() => {
     const isNewPatient = patientId === null;
-    const medicalHistoryDataPresence =
-      (medicalHistory?.data?.length ?? 0) > 0;
+    const medicalHistoryDataPresence = (medicalHistory?.data?.length ?? 0) > 0;
     const idDocumentsDataPresence =
       !!(pristineData?.id_documents && pristineData.id_documents.length > 0);
     const insurancesDataPresence =
       !!(pristineData?.insurances && pristineData.insurances.length > 0);
 
     const dataPresence = {
-    general: !!pristineData?.general && pristineData.general.id > 0,
-    documents: idDocumentsDataPresence || insurancesDataPresence,
-    personal: !!pristineData?.personal && pristineData.personal.id > 0,
-    risks: !!pristineData?.risk && typeof pristineData.risk.id === "number" && pristineData.risk.id > 0,
-    medical: !!pristineData?.medical && pristineData.medical.id > 0,
-    history: medicalHistoryDataPresence,
-    notes: !!pristineData?.notes && pristineData.notes.length > 0,
+      general: !!pristineData?.general && pristineData.general.id > 0,
+      documents: idDocumentsDataPresence || insurancesDataPresence,
+      personal: !!pristineData?.personal && pristineData.personal.id > 0,
+      risks: !!pristineData?.risk && typeof pristineData.risk.id === "number" &&
+        pristineData.risk.id > 0,
+      medical: false, // Medical tab data presence is determined within the tab itself
+      history: medicalHistoryDataPresence,
+      notes: !!pristineData?.notes && pristineData.notes.length > 0,
     };
 
     const tabs: PatientTab[] = [

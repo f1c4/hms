@@ -17,17 +17,16 @@ import { Form } from "@/components/ui/form";
 import { PencilIcon } from "lucide-react";
 
 import { usePatientInfoMutation } from "../hooks/use-info-mutations";
-import { useFormatDate } from "@/hooks/use-format-date";
 import { PatientGeneralFormOutput } from "../schemas/info-form-schema";
 import { GeneralInfoForm } from "./form";
 import { GeneralInfoList } from "./list";
 import { FormActions } from "@/features/patients/shared/components/form-actions";
 import { AnimatedSwap } from "@/components/animate-swap";
 import { useGeneralInfoForm } from "../hooks/use-form";
+import { PatientFooter } from "../../shared/components/patient-footer";
 
 export function GeneralInfoSection() {
   const router = useRouter();
-  const formatDate = useFormatDate();
   const tTranslations = useTranslations("Patient");
   const tCommon = useTranslations("Common");
   const { mutate: saveInfo, isPending: isSaving } = usePatientInfoMutation();
@@ -127,18 +126,10 @@ export function GeneralInfoSection() {
             </CardContent>
             {(createdAt || updatedAt) && (
               <CardFooter className="text-xs text-muted-foreground">
-                <div className="flex flex-col w-full gap-1">
-                  {createdAt && (
-                    <span>
-                      {tCommon("createdAt")} : {formatDate(createdAt, "PPPp")}
-                    </span>
-                  )}
-                  {updatedAt && (
-                    <span>
-                      {tCommon("updatedAt")} : {formatDate(updatedAt, "PPPp")}
-                    </span>
-                  )}
-                </div>
+                <PatientFooter
+                  createdAt={createdAt}
+                  updatedAt={updatedAt ?? ""}
+                />
               </CardFooter>
             )}
           </Card>

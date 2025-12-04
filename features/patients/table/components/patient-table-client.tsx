@@ -2,10 +2,10 @@
 
 import { DataTable } from "@/components/table/data-table";
 import { usePatientColumns } from "../hooks/use-patient-table-columns";
-import { PatientObject } from "../hooks/use-patient-table-columns";
+import { PatientListType } from "../actions/patient-table-actions";
 
 interface PatientTableClientProps {
-  data: PatientObject[];
+  data: PatientListType;
   totalItems: number;
 }
 
@@ -16,6 +16,10 @@ export function PatientTableClient({
   const patientColumns = usePatientColumns();
 
   return (
-    <DataTable columns={patientColumns} data={data} totalItems={totalItems} />
+    <DataTable
+      columns={patientColumns}
+      data={data.data?.patientData ?? []}
+      totalItems={totalItems}
+    />
   );
 }

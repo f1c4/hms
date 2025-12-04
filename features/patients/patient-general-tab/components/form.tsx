@@ -51,6 +51,7 @@ export function GeneralInfoForm({ isSaving, isEditing }: GeneralInfoFormProps) {
   );
   const tForm = useTranslations("Patient.GeneralForm");
   const tNotification = useTranslations("Patient.GeneralNotifications");
+  const tCommon = useTranslations("Common");
 
   const isDisabled = isSaving && !isEditing;
 
@@ -128,6 +129,7 @@ export function GeneralInfoForm({ isSaving, isEditing }: GeneralInfoFormProps) {
               <FormLabel>{formField.label}</FormLabel>
               <FormControl>
                 <DatabaseSelectVirtualNew
+                  addNewPlaceholder={tCommon("Buttons.addButton")}
                   options={cityOptions}
                   value={field.value ?? undefined}
                   onChange={field.onChange}

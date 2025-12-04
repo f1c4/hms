@@ -78,7 +78,7 @@ export function IdentityDocumentListItem({
                 className="h-5 inline-flex items-center"
                 variant={isExpired ? "destructive" : "secondary"}
               >
-                {isExpired ? "Expired" : "Valid"}
+                {isExpired ? tCommon("expired") : tCommon("valid")}
               </Badge>
               {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
             </div>
@@ -115,11 +115,11 @@ export function IdentityDocumentListItem({
             disabled={!hasFile || isLoading}
           >
             <File className="mr-2 h-4 w-4" />
-            <span>Open</span>
+            <span>{tCommon("Buttons.openButton")}</span>
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => onEdit(doc)} disabled={isFormOpen}>
             <PencilIcon className="mr-2 h-4 w-4" />
-            <span>Edit</span>
+            <span>{tCommon("Buttons.editButton")}</span>
           </DropdownMenuItem>
           <DropdownMenuItem
             onClick={() => onDelete(doc)}
@@ -127,7 +127,7 @@ export function IdentityDocumentListItem({
             disabled={isFormOpen}
           >
             <Trash2 className="mr-2 h-4 w-4" />
-            <span>Delete</span>
+            <span>{tCommon("Buttons.deleteButton")}</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

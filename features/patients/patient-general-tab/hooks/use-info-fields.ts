@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { cloneDeep } from "lodash";
 
 // Store and hooks
@@ -17,6 +17,7 @@ export function useFields() {
   const pristineData = useMainStore((state) => state.patient.pristineData);
   const tCountries = useTranslations("Countries");
   const formatDate = useFormatDate();
+  const locale = useLocale();
 
   const infoFields = useMemo((): Omit<GeneralFieldDefinition, "error">[] => {
     if (!pristineData?.general) {
@@ -29,7 +30,11 @@ export function useFields() {
       PatientGeneralFormInput & {
         residenceCountryIso2: string | null;
         citizenshipCountryIso2: string | null;
-        residenceCity: { id: number; name: string; postalCode: string } | null;
+        residenceCity: {
+          id: number;
+          name: Record<string, string> | string;
+          postalCode: string;
+        } | null;
       }
     >;
 
@@ -55,8 +60,6 @@ export function useFields() {
       };
     });
 
-    // --- Special Handling for Display Values (remains the same) ---
-
     // Citizenship Country
     const citizenshipCountryIndex = mappedFields.findIndex(
       (field) => field.name === "citizenshipCountryId",
@@ -79,18 +82,25 @@ export function useFields() {
         isoCode;
     }
 
-    // Residence City
+    // Residence City - Handle JSONB name field
     const residenceCityIndex = mappedFields.findIndex(
       (field) => field.name === "residenceCityId",
     );
     if (residenceCityIndex !== -1 && defaultValues.residenceCity) {
       const city = defaultValues.residenceCity;
+      const cityName = typeof city.name === "string"
+        ? city.name
+        : city.name?.[locale] ??
+          city.name?.["en"] ??
+          Object.values(city.name ?? {})[0] ??
+          "Unknown";
+
       mappedFields[residenceCityIndex].value =
-        `${city.postalCode} ${city.name}`;
+        `${city.postalCode} - ${cityName}`;
     }
 
     return mappedFields;
-  }, [formFields, pristineData, tCountries, formatDate]);
+  }, [formFields, pristineData, tCountries, formatDate, locale]);
 
   return { formFields, infoFields };
 }

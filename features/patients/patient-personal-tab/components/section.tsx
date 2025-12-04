@@ -14,7 +14,6 @@ import {
 import { Form } from "@/components/ui/form";
 
 import { usePatientPersonalMutation } from "../hooks/use-personal-mutataions";
-import { useFormatDate } from "@/hooks/use-format-date";
 import { useFields } from "../hooks/use-info-fields";
 
 import { PatientPersonalFormType } from "../schemas/schemas";
@@ -26,11 +25,10 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AnimatedSwap } from "@/components/animate-swap";
 import { usePersonalInfoForm } from "../hooks/use-form";
 import { SectionButton } from "../../shared/components/section-button";
+import { PatientFooter } from "../../shared/components/patient-footer";
 
 export function PersonalInfoSection() {
-  const formatDate = useFormatDate();
   const tSection = useTranslations("Patient.PersonalNotifications");
-  const tCommon = useTranslations("Common");
   const { mutate: saveInfo, isPending: isSaving } =
     usePatientPersonalMutation();
 
@@ -149,18 +147,10 @@ export function PersonalInfoSection() {
             </CardContent>
             {(createdAt || updatedAt) && (
               <CardFooter className="text-xs text-muted-foreground">
-                <div className="flex flex-col w-full gap-1">
-                  {createdAt && (
-                    <span>
-                      {tCommon("createdAt")} : {formatDate(createdAt, "PPPp")}
-                    </span>
-                  )}
-                  {updatedAt && (
-                    <span>
-                      {tCommon("updatedAt")} : {formatDate(updatedAt, "PPPp")}
-                    </span>
-                  )}
-                </div>
+                <PatientFooter
+                  createdAt={createdAt}
+                  updatedAt={updatedAt ?? ""}
+                />
               </CardFooter>
             )}
           </Card>

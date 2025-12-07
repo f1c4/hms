@@ -1,51 +1,89 @@
 "use client";
 
 import { searchParams } from "@/utils/search-params/searchparams";
-import { useQueryState } from "nuqs";
-import { useCallback, useMemo } from "react";
+import { useQueryStates } from "nuqs";
+import { useCallback, useMemo, useTransition } from "react";
 
 export function usePatientTableFilters() {
-  const [firstNameQuery, setFirstNameQuery] = useQueryState(
-    "firstName",
-    searchParams.firstName
+  const [isPending, startTransition] = useTransition();
+
+  const [filters, setFilters] = useQueryStates(
+    {
+      firstName: searchParams.firstName,
+      lastName: searchParams.lastName,
+      nationalId: searchParams.nationalId,
+      phone: searchParams.phone,
+      page: searchParams.page,
+    },
+    {
+      startTransition,
+    },
   );
-  const [lastNameQuery, setLastNameQuery] = useQueryState(
-    "lastName",
-    searchParams.lastName
+
+  // Individual setters that reset page to 1
+  const setFirstNameQuery = useCallback(
+    (value: string) => {
+      setFilters({ firstName: value, page: 1 });
+    },
+    [setFilters],
   );
-  const [uidQuery, setUidQuery] = useQueryState("uid", searchParams.uid);
-  const [documentQuery, setDocumentQuery] = useQueryState(
-    "document",
-    searchParams.document
+
+  const setLastNameQuery = useCallback(
+    (value: string) => {
+      setFilters({ lastName: value, page: 1 });
+    },
+    [setFilters],
+  );
+
+  const setNationalIdQuery = useCallback(
+    (value: string) => {
+      setFilters({ nationalId: value, page: 1 });
+    },
+    [setFilters],
+  );
+
+  const setPhoneQuery = useCallback(
+    (value: string) => {
+      setFilters({ phone: value, page: 1 });
+    },
+    [setFilters],
   );
 
   const resetFilters = useCallback(() => {
-    setFirstNameQuery("");
-    setLastNameQuery("");
-    setUidQuery("");
-    setDocumentQuery("");
-  }, [
-
-    setFirstNameQuery,
-    setUidQuery,
-    setDocumentQuery,
-    setLastNameQuery,
-  ]);
+    setFilters({
+      firstName: "",
+      lastName: "",
+      nationalId: "",
+      phone: "",
+      page: 1,
+    });
+  }, [setFilters]);
 
   const isFilterActive = useMemo(() => {
-    return Boolean(firstNameQuery?.length || lastNameQuery?.length || uidQuery?.length || documentQuery?.length);
-  }, [firstNameQuery, lastNameQuery, uidQuery, documentQuery]);
+    return Boolean(
+      filters.firstName ||
+        filters.lastName ||
+        filters.nationalId ||
+        filters.phone,
+    );
+  }, [filters]);
 
   return {
-    firstNameQuery,
+    // Filter values
+    firstNameQuery: filters.firstName,
+    lastNameQuery: filters.lastName,
+    nationalIdQuery: filters.nationalId,
+    phoneQuery: filters.phone,
+
+    // Setters (auto-reset page to 1)
     setFirstNameQuery,
-    lastNameQuery,
     setLastNameQuery,
-    uidQuery,
-    setUidQuery,
-    documentQuery,
-    setDocumentQuery,
+    setNationalIdQuery,
+    setPhoneQuery,
+
+    // Utilities
     resetFilters,
     isFilterActive,
+    isPending,
   };
 }

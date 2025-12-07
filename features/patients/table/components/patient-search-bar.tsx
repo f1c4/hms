@@ -11,10 +11,10 @@ export default function PatientSearchBar() {
     setFirstNameQuery,
     lastNameQuery,
     setLastNameQuery,
-    uidQuery,
-    setUidQuery,
-    documentQuery,
-    setDocumentQuery,
+    nationalIdQuery,
+    setNationalIdQuery,
+    phoneQuery,
+    setPhoneQuery,
   } = usePatientTableFilters();
 
   return (
@@ -30,14 +30,14 @@ export default function PatientSearchBar() {
         setSearchQuery={setLastNameQuery}
       />
       <TableSearchInput
-        placeholder={t("searchUID")}
-        searchQuery={uidQuery}
-        setSearchQuery={setUidQuery}
+        placeholder={t("searchNationalId")}
+        searchQuery={nationalIdQuery}
+        setSearchQuery={setNationalIdQuery}
       />
       <TableSearchInput
-        placeholder={t("searchDocument")}
-        searchQuery={documentQuery}
-        setSearchQuery={setDocumentQuery}
+        placeholder={t("searchPhone")}
+        searchQuery={phoneQuery}
+        setSearchQuery={setPhoneQuery}
       />
     </>
   );

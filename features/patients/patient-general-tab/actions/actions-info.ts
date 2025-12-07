@@ -8,7 +8,7 @@ import { createClient } from "@/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { camelToSnakeObj } from "@/utils/utils";
 import { Database } from "@/types/database-custom";
-import { PatientGeneralModel } from "@/types/data-models";
+import { PatientGeneralClientModel } from "@/types/client-models";
 
 type PatientGeneralTable = Database["public"]["Tables"]["patient_general"];
 type PatientGeneralInsert = PatientGeneralTable["Insert"];
@@ -36,7 +36,7 @@ const selectWithDetails = `
 // CREATE PATIENT GENERAL INFO
 export async function createPatientGeneral(
   patientData: PatientGeneralFormOutput,
-): Promise<PatientGeneralModel> {
+): Promise<PatientGeneralClientModel> {
   const client = await createClient();
   const { data: { user } } = await client.auth.getUser();
   if (!user) throw new Error("User not authenticated");
@@ -69,16 +69,30 @@ export async function createPatientGeneral(
   }
 
   // Type-safe post-processing to flatten the country object
-  const { residenceCountryIso2, citizenshipCountryIso2, ...restOfData } =
-    insertedPatient;
-  const result = {
+  const {
+    residenceCountryIso2,
+    citizenshipCountryIso2,
+    residenceCity,
+    ...restOfData
+  } = insertedPatient;
+  const result: PatientGeneralClientModel = {
     ...restOfData,
     residenceCountryIso2: residenceCountryIso2?.iso2 || null,
     citizenshipCountryIso2: citizenshipCountryIso2?.iso2 || null,
+    date_of_birth: insertedPatient.date_of_birth
+      ? new Date(insertedPatient.date_of_birth)
+      : null,
+    residenceCity: {
+      ...residenceCity,
+      name: residenceCity?.name as Record<string, string> || null,
+      id: residenceCity?.id || 0,
+      postal_code: residenceCity?.postal_code || "",
+    },
   };
 
   revalidatePath("/dashboard/patients");
   revalidatePath(`/dashboard/patients/${insertedPatient.id}`);
+
   return result;
 }
 
@@ -87,7 +101,7 @@ export async function updatePatientGeneral(
   patientData: PatientGeneralFormOutput,
   patientId: number,
   currentVersion: number,
-): Promise<PatientGeneralModel> {
+): Promise<PatientGeneralClientModel> {
   const client = await createClient();
   const { data: { user } } = await client.auth.getUser();
   if (!user) throw new Error("User not authenticated");
@@ -127,12 +141,25 @@ export async function updatePatientGeneral(
   }
 
   // Type-safe post-processing to flatten the country object
-  const { residenceCountryIso2, citizenshipCountryIso2, ...restOfData } =
-    updatedPatient;
-  const result = {
+  const {
+    residenceCountryIso2,
+    citizenshipCountryIso2,
+    residenceCity,
+    ...restOfData
+  } = updatedPatient;
+  const result: PatientGeneralClientModel = {
     ...restOfData,
     residenceCountryIso2: residenceCountryIso2?.iso2 || null,
     citizenshipCountryIso2: citizenshipCountryIso2?.iso2 || null,
+    date_of_birth: updatedPatient.date_of_birth
+      ? new Date(updatedPatient.date_of_birth)
+      : null,
+    residenceCity: {
+      ...residenceCity,
+      name: residenceCity?.name as Record<string, string> || null,
+      id: residenceCity?.id || 0,
+      postal_code: residenceCity?.postal_code || "",
+    },
   };
 
   revalidatePath("/dashboard/patients");

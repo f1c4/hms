@@ -52,16 +52,6 @@ export async function updateSession(
     } = await supabase.auth.getUser();
 
     // Get user's role if they're authenticated
-    let userRole = null;
-    if (user) {
-      const { data: profile } = await supabase
-        .from("employees")
-        .select("role")
-        .eq("auth_id", user.id)
-        .single();
-
-      userRole = profile?.role || null;
-    }
 
     // Extract locale from the URL path
     const pathParts = request.nextUrl.pathname.split("/");
@@ -109,7 +99,7 @@ export async function updateSession(
         }
 
         // Route requires specific role
-        if (requiredRole && userRole !== requiredRole) {
+        if (requiredRole) {
           // Redirect to dashboard or unauthorized page
           return NextResponse.redirect(
             new URL(`/${locale}/dashboard/unauthorized`, request.url),

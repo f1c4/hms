@@ -21,6 +21,7 @@
   "tablePhone": "Телефон",
   "tableEmail": "Эл. почта",
   "tableBirthDate": "Дата рождения",
+  "tableNationalId": "Национальный ID",
   "tableVocation": "Профессия",
   "tableContractTo": "Договор до"
 }

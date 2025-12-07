@@ -3,16 +3,15 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
-import { User } from "lucide-react";
+import { ArrowUpDown, User } from "lucide-react";
 import { searchParams } from "@/utils/search-params/searchparams";
 import { useQueryState } from "nuqs";
 import { useLocale } from "next-intl";
 import { formatFullName } from "@/utils/utils";
 import { useCallback, useMemo } from "react";
-import { PatientGeneralClientModel } from "@/types/client-models";
+import { PatientBasicData } from "../types";
 
-export function usePatientColumns(): ColumnDef<PatientGeneralClientModel>[] {
+export function usePatientColumns(): ColumnDef<PatientBasicData>[] {
   const t = useTranslations("DataTable");
   const locale = useLocale();
   const [, setSortQuery] = useQueryState("sort", searchParams.sort);
@@ -23,39 +22,34 @@ export function usePatientColumns(): ColumnDef<PatientGeneralClientModel>[] {
 
   const handleSort = useCallback(
     (columnId: string) => {
-      const currentSort = orderQuery === "asc" ? "desc" : "asc";
+      const newOrder = orderQuery === "asc" ? "desc" : "asc";
       setSortQuery(columnId);
-      setOrderQuery(currentSort);
+      setOrderQuery(newOrder);
     },
     [orderQuery, setSortQuery, setOrderQuery]
   );
 
   return useMemo(
-    () => [
+    (): ColumnDef<PatientBasicData>[] => [
       {
-        accessorKey: "name",
+        accessorKey: "firstName",
         id: "first_name",
-        header: ({ column }) => {
-          return (
-            <div className="flex items-center">
-              <p>{t("tableName")}</p>
-              <Button
-                className="ml-1 h-6 w-6"
-                variant="ghost"
-                size={"sm"}
-                onClick={() => handleSort(column.id)}
-              >
-                <ArrowUpDown className="h-4 w-4" />
-              </Button>
-            </div>
-          );
-        },
+        header: ({ column }) => (
+          <div className="flex items-center">
+            <p>{t("tableName")}</p>
+            <Button
+              className="ml-1 h-6 w-6"
+              variant="ghost"
+              size="sm"
+              onClick={() => handleSort(column.id)}
+            >
+              <ArrowUpDown className="h-4 w-4" />
+            </Button>
+          </div>
+        ),
         cell: ({ row }) => {
-          const patient = row.original;
-          const fullName = formatFullName(
-            patient.first_name ?? "",
-            patient.last_name ?? ""
-          );
+          const { firstName, lastName } = row.original;
+          const fullName = formatFullName(firstName ?? "", lastName ?? "");
           return (
             <div className="flex items-center">
               <span className="hidden md:inline-flex mr-4">
@@ -67,58 +61,63 @@ export function usePatientColumns(): ColumnDef<PatientGeneralClientModel>[] {
         },
       },
       {
-        accessorKey: "patient_personal",
-        id: "birth_date",
-        header: ({ column }) => {
-          return (
-            <div className="flex items-center">
-              <p>{t("tableBirthDate")}</p>
-              <Button
-                className="ml-1 h-6 w-6"
-                variant="ghost"
-                size={"sm"}
-                onClick={() => handleSort(column.id)}
-              >
-                <ArrowUpDown className="h-4 w-4" />
-              </Button>
-            </div>
-          );
-        },
+        accessorKey: "dateOfBirth",
+        id: "date_of_birth",
+        header: ({ column }) => (
+          <div className="flex items-center">
+            <p>{t("tableBirthDate")}</p>
+            <Button
+              className="ml-1 h-6 w-6"
+              variant="ghost"
+              size="sm"
+              onClick={() => handleSort(column.id)}
+            >
+              <ArrowUpDown className="h-4 w-4" />
+            </Button>
+          </div>
+        ),
         cell: ({ row }) => {
-          const patient = row.original.date_of_birth;
+          const dateOfBirth = row.original.dateOfBirth;
+          if (!dateOfBirth) return null;
+
           return (
             <div>
-              {patient &&
-                new Date(patient).toLocaleDateString(`${locale}`, {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
+              {new Date(dateOfBirth).toLocaleDateString(locale, {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
             </div>
           );
         },
       },
       {
-        accessorKey: "address",
-        header: () => {
-          return <p>{t("tableAddress")}</p>;
-        },
+        accessorKey: "nationalIdNumber",
+        id: "national_id_number",
+        header: () => <p>{t("tableNationalId")}</p>,
         cell: ({ row }) => {
-          const patient = row.original;
-          const fullAddress = [
-            patient.citizenshipCountryIso2,
-            patient.residenceCity,
-            patient.residence_address,
-          ]
-            .filter((value) => value !== null && value !== undefined)
-            .join(", ");
-          return fullAddress.length === 0 ? null : <p>{fullAddress}</p>;
+          const nationalId = row.original.nationalIdNumber;
+          return nationalId ? <p>{nationalId}</p> : null;
         },
       },
       {
         accessorKey: "phone",
-        header: () => {
-          return <p>{t("tablePhone")}</p>;
+        id: "phone",
+        header: () => <p>{t("tablePhone")}</p>,
+        cell: ({ row }) => {
+          const phone = row.original.phone;
+          return phone ? <p>{phone}</p> : null;
+        },
+      },
+      {
+        accessorKey: "email",
+        id: "email",
+        header: () => <p>{t("tableEmail")}</p>,
+        cell: ({ row }) => {
+          const email = row.original.email;
+          return email ? (
+            <p className="truncate max-w-[200px]">{email}</p>
+          ) : null;
         },
       },
     ],

@@ -67,10 +67,17 @@ export async function createPatientPersonal(
   }
 
   // Post-processing step to flatten the iso2 object
-  const { birth_country_iso2, ...restOfPatientData } = insertedPatient;
+  const { birth_country_iso2, birthCity, ...restOfPatientData } =
+    insertedPatient;
   const result = {
     ...restOfPatientData,
     birthCountryIso2: birth_country_iso2?.iso2 || null,
+    birthCity: {
+      ...birthCity,
+      name: birthCity?.name as Record<string, string> || null,
+      id: birthCity?.id || 0,
+      postal_code: birthCity?.postal_code || "",
+    },
   };
 
   revalidatePath(`/dashboard/patients/${insertedPatient.id}`);
@@ -120,11 +127,18 @@ export async function updatePatientPersonal(
     throw new Error("Failed to update patient information.");
   }
 
-  // Post-processing step to flatten the iso2 object
-  const { birth_country_iso2, ...restOfPatientData } = updatedPatient;
+  /// Post-processing step to flatten the iso2 object
+  const { birth_country_iso2, birthCity, ...restOfPatientData } =
+    updatedPatient;
   const result = {
     ...restOfPatientData,
     birthCountryIso2: birth_country_iso2?.iso2 || null,
+    birthCity: {
+      ...birthCity,
+      name: birthCity?.name as Record<string, string> || null,
+      id: birthCity?.id || 0,
+      postal_code: birthCity?.postal_code || "",
+    },
   };
 
   revalidatePath(`/dashboard/patients/${patientId}`);

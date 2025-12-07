@@ -20,6 +20,8 @@
   "searchLastName": "Pretraga po prezimenu",
   "searchUID": "Pretraga po UID",
   "searchDocument": "Pretraga po broju dokumenta",
+  "searchNationalId": "Pretraga po JMBG...",
+  "searchPhone": "Pretraga po broju telefona...",
   "firstSaveExamination": "Najpre sačuvajte opšte informacije pacijenta da biste dodali pregled.",
   "firstSavePrint": "Najpre sačuvajte opšte informacije pacijenta da biste omogućili štampu.",
 

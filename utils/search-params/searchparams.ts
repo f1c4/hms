@@ -6,8 +6,9 @@ import {
 } from "nuqs/server";
 
 export const searchParams = {
-
-  // Table pagination and sorting
+  // ============================================================================
+  // Global Table Parameters (used across all tables)
+  // ============================================================================
   page: parseAsInteger.withDefault(1).withOptions({
     shallow: false,
     clearOnDefault: true,
@@ -18,54 +19,35 @@ export const searchParams = {
   }),
   sort: parseAsString.withDefault("created_at").withOptions({
     shallow: false,
-    clearOnDefault: false,
+    clearOnDefault: true,
   }),
   order: parseAsString.withDefault("desc").withOptions({
     shallow: false,
-    clearOnDefault: false,
-  }),
-  offset: parseAsInteger.withDefault(0).withOptions({
-    shallow: false,
-    clearOnDefault: false,
-  }),
-
-  // Search filters
-  search: parseAsString.withDefault("").withOptions({
-    shallow: false,
     clearOnDefault: true,
-    throttleMs: 500,
   }),
 
-  // Patient-specific filters
+  // ============================================================================
+  // Patient Basic Search Filters (matches RPC: get_patient_list_basic)
+  // ============================================================================
   firstName: parseAsString.withDefault("").withOptions({
     shallow: false,
     clearOnDefault: true,
-    throttleMs: 500,
+    throttleMs: 300,
   }),
   lastName: parseAsString.withDefault("").withOptions({
     shallow: false,
     clearOnDefault: true,
-    throttleMs: 500,
+    throttleMs: 300,
   }),
-  uid: parseAsString.withDefault("").withOptions({
+  nationalId: parseAsString.withDefault("").withOptions({
     shallow: false,
     clearOnDefault: true,
-    throttleMs: 500,
+    throttleMs: 300,
   }),
-  document: parseAsString.withDefault("").withOptions({
+  phone: parseAsString.withDefault("").withOptions({
     shallow: false,
     clearOnDefault: true,
-    throttleMs: 500,
-  }),
-
-  // Additional parameters for specific views or modes
-  mode: parseAsString.withDefault("view").withOptions({
-    shallow: true,
-    clearOnDefault: false,
-  }),
-  tab: parseAsString.withDefault("general").withOptions({
-    shallow: true,
-    clearOnDefault: false,
+    throttleMs: 300,
   }),
 };
 

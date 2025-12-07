@@ -1,15 +1,8 @@
 "use client";
 
 import TableContainer from "./table-container";
-import { Button } from "@/components/ui/button";
+import { DataTablePagination } from "./data-table-pagination";
 import { ScrollBar } from "@/components/ui/scroll-area";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -18,7 +11,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ArrowLeftIcon, ArrowRightIcon } from "lucide-react";
 import {
   ColumnDef,
   flexRender,
@@ -29,42 +21,34 @@ import {
   SortingState,
   getSortedRowModel,
 } from "@tanstack/react-table";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { usePathname, useRouter } from "@/i18n/navigation";
 import { useTableFilters } from "./hooks/use-table-filters";
-import { useMainStore } from "@/store/main-store";
-import { useShallow } from "zustand/react/shallow";
 
-interface DataTableProps<TData extends { id: string | number }, TValue> {
+interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   totalItems: number;
   pageSizeOptions?: number[];
+  onRowClick?: (row: TData) => void;
+  getRowId?: (row: TData) => string;
 }
 
-export function DataTable<TData extends { id: string | number }, TValue>({
+export function DataTable<TData, TValue>({
   columns,
   data,
   totalItems,
   pageSizeOptions = [10, 20, 30, 40, 50],
+  onRowClick,
+  getRowId,
 }: DataTableProps<TData, TValue>) {
-  const router = useRouter();
-  const pathname = usePathname();
   const [sorting, setSorting] = useState<SortingState>([]);
   const { setPageSize, pageSize, currentPage, setCurrentPage } =
     useTableFilters();
 
-  const { setTab } = useMainStore(
-    useShallow((state) => ({
-      setTab: state.patient.actions.setActiveTab,
-    }))
-  );
-
   const t = useTranslations("DataTable");
 
-  const paginationState = {
+  const paginationState: PaginationState = {
     pageIndex: currentPage - 1,
     pageSize: pageSize,
   };
@@ -89,6 +73,7 @@ export function DataTable<TData extends { id: string | number }, TValue>({
     data,
     columns,
     pageCount: pageCount,
+    getRowId: getRowId,
     state: {
       pagination: paginationState,
       sorting: sorting,
@@ -128,11 +113,12 @@ export function DataTable<TData extends { id: string | number }, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  onDoubleClick={() => {
-                    // Navigate to the view mode of the row
-                    setTab("general");
-                    router.push(`${pathname}/${row.original.id}`);
-                  }}
+                  className={
+                    onRowClick
+                      ? "cursor-pointer hover:bg-muted/50 transition-colors"
+                      : undefined
+                  }
+                  onClick={() => onRowClick?.(row.original)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="px-4 py-2 md:py-1">
@@ -158,100 +144,12 @@ export function DataTable<TData extends { id: string | number }, TValue>({
         </Table>
         <ScrollBar orientation="horizontal" />
       </TableContainer>
-      <div className="flex flex-row items-center justify-end gap-2 space-x-2 py-2 ">
-        <div className="flex w-full items-center justify-between">
-          <div className="flex-1 text-sm text-muted-foreground">
-            {totalItems > 0 ? (
-              <>
-                {t("tableShowing")}{" "}
-                {paginationState.pageIndex * paginationState.pageSize + 1}{" "}
-                {t("tableTo")}{" "}
-                {Math.min(
-                  (paginationState.pageIndex + 1) * paginationState.pageSize,
-                  totalItems
-                )}{" "}
-                {t("tableOf")} {totalItems} {t("tableEntries")}
-              </>
-            ) : (
-              t("tableNoEntries")
-            )}
-          </div>
-          <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6 lg:gap-8">
-            <div className="flex items-center space-x-2">
-              <p className="whitespace-nowrap text-sm font-medium">
-                {t("tableRowsPerPage")}
-              </p>
-              <Select
-                value={`${paginationState.pageSize}`}
-                onValueChange={(value) => {
-                  table.setPageSize(Number(value));
-                }}
-              >
-                <SelectTrigger className="h-8 w-[70px]">
-                  <SelectValue placeholder={paginationState.pageSize} />
-                </SelectTrigger>
-                <SelectContent side="top">
-                  {pageSizeOptions.map((pageSize) => (
-                    <SelectItem key={pageSize} value={`${pageSize}`}>
-                      {pageSize}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </div>
-        <div className="flex w-full items-center justify-between gap-2 sm:justify-end">
-          <div className="flex gap-4 items-center justify-center text-sm font-medium">
-            {totalItems > 0 ? (
-              <>
-                {t("tablePage")} {paginationState.pageIndex + 1} {t("tableOf")}{" "}
-                {table.getPageCount()}
-              </>
-            ) : (
-              t("tableNoPages")
-            )}
-          </div>
-          <div className="flex items-center space-x-2">
-            <Button
-              aria-label="Go to first page"
-              variant="outline"
-              className="hidden h-8 w-8 p-0 lg:flex"
-              onClick={() => table.setPageIndex(0)}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <ArrowLeftIcon className="h-4 w-4" aria-hidden="true" />
-            </Button>
-            <Button
-              aria-label="Go to previous page"
-              variant="outline"
-              className="h-8 w-8 p-0"
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-            >
-              <ChevronLeftIcon className="h-4 w-4" aria-hidden="true" />
-            </Button>
-            <Button
-              aria-label="Go to next page"
-              variant="outline"
-              className="h-8 w-8 p-0"
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-            >
-              <ChevronRightIcon className="h-4 w-4" aria-hidden="true" />
-            </Button>
-            <Button
-              aria-label="Go to last page"
-              variant="outline"
-              className="hidden h-8 w-8 p-0 lg:flex"
-              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-              disabled={!table.getCanNextPage()}
-            >
-              <ArrowRightIcon className="h-4 w-4" aria-hidden="true" />
-            </Button>
-          </div>
-        </div>
-      </div>
+
+      <DataTablePagination
+        table={table}
+        totalItems={totalItems}
+        pageSizeOptions={pageSizeOptions}
+      />
     </div>
   );
 }

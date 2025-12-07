@@ -21,6 +21,7 @@
   "tablePhone": "Phone",
   "tableEmail": "Email",
   "tableBirthDate": "Birth date",
+  "tableNationalId": "National ID",
   "tableVocation": "Vocation",
   "tableContractTo": "Contract to"
 }

@@ -1,39 +1,43 @@
 import { PatientTableClient } from "./patient-table-client";
-import { getPatientList } from "../actions/patient-table-actions";
+import { getPatientListBasic } from "../actions/patient-table-actions";
 import { searchParamsCache } from "@/utils/search-params/searchparams";
+import type { PatientSortField, SortOrder } from "../types";
 
 export default async function PatientTable() {
   // Fetch the search params from the cache
   const page = searchParamsCache.get("page");
   const limit = searchParamsCache.get("limit");
-  const searchName = searchParamsCache.get("firstName");
-  const searchLastName = searchParamsCache.get("lastName");
-  const searchUid = searchParamsCache.get("uid");
-  const searchDocumentNum = searchParamsCache.get("document");
-  const sort = searchParamsCache.get("sort");
+  const firstName = searchParamsCache.get("firstName");
+  const lastName = searchParamsCache.get("lastName");
+  const nationalId = searchParamsCache.get("nationalId");
+  const phone = searchParamsCache.get("phone");
+  const sortParam = searchParamsCache.get("sort");
   const order = searchParamsCache.get("order");
-  const offset = searchParamsCache.get("offset");
 
-  const params = {
-    page: page ?? 1,
-    limit: limit ?? 20,
-    firstName: searchName ?? "",
-    lastName: searchLastName ?? "",
-    searchUid: searchUid ?? "",
-    searchDocumentNum: searchDocumentNum ?? "",
-    sort: sort ?? "created_at",
-    order: order ?? "desc",
-    offset: offset ?? 0,
-  };
+  const sort = (sortParam as PatientSortField) ?? undefined;
+  const orderValue = (order as SortOrder) ?? undefined;
 
-  const patientListData = await getPatientList(params);
-  const filteredCount = patientListData?.data?.filteredCount ?? 0;
-  const totalCount = patientListData?.data?.totalCount ?? 0;
+  const result = await getPatientListBasic({
+    page,
+    limit,
+    firstName,
+    lastName,
+    nationalId,
+    phone,
+    sort,
+    order: orderValue,
+  });
 
-  return (
-    <PatientTableClient
-      data={patientListData || []}
-      totalItems={filteredCount ?? totalCount ?? 0}
-    />
-  );
+  if (!result.success || !result.data) {
+    // Handle error state - you might want a proper error component
+    return (
+      <div className="text-destructive p-4">
+        {result.errorMessage ?? "Failed to load patients"}
+      </div>
+    );
+  }
+
+  const { data: patients, filteredCount } = result.data;
+
+  return <PatientTableClient data={patients} totalItems={filteredCount} />;
 }

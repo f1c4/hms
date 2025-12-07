@@ -21,6 +21,7 @@
   "tablePhone": "Telefon",
   "tableEmail": "E-mail",
   "tableBirthDate": "Datum rođenja",
+  "tableNationalId": "JMBG",
   "tableVocation": "Zanimanje",
   "tableContractTo": "Ugovor do"
 }

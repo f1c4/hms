@@ -20,6 +20,8 @@
   "searchLastName": "Search by last name",
   "searchUID": "Search by UID",
   "searchDocument": "Search by document number",
+  "searchNationalId": "Search by National ID...",
+  "searchPhone": "Search by Phone...",
   "firstSaveExamination": "Please save patient general information first to add an examination.",
   "firstSavePrint": "Please save patient general information first to enable printing.",
 

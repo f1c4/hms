@@ -1,8 +1,6 @@
 import { StateCreator } from "zustand";
 import { PatientSlice } from "../store/patient-slice";
 import { PatientPersonalModel } from "@/types/data-models";
-import { cloneDeep } from "lodash";
-
 
 export interface PersonalTabSlice {
   personalActions: {
@@ -31,7 +29,6 @@ export const createPersonalTabSlice: StateCreator<
           patient: {
             ...state.patient,
             pristineData: newPristineData,
-            workingData: cloneDeep(newPristineData),
             uiState: {
               ...state.patient.uiState,
               personal: {

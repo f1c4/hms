@@ -1,5 +1,4 @@
 import { StateCreator } from "zustand";
-import { cloneDeep } from "lodash";
 
 import { PatientSlice } from "../store/patient-slice";
 import { PatientGeneralClientModel } from "@/types/client-models";
@@ -31,7 +30,6 @@ export const createGeneralTabSlice: StateCreator<
             ...state.patient,
             patientId: updatedData.id,
             pristineData: newPristineData,
-            workingData: cloneDeep(newPristineData),
             uiState: {
               ...state.patient.uiState,
               general: {

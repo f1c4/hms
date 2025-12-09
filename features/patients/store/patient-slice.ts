@@ -46,7 +46,6 @@ export interface PatientSlice {
   patient: {
     patientId: number | null;
     pristineData: FullPatientClientModel | null;
-    workingData: FullPatientClientModel | null;
     isInitialized: boolean;
     activeTab: string;
     uiState: {
@@ -99,7 +98,6 @@ export const createPatientSlice: StateCreator<
     patient: {
       patientId: null,
       pristineData: null,
-      workingData: null,
       isInitialized: false,
       activeTab: "general",
       uiState: initialUIState,
@@ -133,7 +131,6 @@ export const createPatientSlice: StateCreator<
               ...state.patient,
               patientId: patientData.general.id,
               pristineData: initialData,
-              workingData: initialData,
               isInitialized: true,
               activeTab: state.patient.activeTab, // keep current activeTab
               uiState: initialUIState,
@@ -154,7 +151,6 @@ export const createPatientSlice: StateCreator<
               ...state.patient,
               patientId: null,
               pristineData: createNewPatientData(),
-              workingData: createNewPatientData(),
               isInitialized: true,
               activeTab: "general",
               uiState: createUiStateForNewPatient(),
@@ -168,7 +164,6 @@ export const createPatientSlice: StateCreator<
               ...state.patient,
               patientId: null,
               pristineData: null,
-              workingData: null,
               isInitialized: false,
               // keep activeTab unchanged intentionally
               uiState: initialUIState,

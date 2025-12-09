@@ -18,27 +18,20 @@ export const createNotesTabSlice: StateCreator<
     commit: (updateData) =>
       set((state) => {
         if (!state.patient.pristineData) return {};
-        const existingNotes = state.patient.pristineData.notes || [];
+        const existingNotes = state.patient.pristineData.notes ?? [];
         const newNotesList = [
           ...existingNotes.filter((note) => note.id !== updateData.id),
           updateData,
         ];
-        const newWorkingData = {
-          ...state.patient.workingData!,
+        const newPristineData = {
+          ...state.patient.pristineData,
           notes: newNotesList,
         };
-        const newPristineData = JSON.parse(
-          JSON.stringify({
-            ...state.patient.pristineData!,
-            notes: newNotesList,
-          }),
-        );
 
         return {
           patient: {
             ...state.patient,
             pristineData: newPristineData,
-            workingData: newWorkingData,
           },
         };
       }),

@@ -1,5 +1,4 @@
 import { StateCreator } from "zustand";
-import { cloneDeep } from "lodash"; // Import cloneDeep
 import { PatientSlice } from "../store/patient-slice";
 import { PatientRisksModel } from "@/types/data-models";
 
@@ -29,7 +28,6 @@ export const createRiskTabSlice: StateCreator<
           patient: {
             ...state.patient,
             pristineData: newPristineData,
-            workingData: cloneDeep(newPristineData),
             uiState: {
               ...state.patient.uiState,
               risk: {

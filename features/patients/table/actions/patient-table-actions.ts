@@ -7,10 +7,6 @@ import {
   PatientListBasicResponse,
 } from "../types";
 
-// ============================================================================
-// Basic Patient List Search
-// ============================================================================
-
 export async function getPatientListBasic({
   page = 1,
   limit = 20,
@@ -46,17 +42,12 @@ export async function getPatientListBasic({
     };
   }
 
-  // Type assertion since we've defined the return type in database-custom.ts
   return {
     success: true,
     errorMessage: null,
     data: data as PatientListBasicResponse,
   };
 }
-
-// ============================================================================
-// Patient Count (standalone, for header display)
-// ============================================================================
 
 export async function getPatientCount(): Promise<ActionResponse<number>> {
   const client = await createClient();
@@ -79,9 +70,5 @@ export async function getPatientCount(): Promise<ActionResponse<number>> {
     data: count,
   };
 }
-
-// ============================================================================
-// Type Exports (for external use)
-// ============================================================================
 
 export type PatientListType = Awaited<ReturnType<typeof getPatientListBasic>>;

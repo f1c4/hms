@@ -1,4 +1,10 @@
 // ============================================================================
+// Localized Name (JSONB structure for translated fields)
+// ============================================================================
+
+export type LocalizedName = Record<string, string> | null;
+
+// ============================================================================
 // Patient Basic Data (returned by get_patient_list_basic RPC)
 // ============================================================================
 
@@ -10,10 +16,16 @@ export interface PatientBasicData {
     dateOfBirth: string;
     phone: string | null;
     email: string | null;
+    // Address fields
     residenceAddress: string | null;
+    residenceCountryIso2: string | null;
+    residenceCityName: LocalizedName; // Full JSONB with all translations
+    residenceCityPostalCode: string | null;
+    // Emergency contact
     emergencyContactName: string | null;
     emergencyContactPhone: string | null;
     emergencyContactRelation: string | null;
+    // Timestamps
     createdAt: string;
     updatedAt: string | null;
 }
@@ -40,7 +52,7 @@ export interface PatientListBasicResponse {
 }
 
 // ============================================================================
-// Search Parameters
+// Search Parameters (no locale needed anymore)
 // ============================================================================
 
 export interface PatientBasicSearchParams {
@@ -62,13 +74,12 @@ export type PatientSortField =
     | "created_at"
     | "first_name"
     | "last_name"
-    | "date_of_birth"
-    | "national_id_number";
+    | "date_of_birth";
 
 export type SortOrder = "asc" | "desc";
 
 // ============================================================================
-// Action Response (generic wrapper for server actions)
+// Action Response
 // ============================================================================
 
 export interface ActionResponse<T> {
@@ -76,10 +87,6 @@ export interface ActionResponse<T> {
     errorMessage: string | null;
     data: T | null;
 }
-
-// ============================================================================
-// Convenience Types
-// ============================================================================
 
 export type PatientListActionResponse = ActionResponse<
     PatientListBasicResponse

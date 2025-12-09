@@ -9,6 +9,7 @@ import { revalidatePath } from "next/cache";
 import { camelToSnakeObj } from "@/utils/utils";
 import { Database } from "@/types/database-custom";
 import { PatientGeneralClientModel } from "@/types/client-models";
+import { format } from "date-fns";
 
 type PatientGeneralTable = Database["public"]["Tables"]["patient_general"];
 type PatientGeneralInsert = PatientGeneralTable["Insert"];
@@ -53,7 +54,9 @@ export async function createPatientGeneral(
     ...snakeCaseData,
     first_name: cleanedData.firstName,
     last_name: cleanedData.lastName,
-    date_of_birth: cleanedData.dateOfBirth?.toISOString() ?? "",
+    date_of_birth: cleanedData.dateOfBirth
+      ? format(cleanedData.dateOfBirth, "yyyy-MM-dd")
+      : "",
     created_by: user.id,
   };
 
@@ -116,7 +119,9 @@ export async function updatePatientGeneral(
 
   const dataToUpdate = {
     ...snakeCaseData,
-    date_of_birth: cleanedData.dateOfBirth?.toISOString() ?? "",
+    date_of_birth: cleanedData.dateOfBirth
+      ? format(cleanedData.dateOfBirth, "yyyy-MM-dd")
+      : "",
     updated_by: user.id,
     version: currentVersion + 1,
   };

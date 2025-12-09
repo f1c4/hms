@@ -1,8 +1,6 @@
-drop index if exists "public"."cities_name_country_id_key";
-
 alter table "public"."cities" alter column "name" set data type jsonb using "name"::jsonb;
 
-CREATE UNIQUE INDEX cities_name_country_id_key ON public.cities USING btree (name, country_id);
+CREATE UNIQUE INDEX IF NOT EXISTS cities_name_country_id_key ON public.cities USING btree (name, country_id);
 
 drop policy "DEV-ONLY: Allow all authenticated users full access to insuranc" on "storage"."objects";
 

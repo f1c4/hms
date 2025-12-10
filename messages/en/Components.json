@@ -38,5 +38,8 @@
     "toggleTheme": "Toggle theme",
     "setLightTheme": "Set light theme",
     "setDarkTheme": "Set dark theme"
+  },
+  "TableSearch": {
+    "minCharsHint": "Type {count, plural, =1 {1 more character} other {# more characters}}"
   }
 }

@@ -1,35 +1,13 @@
--- ============================================================================
--- Step 1: Drop old function signature (if exists)
--- ============================================================================
-DROP FUNCTION IF EXISTS get_patient_list_basic(
-  INTEGER, INTEGER, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT
-);
+drop function if exists "public"."get_patient_list_basic"(p_limit integer, p_offset integer, p_first_name text, p_last_name text, p_national_id text, p_phone text, p_sort text, p_order text);
 
--- Also drop if new signature somehow exists
-DROP FUNCTION IF EXISTS get_patient_list_basic(
-  INTEGER, INTEGER, TEXT, TEXT, TEXT, TEXT, TEXT, TEXT, INTEGER
-);
+set check_function_bodies = off;
 
--- ============================================================================
--- Step 2: Create new optimized function
--- ============================================================================
-CREATE OR REPLACE FUNCTION get_patient_list_basic(
-  p_limit INTEGER DEFAULT 20,
-  p_offset INTEGER DEFAULT 0,
-  p_first_name TEXT DEFAULT NULL,
-  p_last_name TEXT DEFAULT NULL,
-  p_national_id TEXT DEFAULT NULL,
-  p_phone TEXT DEFAULT NULL,
-  p_sort TEXT DEFAULT 'created_at',
-  p_order TEXT DEFAULT 'desc',
-  p_min_chars INTEGER DEFAULT 2
-)
-RETURNS JSONB
-LANGUAGE plpgsql
-STABLE
-SECURITY DEFINER
-SET search_path = public
-AS $$
+CREATE OR REPLACE FUNCTION public.get_patient_list_basic(p_limit integer DEFAULT 20, p_offset integer DEFAULT 0, p_first_name text DEFAULT NULL::text, p_last_name text DEFAULT NULL::text, p_national_id text DEFAULT NULL::text, p_phone text DEFAULT NULL::text, p_sort text DEFAULT 'created_at'::text, p_order text DEFAULT 'desc'::text, p_min_chars integer DEFAULT 2)
+ RETURNS jsonb
+ LANGUAGE plpgsql
+ STABLE SECURITY DEFINER
+ SET search_path TO 'public'
+AS $function$
 DECLARE
   v_total_count BIGINT;
   v_filtered_count BIGINT;
@@ -145,6 +123,7 @@ BEGIN
     )
   );
 END;
-$$;
+$function$
+;
 
-COMMENT ON FUNCTION get_patient_list_basic IS 'Optimized patient search with approximate total count and minimum character threshold for filters.';
+

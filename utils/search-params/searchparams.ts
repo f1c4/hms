@@ -28,26 +28,27 @@ export const searchParams = {
 
   // ============================================================================
   // Patient Basic Search Filters (matches RPC: get_patient_list_basic)
+  // Increased throttle to 400ms for better debouncing with min char validation
   // ============================================================================
   firstName: parseAsString.withDefault("").withOptions({
     shallow: false,
     clearOnDefault: true,
-    throttleMs: 300,
+    throttleMs: 400,
   }),
   lastName: parseAsString.withDefault("").withOptions({
     shallow: false,
     clearOnDefault: true,
-    throttleMs: 300,
+    throttleMs: 400,
   }),
   nationalId: parseAsString.withDefault("").withOptions({
     shallow: false,
     clearOnDefault: true,
-    throttleMs: 300,
+    throttleMs: 400,
   }),
   phone: parseAsString.withDefault("").withOptions({
     shallow: false,
     clearOnDefault: true,
-    throttleMs: 300,
+    throttleMs: 400,
   }),
 };
 

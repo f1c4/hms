@@ -37,5 +37,8 @@
     "toggleTheme": "Promeni temu",
     "setLightTheme": "Postavi svetlu temu",
     "setDarkTheme": "Postavi tamnu temu"
+  },
+  "TableSearch": {
+    "minCharsHint": "Unesite još {count, plural, =1 {1 karakter} few {# karaktera} other {# karaktera}}"
   }
 }

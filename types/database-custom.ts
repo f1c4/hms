@@ -56,6 +56,7 @@ type CustomFunctions = {
       p_phone?: string | null;
       p_sort?: string;
       p_order?: string;
+      p_min_chars?: number;
     };
     Returns: PatientListBasicResponse;
   };

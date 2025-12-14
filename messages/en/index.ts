@@ -1,7 +1,7 @@
 import Ambulance from "./Ambulance.json";
 import Auth from "./Auth.json";
 import Common from "./Common.json";
-import Company from "./Company.json";
+import Companies from "./Companies.json";
 import Components from "./Components.json";
 import DataTable from "./DataTable.json";
 import Employee from "./Employee.json";
@@ -17,7 +17,7 @@ const messages = {
   Auth,
   Common,
   Settings,
-  Company,
+  Companies,
   Components,
   DataTable,
   Employee,

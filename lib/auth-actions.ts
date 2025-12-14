@@ -1,18 +1,18 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-import { loginFormSchema, loginFormType } from "@/schemas/form-schemas";
 import { redirect } from "@/i18n/navigation";
 import { getLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
+import { loginFormSchema, LoginFormType } from "@/components/login-form";
 
 export const signInAction = async (
-  formData: loginFormType,
+  formData: LoginFormType,
 ) => {
   // Fetch translations for error messages
   const t = await getTranslations("Auth.LoginForm");
 
-  const validatedData = loginFormSchema.safeParse(formData);
+  const validatedData = loginFormSchema.safeParse(formData as LoginFormType);
   if (!validatedData.success) {
     return { success: false, error: t("loginError") };
   }

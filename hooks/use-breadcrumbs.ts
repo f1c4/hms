@@ -42,6 +42,10 @@ export function useBreadcrumbs() {
         { title: t("settings"), link: "#" },
         { title: t("systemData"), link: "/dashboard/settings/systemdata" },
       ],
+      "/dashboard/companies": [
+        { title: "HMS Vraneš", link: "#" },
+        { title: t("companies"), link: "/dashboard/companies" },
+      ],
       "/dashboard/company": [
         { title: "HMS Vraneš", link: "#" },
         { title: t("company"), link: "/dashboard/company" },
@@ -63,7 +67,7 @@ export function useBreadcrumbs() {
         { title: t("employeesNew"), link: "/dashboard/company/employees/new" },
       ],
     }),
-    [t]
+    [t],
   );
 
   // This is the route pattern mapping for dynamic routes
@@ -91,7 +95,7 @@ export function useBreadcrumbs() {
       },
       // Add more dynamic route patterns as needed
     }),
-    [t]
+    [t],
   );
 
   const breadcrumbs = useMemo(() => {
@@ -117,8 +121,7 @@ export function useBreadcrumbs() {
       const path = `/${segments.slice(0, index + 1).join("/")}`;
 
       // Check if this segment might be a parameter (like an ID)
-      const isLikelyParameter =
-        !isNaN(Number(segment)) ||
+      const isLikelyParameter = !isNaN(Number(segment)) ||
         (segment.length >= 24 && /^[a-f0-9]+$/i.test(segment));
 
       let title;

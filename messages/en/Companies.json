@@ -1,6 +1,8 @@
 {
-  "title": "Company",
-  "subtitle": "Here you can manage your company information",
+  "title": "Companies",
+  "subtitle": "Information about companies and partner organizations with discount programs for patients.",
+  "createTitle": "Create Company",
+  "editTitle": "Edit Company",
   "companyInformation": "Company Information",
   "name": "Name",
   "namePlaceholder": "Enter company name",
@@ -19,9 +21,21 @@
   "vatPlaceholder": "Enter VAT",
   "tin": "TIN",
   "tinPlaceholder": "Enter TIN",
-  "info": "This information will apear on invoices and other documents.",
+  "registrationNumber": "Reg. Number",
+  "registrationNumberPlaceholder": "Enter registration number",
+  "type": "Type",
+  "typePlaceholder": "Select company type",
+  "discountPercentage": "Discount %",
+  "partner": "Partner",
+  "partnerDescription": "Has partnership agreement",
+  "businessIdentifiers": "Business Identifiers",
+  "contactInformation": "Contact Information",
+  "info": "This information will appear on invoices and other documents.",
 
   "Validation": {
+    "nameRequired": "Company name is required",
+    "invalidEmail": "Invalid email address",
+    "invalidUrl": "Invalid URL format",
     "formNameMinLength": "Company name must be at least 3 characters long",
     "formNameMaxLength": "Company name must be at most 50 characters long",
     "formTinMaxLength": "TIN must be at most 50 characters long",
@@ -35,6 +49,8 @@
   "Notification": {
     "updateModalTitle": "Edit Company Information",
     "updateModalDescription": "Edit company information",
+    "deleteModalTitle": "Delete Company",
+    "deleteModalDescription": "Are you sure you want to delete this company? This action cannot be undone.",
     "saveSuccess": "Data saved successfully!",
     "saveError": "An error occurred while saving data!"
   }

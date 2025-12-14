@@ -7,6 +7,7 @@ import { City } from "@/features/patients/patient-general-tab/types";
 export type CompanyInfoTypeDb = Database["public"]["Tables"]["company_info"];
 export type PatientNotesTypeDb = Database["public"]["Tables"]["patient_notes"];
 export type DocumentsTypeDb = Database["public"]["Tables"]["document_types"];
+export type CompaniesTypeDb = Database["public"]["Tables"]["companies"];
 
 // ===========================================================================
 // SYSTEM / ADMIN DATA MODELS (for settings pages)

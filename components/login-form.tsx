@@ -19,13 +19,23 @@ import {
   FormLabel,
 } from "@/components/ui/form";
 import { Spinner } from "./spinner";
-import { loginFormSchema } from "@/schemas/form-schemas";
 import { signInAction } from "@/lib/auth-actions";
+
+export const loginFormSchema = z.object({
+  email: z.string().min(2, {
+    message: "Username must be at least 2 characters.",
+  }),
+  password: z.string().min(8, {
+    message: "Password must be at least 8 characters.",
+  }),
+});
+
+export type LoginFormType = z.infer<typeof loginFormSchema>;
 
 export function LoginForm() {
   const t = useTranslations("Auth.LoginForm");
 
-  const form = useForm<z.infer<typeof loginFormSchema>>({
+  const form = useForm<LoginFormType>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
       email: "",
@@ -33,7 +43,7 @@ export function LoginForm() {
     },
   });
 
-  async function onSubmit(values: z.infer<typeof loginFormSchema>) {
+  async function onSubmit(values: LoginFormType) {
     await signInAction(values);
   }
 

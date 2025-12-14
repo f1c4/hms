@@ -15,6 +15,7 @@
     "users": "Users",
     "systemData": "System data",
     "company": "Company",
+    "companies": "Companies",
     "ambulances": "Ambulances",
     "patientNew": "New patient",
     "patientid": "Patient info"
@@ -32,6 +33,7 @@
     "users": "Users",
     "company": "Company",
     "companyInfo": "Company info",
+    "companies": "Companies",
     "ambulances": "Ambulances",
     "servicesList": "Services list",
     "systemData": "System data"

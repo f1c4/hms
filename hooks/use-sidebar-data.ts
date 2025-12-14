@@ -1,12 +1,13 @@
 "use client";
 
 import {
-  Users,
-  HeartHandshake,
-  Settings2,
-  ChartNoAxesCombined,
   Building2,
+  ChartNoAxesCombined,
+  Handshake,
+  HeartHandshake,
   HousePlus,
+  Settings2,
+  Users,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
@@ -56,6 +57,14 @@ export function useSidebarData() {
           items: [],
         },
         {
+          title: ts("companies"),
+          url: "/dashboard/companies",
+          icon: Handshake,
+          isActive: false,
+          shortcut: ["c", "c"],
+          items: [],
+        },
+        {
           title: ts("company"),
           url: "#",
           icon: Building2,
@@ -100,7 +109,7 @@ export function useSidebarData() {
         },
       ],
     }),
-    [ts]
+    [ts],
   );
   return { navMenuData };
 }

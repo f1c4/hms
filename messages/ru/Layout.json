@@ -14,6 +14,7 @@
     "users": "Пользователи",
     "systemData": "Системные данные",
     "company": "Компания",
+    "companies": "Компании",
     "ambulances": "Амбулатории",
     "patientNew": "Новый пациент",
     "patientid": "Информация о пациенте"
@@ -31,6 +32,7 @@
     "users": "Пользователи",
     "company": "Компания",
     "companyInfo": "Информация о компании",
+    "companies": "Компании",
     "ambulances": "Амбулатории",
     "servicesList": "Список услуг",
     "systemData": "Системные данные"

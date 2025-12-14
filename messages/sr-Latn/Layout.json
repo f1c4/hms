@@ -14,6 +14,7 @@
     "users": "Korisnici",
     "systemData": "Sistemski podaci",
     "company": "Kompanija",
+    "companies": "Kompanije",
     "ambulances": "Ambulante",
     "patientNew": "Novi pacijent",
     "patientid": "Informacije o pacijentu"
@@ -31,6 +32,7 @@
     "users": "Korisnici",
     "company": "Kompanija",
     "companyInfo": "Informacije o kompaniji",
+    "companies": "Kompanije",
     "ambulances": "Ambulante",
     "servicesList": "Lista usluga",
     "systemData": "Sistemski podaci"

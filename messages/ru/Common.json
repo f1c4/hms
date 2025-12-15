@@ -8,6 +8,7 @@
 
   "Buttons": {
     "openButton": "Открыть",
+    "closeButton": "Закрыть",
     "createButton": "Создать",
     "viewButton": "Подробнее",
     "editButton": "Редактировать",

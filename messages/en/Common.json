@@ -8,6 +8,7 @@
 
   "Buttons": {
     "openButton": "Open",
+    "closeButton": "Close",
     "createButton": "Create",
     "viewButton": "Details",
     "editButton": "Edit",

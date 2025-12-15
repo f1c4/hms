@@ -11,6 +11,13 @@ import {
 } from "../schemas/company-schema";
 import { useCompanyMutations } from "../hooks/use-companies";
 import { CompaniesTypeDb } from "@/types/data-models";
+import { useCompanyTypes } from "../hooks/use-company-types";
+import { useCountryOptions } from "@/features/patients/shared/hooks/use-country-options";
+import {
+  useCityMutation,
+  useCityOptions,
+} from "@/features/patients/shared/hooks/use-city-options";
+import { DatabaseSelectVirtualNew } from "@/features/patients/shared/components/db-select-virtual";
 
 import {
   Form,
@@ -37,21 +44,16 @@ interface CompanyFormProps {
   onClose: () => void;
 }
 
-const COMPANY_TYPES = [
-  { value: "company", label: "Company" },
-  { value: "government", label: "Government" },
-  { value: "ngo", label: "NGO" },
-  { value: "educational", label: "Educational" },
-  { value: "healthcare", label: "Healthcare" },
-  { value: "other", label: "Other" },
-] as const;
-
 export function CompanyForm({ itemToEdit, onClose }: CompanyFormProps) {
   const t = useTranslations("Companies.Validation");
   const tCompanies = useTranslations("Companies");
   const tCommon = useTranslations("Common.Buttons");
   const tProgress = useTranslations("Common.Progress");
   const { createCompany, updateCompany } = useCompanyMutations();
+  const { options: companyTypes } = useCompanyTypes();
+
+  // Country and City hooks
+  const { countryOptions, isLoadingCountries } = useCountryOptions();
 
   const form = useForm<CompanyFormInput>({
     resolver: zodResolver(CompanyFormSchema(t)),
@@ -61,6 +63,8 @@ export function CompanyForm({ itemToEdit, onClose }: CompanyFormProps) {
       vat: itemToEdit?.vat ?? "",
       registration_number: itemToEdit?.registration_number ?? "",
       address: itemToEdit?.address ?? "",
+      city_id: itemToEdit?.city_id ?? null,
+      country_id: itemToEdit?.country_id ?? null,
       phone: itemToEdit?.phone ?? "",
       email: itemToEdit?.email ?? "",
       website: itemToEdit?.website ?? "",
@@ -69,6 +73,24 @@ export function CompanyForm({ itemToEdit, onClose }: CompanyFormProps) {
       is_partner: itemToEdit?.is_partner ?? false,
     },
   });
+
+  const watchedCountryId = form.watch("country_id");
+  const watchedIsPartner = form.watch("is_partner");
+  const { cityOptions, isLoadingCities } = useCityOptions(watchedCountryId);
+  const { insertCity, isInsertingCity } = useCityMutation();
+
+  const cityAddNewFields = [
+    {
+      name: "name",
+      label: tCompanies("cityName"),
+      placeholder: tCompanies("cityNamePlaceholder"),
+    },
+    {
+      name: "postal_code",
+      label: tCompanies("postalCode"),
+      placeholder: tCompanies("postalCodePlaceholder"),
+    },
+  ];
 
   const onSubmit = (data: CompanyFormInput) => {
     const payload: CompanyServerInput = {
@@ -102,24 +124,56 @@ export function CompanyForm({ itemToEdit, onClose }: CompanyFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {/* Company Name */}
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{tCompanies("name")} *</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
+        {/* Company Name & Type */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{tCompanies("name")} *</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    disabled={isPending}
+                    placeholder={tCompanies("namePlaceholder")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="type"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{tCompanies("type")}</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
                   disabled={isPending}
-                  placeholder={tCompanies("namePlaceholder")}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+                >
+                  <FormControl>
+                    <SelectTrigger className="w-full">
+                      <SelectValue
+                        placeholder={tCompanies("typePlaceholder")}
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {companyTypes.map((type) => (
+                      <SelectItem key={type.value} value={type.value}>
+                        {type.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
         {/* Business Identifiers Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -180,7 +234,7 @@ export function CompanyForm({ itemToEdit, onClose }: CompanyFormProps) {
         </div>
 
         {/* Contact Info Row */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <FormField
             control={form.control}
             name="phone"
@@ -218,94 +272,46 @@ export function CompanyForm({ itemToEdit, onClose }: CompanyFormProps) {
               </FormItem>
             )}
           />
-        </div>
-
-        {/* Address & Website */}
-        <FormField
-          control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{tCompanies("address")}</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  value={field.value ?? ""}
-                  disabled={isPending}
-                  placeholder={tCompanies("addressPlaceholder")}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="website"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>{tCompanies("website")}</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  value={field.value ?? ""}
-                  disabled={isPending}
-                  placeholder={tCompanies("websitePlaceholder")}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        {/* Type and Partner Settings */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <FormField
             control={form.control}
-            name="type"
+            name="website"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{tCompanies("type")}</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  disabled={isPending}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue
-                        placeholder={tCompanies("typePlaceholder")}
-                      />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {COMPANY_TYPES.map((type) => (
-                      <SelectItem key={type.value} value={type.value}>
-                        {type.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FormLabel>{tCompanies("website")}</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    value={field.value ?? ""}
+                    disabled={isPending}
+                    placeholder={tCompanies("websitePlaceholder")}
+                  />
+                </FormControl>
                 <FormMessage />
               </FormItem>
             )}
           />
+        </div>
 
+        {/* Address, Country & City */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <FormField
             control={form.control}
-            name="discount_percentage"
+            name="country_id"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>{tCompanies("discountPercentage")}</FormLabel>
+                <FormLabel>{tCompanies("country")}</FormLabel>
                 <FormControl>
-                  <Input
-                    {...field}
-                    value={Number(field.value) || 0}
-                    type="number"
-                    min={0}
-                    max={100}
-                    step={0.01}
+                  <DatabaseSelectVirtualNew
+                    options={countryOptions}
+                    value={field.value ?? undefined}
+                    onChange={(value) => {
+                      field.onChange(value);
+                      // Reset city when country changes
+                      form.setValue("city_id", null);
+                    }}
+                    onBlur={field.onBlur}
+                    placeholder={tCompanies("countryPlaceholder")}
+                    isLoading={isLoadingCountries}
                     disabled={isPending}
                   />
                 </FormControl>
@@ -313,7 +319,58 @@ export function CompanyForm({ itemToEdit, onClose }: CompanyFormProps) {
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="city_id"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{tCompanies("city")}</FormLabel>
+                <FormControl>
+                  <DatabaseSelectVirtualNew
+                    options={cityOptions}
+                    value={field.value ?? undefined}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    placeholder={tCompanies("cityPlaceholder")}
+                    isLoading={isLoadingCities}
+                    disabled={isPending || !watchedCountryId}
+                    disabledTooltip={tCompanies("cityDisabledTooltip")}
+                    allowAddNew={true}
+                    addNewPlaceholder={tCommon("addButton")}
+                    addNewFields={cityAddNewFields}
+                    onInsert={insertCity}
+                    isInserting={isInsertingCity}
+                    insertContext={{
+                      country_id: watchedCountryId ?? undefined,
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{tCompanies("address")}</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    value={field.value ?? ""}
+                    disabled={isPending}
+                    placeholder={tCompanies("addressPlaceholder")}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
 
+        {/* Partner & Discount Settings */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <FormField
             control={form.control}
             name="is_partner"
@@ -332,6 +389,27 @@ export function CompanyForm({ itemToEdit, onClose }: CompanyFormProps) {
                     disabled={isPending}
                   />
                 </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="discount_percentage"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>{tCompanies("discountPercentage")}</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    value={Number(field.value) || 0}
+                    type="number"
+                    min={0}
+                    max={100}
+                    step={0.01}
+                    disabled={isPending || !watchedIsPartner}
+                  />
+                </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />

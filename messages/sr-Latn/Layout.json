@@ -14,7 +14,7 @@
     "users": "Korisnici",
     "systemData": "Sistemski podaci",
     "company": "Kompanija",
-    "companies": "Kompanije",
+    "companies": "Preduzeća",
     "ambulances": "Ambulante",
     "patientNew": "Novi pacijent",
     "patientid": "Informacije o pacijentu"
@@ -30,9 +30,9 @@
     "employeesNew": "Novi zaposleni",
     "settings": "Podešavanja",
     "users": "Korisnici",
-    "company": "Kompanija",
+    "company": "Preduzeće",
     "companyInfo": "Informacije o kompaniji",
-    "companies": "Kompanije",
+    "companies": "Preduzeća",
     "ambulances": "Ambulante",
     "servicesList": "Lista usluga",
     "systemData": "Sistemski podaci"
@@ -43,7 +43,7 @@
   },
   "TeamSwitcher": {
     "workUnit": "Radna jedinica",
-    "company": "Kompanija",
+    "company": "Preduzeće",
     "addUnit": "Dodaj jedinicu"
   }
 }

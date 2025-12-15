@@ -1,8 +1,9 @@
 "use client";
 
+import { useCallback } from "react";
 import { CompaniesTypeDb } from "@/types/data-models";
-import { CompanyListItem } from "./company-list-item";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import { DataTable } from "@/components/table/data-table";
+import { useCompanyColumns } from "../hooks/use-companies-columns";
 
 interface CompanyListProps {
   companies: CompaniesTypeDb["Row"][];
@@ -11,7 +12,6 @@ interface CompanyListProps {
   onView: (company: CompaniesTypeDb["Row"]) => void;
   onEdit: (company: CompaniesTypeDb["Row"]) => void;
   onDelete: (company: CompaniesTypeDb["Row"]) => void;
-  isDisabled?: boolean;
 }
 
 export function CompanyList({
@@ -21,34 +21,25 @@ export function CompanyList({
   onView,
   onEdit,
   onDelete,
-  isDisabled = false,
 }: CompanyListProps) {
+  const columns = useCompanyColumns({ onView, onEdit, onDelete });
+
+  const handleRowClick = useCallback(
+    (company: CompaniesTypeDb["Row"]) => {
+      onSelectCompany(company.id);
+      onView(company);
+    },
+    [onSelectCompany, onView]
+  );
+
   return (
-    <div className="space-y-4">
-      {companies.length > 0 ? (
-        <div className="rounded-md border">
-          <ul className="divide-y">
-            {companies.map((company) => (
-              <CompanyListItem
-                key={company.id}
-                company={company}
-                isSelected={company.id === selectedCompanyId}
-                onSelect={() => onSelectCompany(company.id)}
-                onView={() => onView(company)}
-                onEdit={() => onEdit(company)}
-                onDelete={() => onDelete(company)}
-                isDisabled={isDisabled}
-              />
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <Alert>
-          <AlertDescription>
-            No companies found. Click &quot;Add Company&quot; to create one.
-          </AlertDescription>
-        </Alert>
-      )}
-    </div>
+    <DataTable
+      columns={columns}
+      data={companies}
+      totalItems={companies.length}
+      onRowClick={handleRowClick}
+      getRowId={(row) => String(row.id)}
+      pageSizeOptions={[10, 20, 50, 100]}
+    />
   );
 }

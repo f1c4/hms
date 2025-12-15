@@ -12,6 +12,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { CompaniesTypeDb } from "@/types/data-models";
+import { useCompanyTypes } from "../hooks/use-company-types";
+import { useCountryOptions } from "@/features/patients/shared/hooks/use-country-options";
+import { useCityOptions } from "@/features/patients/shared/hooks/use-city-options";
 import {
   Building2,
   Phone,
@@ -20,6 +23,7 @@ import {
   MapPin,
   Percent,
   Handshake,
+  Flag,
 } from "lucide-react";
 
 interface CompanyInfoDialogProps {
@@ -37,37 +41,57 @@ export function CompanyInfoDialog({
 }: CompanyInfoDialogProps) {
   const tCompanies = useTranslations("Companies");
   const tCommon = useTranslations("Common.Buttons");
+  const { getLabel: getTypeLabel } = useCompanyTypes();
+
+  // Get country and city options
+  const { countryOptions } = useCountryOptions();
+  const { cityOptions } = useCityOptions(company?.country_id);
 
   if (!company) return null;
+
+  // Look up country and city names
+  const countryName = countryOptions.find(
+    (opt) => opt.value === company.country_id
+  )?.label;
+
+  const cityName = cityOptions.find(
+    (opt) => opt.value === company.city_id
+  )?.label;
 
   const handleEdit = () => {
     onOpenChange(false);
     onEdit();
   };
 
+  // Check if we have any location info to display
+  const hasLocationInfo =
+    company.country_id || company.city_id || company.address;
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           {/* Company name and badges */}
-          <DialogTitle className="flex flex-wrap items-center gap-2">
-            <Building2 className="h-5 w-5 shrink-0" />
-            <span>{company.name}</span>
-            <Badge variant="outline" className="capitalize">
-              {company.type}
-            </Badge>
-            {company.is_partner && (
-              <Badge variant="secondary" className="gap-1">
-                <Handshake className="h-3 w-3" />
-                {tCompanies("partner")}
-              </Badge>
-            )}
-            {Number(company.discount_percentage) > 0 && (
-              <Badge variant="default" className="gap-1">
-                <Percent className="h-3 w-3" />
-                {company.discount_percentage}% {tCompanies("discount")}
-              </Badge>
-            )}
+          <DialogTitle className="flex flex-col gap-2">
+            <div className="flex items-center gap-2">
+              <Building2 className="h-5 w-5 shrink-0" />
+              <span>{company.name}</span>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="outline">{getTypeLabel(company.type)}</Badge>
+              {company.is_partner && (
+                <Badge variant="secondary" className="gap-1">
+                  <Handshake className="h-3 w-3" />
+                  {tCompanies("partner")}
+                </Badge>
+              )}
+              {Number(company.discount_percentage) > 0 && (
+                <Badge variant="default" className="gap-1">
+                  <Percent className="h-3 w-3" />
+                  {company.discount_percentage} {tCompanies("discount")}
+                </Badge>
+              )}
+            </div>
           </DialogTitle>
         </DialogHeader>
 
@@ -80,10 +104,10 @@ export function CompanyInfoDialog({
                 <h4 className="text-sm font-medium text-muted-foreground">
                   {tCompanies("businessIdentifiers")}
                 </h4>
-                <div className="flex gap-2 text-sm">
+                <div className="flex gap-4 text-sm">
                   {company.tin && (
                     <div className="flex flex-col items-start gap-1">
-                      <span className="text-muted-foreground min-w-24">
+                      <span className="text-muted-foreground">
                         {tCompanies("tin")}:
                       </span>
                       <span className="font-medium">{company.tin}</span>
@@ -91,7 +115,7 @@ export function CompanyInfoDialog({
                   )}
                   {company.vat && (
                     <div className="flex flex-col items-start gap-1">
-                      <span className="text-muted-foreground min-w-24">
+                      <span className="text-muted-foreground">
                         {tCompanies("vat")}:
                       </span>
                       <span className="font-medium">{company.vat}</span>
@@ -99,7 +123,7 @@ export function CompanyInfoDialog({
                   )}
                   {company.registration_number && (
                     <div className="flex flex-col items-start gap-1">
-                      <span className="text-muted-foreground min-w-24">
+                      <span className="text-muted-foreground">
                         {tCompanies("registrationNumber")}:
                       </span>
                       <span className="font-medium">
@@ -113,7 +137,7 @@ export function CompanyInfoDialog({
           )}
 
           {/* Contact Information */}
-          {(company.address ||
+          {(hasLocationInfo ||
             company.phone ||
             company.email ||
             company.website) && (
@@ -124,6 +148,16 @@ export function CompanyInfoDialog({
                   {tCompanies("contactInformation")}
                 </h4>
                 <div className="flex flex-col gap-2 text-sm">
+                  {/* Country & City */}
+                  {(countryName || cityName) && (
+                    <div className="flex items-center gap-2">
+                      <Flag className="h-4 w-4 text-muted-foreground shrink-0" />
+                      <span>
+                        {[cityName, countryName].filter(Boolean).join(", ")}
+                      </span>
+                    </div>
+                  )}
+                  {/* Address */}
                   {company.address && (
                     <div className="flex items-start gap-2">
                       <MapPin className="h-4 w-4 text-muted-foreground shrink-0 mt-0.5" />
@@ -173,7 +207,7 @@ export function CompanyInfoDialog({
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            {tCommon("cancelButton")}
+            {tCommon("closeButton")}
           </Button>
           <Button onClick={handleEdit}>{tCommon("editButton")}</Button>
         </DialogFooter>

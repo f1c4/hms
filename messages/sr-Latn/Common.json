@@ -8,6 +8,7 @@
 
   "Buttons": {
     "openButton": "Otvori",
+    "closeButton": "Zatvori",
     "createButton": "Kreiraj",
     "viewButton": "Detalji",
     "editButton": "Izmeni",

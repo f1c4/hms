@@ -14,9 +14,11 @@ export const CompanyFormSchema = (t: (key: string) => string) =>
         email: z.email(t("invalidEmail")).optional().nullable().or(
             z.literal(""),
         ),
-        website: z.url(t("invalidUrl")).optional().nullable().or(
-            z.literal(""),
-        ),
+        // Changed from URL validation to simple string with max 50 chars
+        website: z.string().max(50, t("websiteMaxLength")).optional().nullable()
+            .or(
+                z.literal(""),
+            ),
         type: z.string().default("company"),
         discount_percentage: z.coerce.number().min(0).max(100).default(0),
         is_partner: z.boolean().default(false),
@@ -35,7 +37,8 @@ export const CompanyServerSchema = z.object({
     country_id: z.number().nullable().optional(),
     phone: z.string().nullable().optional(),
     email: z.email().nullable().optional().or(z.literal("")),
-    website: z.url().nullable().optional().or(z.literal("")),
+    // Changed from URL validation to simple string with max 50 chars
+    website: z.string().max(50).nullable().optional().or(z.literal("")),
     type: z.string().default("company"),
     discount_percentage: z.coerce.number().min(0).max(100).default(0),
     is_partner: z.boolean().default(false),

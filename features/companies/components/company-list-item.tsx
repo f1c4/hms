@@ -41,6 +41,7 @@ export function CompanyListItem({
   isDisabled = false,
 }: CompanyListItemProps) {
   const tCommon = useTranslations("Common.Buttons");
+  const tCompanies = useTranslations("Companies");
 
   const handleClick = () => {
     onSelect();
@@ -68,20 +69,20 @@ export function CompanyListItem({
             {company.name}
           </p>
           {company.is_partner && (
-            <Badge variant="secondary" className="shrink-0">
-              Partner
+            <Badge variant="outline" className="shrink-0">
+              {tCompanies("partner")}
             </Badge>
           )}
           {Number(company.discount_percentage) > 0 && (
             <Badge variant="outline" className="shrink-0 gap-1">
               <Percent className="h-3 w-3" />
-              {company.discount_percentage}
+              {company.discount_percentage} {tCompanies("discount")}
             </Badge>
           )}
         </div>
         {company.tin && (
           <p className="text-xs text-muted-foreground mt-0.5 ml-6">
-            TIN: {company.tin}
+            {tCompanies("tin")}: {company.tin}
           </p>
         )}
       </button>

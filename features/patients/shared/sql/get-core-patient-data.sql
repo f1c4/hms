@@ -124,36 +124,47 @@ BEGIN
   -- Get personal data --
   -- =================================================================
   SELECT json_build_object(
-    -- Include all original snake_case columns
-    'id', pp.id,
-    'patient_id', pp.patient_id,
-    'created_at', pp.created_at,
-    'updated_at', pp.updated_at,
-    'created_by', pp.created_by,
-    'updated_by', pp.updated_by,
-    'version', pp.version,
-    'parent_name', pp.parent_name,
-    'marital_status', pp.marital_status,
-    'profession', pp.profession,
-    'education_level', pp.education_level,
-    'employer_name', pp.employer_name,
-    'employment_status', pp.employment_status,
-    'living_arrangement', pp.living_arrangement,
-    'birth_country_id', pp.birth_country_id,
-    'birth_city_id', pp.birth_city_id,
+  -- ... existing fields ...
+  'id', pp.id,
+  'patient_id', pp.patient_id,
+  'created_at', pp.created_at,
+  'updated_at', pp.updated_at,
+  'created_by', pp.created_by,
+  'updated_by', pp.updated_by,
+  'version', pp.version,
+  'parent_name', pp.parent_name,
+  'marital_status', pp.marital_status,
+  'profession_id', pp.profession_id,
+  'education_level', pp.education_level,
+  'employer_id', pp.employer_id,  -- Changed from employer_name
+  'employment_status', pp.employment_status,
+  'living_arrangement', pp.living_arrangement,
+  'birth_country_id', pp.birth_country_id,
+  'birth_city_id', pp.birth_city_id,
 
-    -- Add the new derived camelCase fields
-    'birthCountryIso2', bc.iso2,
-    'birthCity', CASE WHEN bci.id IS NOT NULL THEN json_build_object(
-      'id', bci.id,
-      'name', bci.name,
-      'postal_code', bci.postal_code
-    ) ELSE NULL END
-  ) INTO personal_data
-  FROM patient_personal pp
-  LEFT JOIN countries bc ON pp.birth_country_id = bc.id
-  LEFT JOIN cities bci ON pp.birth_city_id = bci.id
-  WHERE pp.patient_id = p_patient_id;
+  -- Derived camelCase fields
+  'birthCountryIso2', bc.iso2,
+  'birthCity', CASE WHEN bci.id IS NOT NULL THEN json_build_object(
+    'id', bci.id,
+    'name', bci.name,
+    'postal_code', bci.postal_code
+  ) ELSE NULL END,
+  'profession', CASE WHEN prof.id IS NOT NULL THEN json_build_object(
+    'id', prof.id,
+    'name_translations', prof.name_translations
+  ) ELSE NULL END,
+  -- Add employer object
+  'employer', CASE WHEN emp.id IS NOT NULL THEN json_build_object(
+    'id', emp.id,
+    'name', emp.name
+  ) ELSE NULL END
+) INTO personal_data
+FROM patient_personal pp
+LEFT JOIN countries bc ON pp.birth_country_id = bc.id
+LEFT JOIN cities bci ON pp.birth_city_id = bci.id
+LEFT JOIN professions prof ON pp.profession_id = prof.id
+LEFT JOIN companies emp ON pp.employer_id = emp.id  -- Add this JOIN
+WHERE pp.patient_id = p_patient_id;
 
   -- =================================================================
   -- Get risk data

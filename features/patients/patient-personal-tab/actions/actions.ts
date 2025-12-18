@@ -14,23 +14,43 @@ type PatientPersonalTable = Database["public"]["Tables"]["patient_personal"];
 type PatientPersonalUpdate = PatientPersonalTable["Update"];
 type PatientPersonalInsert = PatientPersonalTable["Insert"];
 
-function replaceEmptyStringsWithNull<
-  T extends PatientPersonalInsert | PatientPersonalUpdate,
->(obj: T): T {
-  const result = { ...obj } as T;
-  (Object.keys(result) as Array<keyof T>).forEach((key) => {
-    if (result[key] === "") {
-      (result[key] as unknown) = null;
-    }
-  });
-  return result;
-}
-
+// Updated select to include profession
 const selectWithDetails = `
   *,
   birthCity:cities!birth_city_id (id, name, postal_code),
-  birth_country_iso2:countries!birth_country_id (iso2)
+  birth_country_iso2:countries!birth_country_id (iso2),
+  profession:professions!profession_id (id, name_translations)
 `;
+
+// Helper to transform raw DB result to PatientPersonalModel
+function transformToModel(rawData: {
+  birth_country_iso2: { iso2: string } | null;
+  birthCity: { id: number; name: unknown; postal_code: string } | null;
+  profession: { id: number; name_translations: unknown } | null;
+  [key: string]: unknown;
+}): PatientPersonalModel {
+  const { birth_country_iso2, birthCity, profession, ...restOfPatientData } =
+    rawData;
+
+  return {
+    ...restOfPatientData,
+    birthCountryIso2: birth_country_iso2?.iso2 || null,
+    birthCity: birthCity
+      ? {
+        id: birthCity.id,
+        name: birthCity.name as Record<string, string> || null,
+        postal_code: birthCity.postal_code,
+      }
+      : null,
+    profession: profession
+      ? {
+        id: profession.id,
+        name_translations:
+          profession.name_translations as Record<string, string> || null,
+      }
+      : null,
+  } as PatientPersonalModel;
+}
 
 // CREATE PATIENT PERSONAL INFO
 export async function createPatientPersonal(
@@ -46,8 +66,7 @@ export async function createPatientPersonal(
   );
   if (!validatedData.success) throw new Error("Invalid patient data provided");
 
-  const cleanedData = replaceEmptyStringsWithNull(validatedData.data);
-  const snakeCaseData = camelToSnakeObj(cleanedData);
+  const snakeCaseData = camelToSnakeObj(validatedData.data);
 
   const dataToInsert: PatientPersonalInsert = {
     ...snakeCaseData,
@@ -66,22 +85,8 @@ export async function createPatientPersonal(
     throw new Error("Failed to create new patient.");
   }
 
-  // Post-processing step to flatten the iso2 object
-  const { birth_country_iso2, birthCity, ...restOfPatientData } =
-    insertedPatient;
-  const result = {
-    ...restOfPatientData,
-    birthCountryIso2: birth_country_iso2?.iso2 || null,
-    birthCity: {
-      ...birthCity,
-      name: birthCity?.name as Record<string, string> || null,
-      id: birthCity?.id || 0,
-      postal_code: birthCity?.postal_code || "",
-    },
-  };
-
   revalidatePath(`/dashboard/patients/${insertedPatient.id}`);
-  return result;
+  return transformToModel(insertedPatient);
 }
 
 // UPDATE PATIENT PERSONAL INFO
@@ -99,10 +104,9 @@ export async function updatePatientPersonal(
   );
   if (!validatedData.success) throw new Error("Invalid patient data provided");
 
-  const cleanedData = replaceEmptyStringsWithNull(validatedData.data);
-  const snakeCaseData = camelToSnakeObj(cleanedData);
+  const snakeCaseData = camelToSnakeObj(validatedData.data);
 
-  const dataToUpdate = {
+  const dataToUpdate: PatientPersonalUpdate = {
     ...snakeCaseData,
     updated_by: user.id,
     version: currentVersion + 1,
@@ -127,20 +131,6 @@ export async function updatePatientPersonal(
     throw new Error("Failed to update patient information.");
   }
 
-  /// Post-processing step to flatten the iso2 object
-  const { birth_country_iso2, birthCity, ...restOfPatientData } =
-    updatedPatient;
-  const result = {
-    ...restOfPatientData,
-    birthCountryIso2: birth_country_iso2?.iso2 || null,
-    birthCity: {
-      ...birthCity,
-      name: birthCity?.name as Record<string, string> || null,
-      id: birthCity?.id || 0,
-      postal_code: birthCity?.postal_code || "",
-    },
-  };
-
   revalidatePath(`/dashboard/patients/${patientId}`);
-  return result;
+  return transformToModel(updatedPatient);
 }

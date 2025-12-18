@@ -16,9 +16,8 @@ export const PatientPersonalFormSchema = (t: (key: string) => string) =>
       .optional()
       .nullable(),
     maritalStatus: z.string().optional().nullable(),
-    profession: z
-      .string()
-      .max(100, { message: t("professionMaxLength") })
+    professionId: z
+      .number()
       .optional()
       .nullable(),
     educationLevel: z
@@ -31,9 +30,8 @@ export const PatientPersonalFormSchema = (t: (key: string) => string) =>
       .max(50, { message: t("livingArrangementMaxLength") })
       .optional()
       .nullable(),
-    employerName: z
-      .string()
-      .max(50, { message: t("employerNameMaxLength") })
+    employerId: z
+      .number()
       .optional()
       .nullable(),
     employmentStatus: z

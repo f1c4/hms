@@ -20,7 +20,7 @@ export default async function CompaniesPage() {
   });
 
   return (
-    <PageContainer scrollable={false} className="flex-col space-y-4">
+    <PageContainer scrollable={false} className="flex-col">
       <Heading
         title={t("title")}
         description={t("subtitle")}

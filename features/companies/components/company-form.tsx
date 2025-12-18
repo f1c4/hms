@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 
@@ -78,6 +79,12 @@ export function CompanyForm({ itemToEdit, onClose }: CompanyFormProps) {
   const watchedIsPartner = form.watch("is_partner");
   const { cityOptions, isLoadingCities } = useCityOptions(watchedCountryId);
   const { insertCity, isInsertingCity } = useCityMutation();
+
+  useEffect(() => {
+    if (!watchedIsPartner) {
+      form.setValue("discount_percentage", 0, { shouldDirty: true });
+    }
+  }, [watchedIsPartner, form]);
 
   const cityAddNewFields = [
     {

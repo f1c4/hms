@@ -28,7 +28,6 @@ import {
   transformIdDocumentForClient,
   transformInsuranceForClient,
 } from "./client-transform";
-import { cloneDeep } from "lodash";
 import { FullPatientDataModel } from "@/types/data-models";
 
 export type SectionMode = "view" | "edit" | "create";
@@ -125,14 +124,13 @@ export const createPatientSlice: StateCreator<
             notes: notesClientData,
           };
 
-          const initialData = cloneDeep(clientReadyData);
           set((state) => ({
             patient: {
               ...state.patient,
               patientId: patientData.general.id,
-              pristineData: initialData,
+              pristineData: clientReadyData,
               isInitialized: true,
-              activeTab: state.patient.activeTab, // keep current activeTab
+              activeTab: state.patient.activeTab,
               uiState: initialUIState,
             },
           }));

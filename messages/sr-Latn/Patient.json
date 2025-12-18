@@ -226,13 +226,17 @@
     "maritalStatus": "Bračni status",
     "maritalStatusPlaceholder": "Izaberite bračni status",
     "profession": "Zanimanje",
-    "professionPlaceholder": "Unesite zanimanje",
+    "professionPlaceholder": "Izaberite zanimanje",
+    "professionNameLabel": "Naziv zanimanja",
+    "professionNamePlaceholder": "Unesite naziv zanimanja",
     "educationLevel": "Stepen obrazovanja",
     "educationLevelPlaceholder": "Izaberite stepen obrazovanja",
     "livingArrangement": "Način stanovanja",
     "livingArrangementPlaceholder": "Izaberite način stanovanja",
-    "employerName": "Naziv poslodavca",
-    "employerNamePlaceholder": "Unesite naziv poslodavca",
+    "employer": "Poslodavac",
+    "employerPlaceholder": "Izaberite poslodavca...",
+    "employerNameLabel": "Naziv kompanije",
+    "employerSelectPlaceholder": "Izaberite kompaniju...",
     "employmentStatus": "Radni status",
     "employmentStatusPlaceholder": "Izaberite radni status",
     "cityNameLabel": "Naziv grada",
@@ -269,7 +273,6 @@
     "professionMaxLength": "Zanimanje ne može imati više od 50 karaktera.",
     "educationLevelMaxLength": "Stepen obrazovanja ne može imati više od 50 karaktera.",
     "livingArrangementMaxLength": "Način stanovanja ne može imati više od 50 karaktera.",
-    "employerNameMaxLength": "Naziv poslodavca ne može imati više od 100 karaktera.",
     "employmentStatusMaxLength": "Radni status ne može imati više od 50 karaktera."
   },
   "PersonalNotifications": {
@@ -281,7 +284,9 @@
     "addPersonalDataError": "Došlo je do greške pri dodavanju ličnih podataka pacijenta!",
     "updatePersonalDataSuccess": "Lični podaci pacijenta uspešno ažurirani!",
     "updatePersonalDataError": "Došlo je do greške pri ažuriranju ličnih podataka pacijenta!",
-    "birthCityDisabledTooltip": "Najpre izaberite državu rođenja."
+    "birthCityDisabledTooltip": "Najpre izaberite državu rođenja.",
+    "professionCreated": "Nova profesija uspešno kreirana!",
+    "employerCreated": "Kompanija '{name}' uspešno kreirana."
   },
   "RisksForm": {
     "genderLabel": "Pol",

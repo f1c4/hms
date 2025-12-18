@@ -226,19 +226,23 @@
     "maritalStatus": "Marital status",
     "maritalStatusPlaceholder": "Select marital status",
     "profession": "Profession",
-    "professionPlaceholder": "Enter profession",
+    "professionPlaceholder": "Select profession",
+    "professionNameLabel": "Profession name",
+    "professionNamePlaceholder": "Enter profession name",
     "educationLevel": "Education level",
     "educationLevelPlaceholder": "Select education level",
     "livingArrangement": "Living arrangement",
     "livingArrangementPlaceholder": "Select living arrangement",
-    "employerName": "Employer name",
-    "employerNamePlaceholder": "Enter employer name",
     "employmentStatus": "Employment status",
     "employmentStatusPlaceholder": "Select employment status",
     "cityNameLabel": "City name",
     "cityNamePlaceholder": "e.g., Belgrade",
     "postalCodeLabel": "Postal code",
-    "postalCodePlaceholder": "e.g., 11000"
+    "postalCodePlaceholder": "e.g., 11000",
+    "employer": "Employer",
+    "employerPlaceholder": "Select employer...",
+    "employerNameLabel": "Company Name",
+    "employerNamePlaceholder": "Enter company name..."
   },
   "PersonalOptions": {
     "educationLevelNone": "None",
@@ -281,7 +285,9 @@
     "addPersonalDataError": "An error occurred while adding the patient personal data!",
     "updatePersonalDataSuccess": "Patient personal data successfully updated!",
     "updatePersonalDataError": "An error occurred while updating the patient personal data!",
-    "birthCityDisabledTooltip": "Please select a birth country first."
+    "birthCityDisabledTooltip": "Please select a birth country first.",
+    "professionCreated": "New profession successfully created!",
+    "employerCreated": "Company '{name}' created successfully."
   },
   "RisksForm": {
     "genderLabel": "Gender",

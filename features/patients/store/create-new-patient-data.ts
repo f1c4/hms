@@ -40,9 +40,9 @@ export function createNewPatientData(): FullPatientClientModel {
       updated_by: "",
       marital_status: null,
       parent_name: null,
-      profession: null,
+      profession_id: null,
       education_level: null,
-      employer_name: null,
+      employer_id: null,
       employment_status: null,
       living_arrangement: null,
       version: 0,
@@ -51,6 +51,8 @@ export function createNewPatientData(): FullPatientClientModel {
       // Derived fields for client-side use
       birthCity: null,
       birthCountryIso2: null,
+      profession: null,
+      employer: null,
     },
     risk: {
       id: 0,

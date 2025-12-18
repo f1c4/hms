@@ -226,19 +226,23 @@
     "maritalStatus": "Семейное положение",
     "maritalStatusPlaceholder": "Выберите семейное положение",
     "profession": "Профессия",
-    "professionPlaceholder": "Введите профессию",
+    "professionPlaceholder": "Выберите профессию",
+    "professionNameLabel": "Название профессии",
+    "professionNamePlaceholder": "Введите название профессии",
     "educationLevel": "Уровень образования",
     "educationLevelPlaceholder": "Выберите уровень образования",
     "livingArrangement": "Условия проживания",
     "livingArrangementPlaceholder": "Выберите условия проживания",
-    "employerName": "Имя работодателя",
-    "employerNamePlaceholder": "Введите имя работодателя",
     "employmentStatus": "Статус занятости",
     "employmentStatusPlaceholder": "Выберите статус занятости",
     "cityNameLabel": "Название города",
     "cityNamePlaceholder": "например, Белград",
     "postalCodeLabel": "Почтовый индекс",
-    "postalCodePlaceholder": "например, 11000"
+    "postalCodePlaceholder": "например, 11000",
+    "employer": "Работодатель",
+    "employerPlaceholder": "Выберите работодателя...",
+    "employerNameLabel": "Название компании",
+    "employerNamePlaceholder": "Введите название компании"
   },
   "PersonalOptions": {
     "educationLevelNone": "Нет",
@@ -281,7 +285,9 @@
     "addPersonalDataError": "Ошибка при добавлении персональных данных пациента!",
     "updatePersonalDataSuccess": "Персональные данные пациента успешно обновлены!",
     "updatePersonalDataError": "Ошибка при обновлении персональных данных пациента!",
-    "birthCityDisabledTooltip": "Сначала выберите страну рождения."
+    "birthCityDisabledTooltip": "Сначала выберите страну рождения.",
+    "professionCreated": "Новая профессия успешно создана!",
+    "employerCreated": "Компания '{name}' успешно создана."
   },
   "RisksForm": {
     "genderLabel": "Пол",

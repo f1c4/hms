@@ -31,6 +31,15 @@ import {
   useCityMutation,
   useCityOptions,
 } from "@/features/patients/shared/hooks/use-city-options";
+import { DatabaseSelectWithAdd } from "../../shared/components/db-select-add";
+import {
+  useProfessionMutation,
+  useProfessionOptions,
+} from "../../shared/hooks/use-profession-options";
+import {
+  useEmployerMutation,
+  useEmployerOptions,
+} from "../../shared/hooks/use-emplyer-options";
 
 interface PersonalInfoFormProps {
   isSaving: boolean;
@@ -55,6 +64,12 @@ export function PersonalInfoForm({
   const { cityOptions, isLoadingCities } = useCityOptions(
     watchedBirthCountryId
   );
+  const { professionOptions, isLoadingProfessions } = useProfessionOptions();
+  const { insertProfession, isInsertingProfession } = useProfessionMutation();
+
+  // In the component, add hooks:
+  const { employerOptions, isLoadingEmployers } = useEmployerOptions();
+  const { insertEmployer, isInsertingEmployer } = useEmployerMutation();
 
   const isDisabled = isSaving || (!isEditing && !isCreating);
 
@@ -68,6 +83,23 @@ export function PersonalInfoForm({
       name: "postal_code",
       label: tForm("postalCodeLabel"),
       placeholder: tForm("postalCodePlaceholder"),
+    },
+  ];
+
+  const professionAddNewFields = [
+    {
+      name: "name",
+      label: tForm("professionNameLabel"),
+      placeholder: tForm("professionNamePlaceholder"),
+    },
+  ];
+
+  // Add fields config:
+  const employerAddNewFields = [
+    {
+      name: "name",
+      label: tForm("employerNameLabel"),
+      placeholder: tForm("employerSelectPlaceholder"),
     },
   ];
 
@@ -144,6 +176,68 @@ export function PersonalInfoForm({
                   insertContext={{
                     country_id: watchedBirthCountryId ?? undefined,
                   }}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      );
+    }
+
+    if (fieldName === "professionId") {
+      return (
+        <FormField
+          key={fieldName}
+          control={control}
+          name={fieldName}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{formField.label}</FormLabel>
+              <FormControl>
+                <DatabaseSelectWithAdd
+                  options={professionOptions}
+                  value={field.value ?? undefined}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  placeholder={formField.placeholder}
+                  isLoading={isLoadingProfessions}
+                  disabled={isDisabled}
+                  allowAddNew={true}
+                  addNewFields={professionAddNewFields}
+                  onInsert={insertProfession}
+                  isInserting={isInsertingProfession}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      );
+    }
+
+    if (fieldName === "employerId") {
+      return (
+        <FormField
+          key={fieldName}
+          control={control}
+          name={fieldName}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>{formField.label}</FormLabel>
+              <FormControl>
+                <DatabaseSelectWithAdd
+                  options={employerOptions}
+                  value={field.value ?? undefined}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  placeholder={formField.placeholder}
+                  isLoading={isLoadingEmployers}
+                  disabled={isDisabled}
+                  allowAddNew={true}
+                  addNewFields={employerAddNewFields}
+                  onInsert={insertEmployer}
+                  isInserting={isInsertingEmployer}
                 />
               </FormControl>
               <FormMessage />

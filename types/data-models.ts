@@ -13,6 +13,16 @@ export type CompaniesTypeDb = Database["public"]["Tables"]["companies"];
 // SYSTEM / ADMIN DATA MODELS (for settings pages)
 // ===========================================================================
 
+export type EmployerModel = {
+  id: number;
+  name: string;
+};
+
+export type ProfessionModel = {
+  id: number;
+  name_translations: Record<string, string> | null;
+};
+
 export type MedicalDocumentTypeModel =
   & Omit<
     Database["public"]["Tables"]["medical_document_types"]["Row"],
@@ -126,10 +136,15 @@ export type PatientInsuranceModel =
   };
 
 export type PatientPersonalModel =
-  & Database["public"]["Tables"]["patient_personal"]["Row"]
+  & Omit<
+    Database["public"]["Tables"]["patient_personal"]["Row"],
+    "profession"
+  >
   & {
     birthCity: City | null;
     birthCountryIso2: string | null;
+    profession: ProfessionModel | null; // Add profession object
+    employer: EmployerModel | null;
   };
 
 export type PatientRisksModel =

@@ -17,7 +17,8 @@
     "companies": "Preduzeća",
     "ambulances": "Ambulante",
     "patientNew": "Novi pacijent",
-    "patientid": "Informacije o pacijentu"
+    "patientid": "Informacije o pacijentu",
+    "companyInfo": "Informacije o kompaniji"
   },
   "Sidebar": {
     "clinic": "Klinika",

@@ -9,20 +9,21 @@ create table public.patient_personal (
   parent_name text null,
   version integer not null default 1,
   education_level text null,
-  employer_name text null,
   employment_status text null,
   living_arrangement text null,
   birth_city_id bigint null,
   birth_country_id smallint null,
   profession_id bigint null,
+  employer_id bigint null,
   constraint patient_personal_pkey primary key (id),
   constraint patient_personal_patient_id_key unique (patient_id),
+  constraint patient_personal_birth_city_id_fkey foreign KEY (birth_city_id) references cities (id),
   constraint patient_personal_birth_country_id_fkey foreign KEY (birth_country_id) references countries (id),
   constraint patient_personal_created_by_fkey foreign KEY (created_by) references auth.users (id),
   constraint patient_personal_patient_id_fkey foreign KEY (patient_id) references patient_general (id),
   constraint patient_personal_profession_id_fkey foreign KEY (profession_id) references professions (id),
   constraint patient_personal_updated_by_fkey foreign KEY (updated_by) references auth.users (id),
-  constraint patient_personal_birth_city_id_fkey foreign KEY (birth_city_id) references cities (id)
+  constraint patient_personal_employer_id_fkey foreign KEY (employer_id) references companies (id)
 ) TABLESPACE pg_default;
 
 create trigger on_patient_personal_update BEFORE

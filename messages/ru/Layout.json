@@ -17,7 +17,8 @@
     "companies": "Компании",
     "ambulances": "Амбулатории",
     "patientNew": "Новый пациент",
-    "patientid": "Информация о пациенте"
+    "patientid": "Информация о пациенте",
+    "companyInfo": "Информация о компании"
   },
   "Sidebar": {
     "clinic": "Клиника",

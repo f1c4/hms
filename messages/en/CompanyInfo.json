@@ -1,0 +1,64 @@
+{
+  "title": "Company Information",
+  "editTitle": "Edit Company Information",
+  "subtitle": "Your clinic's official information used on invoices and documents.",
+
+  "name": "Company Name",
+  "namePlaceholder": "Enter company name",
+  "description": "Description",
+  "descriptionPlaceholder": "Brief description of your clinic or services",
+
+  "tin": "TIN",
+  "tinPlaceholder": "Tax Identification Number",
+  "vat": "VAT",
+  "vatPlaceholder": "VAT registration number",
+  "registrationNumber": "Reg. Number",
+  "registrationNumberPlaceholder": "Company registration number",
+
+  "address": "Address",
+  "addressPlaceholder": "Enter street address",
+  "country": "Country",
+  "countryPlaceholder": "Select country",
+  "city": "City",
+  "cityPlaceholder": "Select city",
+  "cityDisabledTooltip": "Please select a country first",
+  "cityName": "City name",
+  "cityNamePlaceholder": "Enter city name",
+  "postalCode": "Postal code",
+  "postalCodePlaceholder": "Enter postal code",
+
+  "phone": "Phone",
+  "phonePlaceholder": "Enter phone number",
+  "email": "Email",
+  "emailPlaceholder": "Enter email address",
+  "website": "Website",
+  "websitePlaceholder": "Enter website URL",
+
+  "businessIdentifiers": "Business Identifiers",
+  "contactInformation": "Contact Information",
+  "location": "Location",
+
+  "info": "This information will appear on invoices, receipts, and official documents.",
+  "noDataMessage": "No company information has been set up yet.",
+  "addCompanyInfo": "Add company information",
+  "noNameSet": "Company name not set",
+
+  "Validation": {
+    "nameRequired": "Company name is required",
+    "nameMaxLength": "Company name must be at most 100 characters",
+    "tinMaxLength": "TIN must be at most 50 characters",
+    "vatMaxLength": "VAT must be at most 50 characters",
+    "registrationNumberMaxLength": "Registration number must be at most 50 characters",
+    "addressMaxLength": "Address must be at most 255 characters",
+    "phoneMaxLength": "Phone must be at most 50 characters",
+    "emailMaxLength": "Email must be at most 255 characters",
+    "invalidEmail": "Invalid email address",
+    "websiteMaxLength": "Website must be at most 255 characters",
+    "descriptionMaxLength": "Description must be at most 500 characters"
+  },
+
+  "Notification": {
+    "saveSuccess": "Company information saved successfully!",
+    "saveError": "An error occurred while saving company information."
+  }
+}

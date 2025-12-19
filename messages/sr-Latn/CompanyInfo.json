@@ -1,0 +1,64 @@
+{
+  "title": "Podaci o preduzeću",
+  "editTitle": "Uredi podatke o preduzeću",
+  "subtitle": "Zvanični podaci vaše klinike koji se koriste na fakturama i dokumentima.",
+
+  "name": "Naziv preduzeća",
+  "namePlaceholder": "Unesite naziv preduzeća",
+  "description": "Opis",
+  "descriptionPlaceholder": "Kratak opis vaše klinike ili usluga",
+
+  "tin": "MB",
+  "tinPlaceholder": "Matični broj",
+  "vat": "PIB",
+  "vatPlaceholder": "Poreski identifikacioni broj",
+  "registrationNumber": "Reg. broj",
+  "registrationNumberPlaceholder": "Registarski broj preduzeća",
+
+  "address": "Adresa",
+  "addressPlaceholder": "Unesite adresu",
+  "country": "Država",
+  "countryPlaceholder": "Izaberite državu",
+  "city": "Grad",
+  "cityPlaceholder": "Izaberite grad",
+  "cityDisabledTooltip": "Molimo izaberite državu prvo",
+  "cityName": "Naziv grada",
+  "cityNamePlaceholder": "Unesite naziv grada",
+  "postalCode": "Poštanski broj",
+  "postalCodePlaceholder": "Unesite poštanski broj",
+
+  "phone": "Telefon",
+  "phonePlaceholder": "Unesite broj telefona",
+  "email": "Email",
+  "emailPlaceholder": "Unesite email adresu",
+  "website": "Veb-sajt",
+  "websitePlaceholder": "Unesite adresu veb-sajta",
+
+  "businessIdentifiers": "Poslovni podaci",
+  "contactInformation": "Kontakt informacije",
+  "location": "Lokacija",
+
+  "info": "Ovi podaci će se prikazivati na fakturama, računima i zvaničnim dokumentima.",
+  "noDataMessage": "Podaci o preduzeću još nisu podešeni.",
+  "addCompanyInfo": "Dodaj podatke o preduzeću",
+  "noNameSet": "Naziv preduzeća nije unet",
+
+  "Validation": {
+    "nameRequired": "Naziv preduzeća je obavezan",
+    "nameMaxLength": "Naziv preduzeća može imati najviše 100 znakova",
+    "tinMaxLength": "Matični broj može imati najviše 50 znakova",
+    "vatMaxLength": "PIB može imati najviše 50 znakova",
+    "registrationNumberMaxLength": "Registarski broj može imati najviše 50 znakova",
+    "addressMaxLength": "Adresa može imati najviše 255 znakova",
+    "phoneMaxLength": "Telefon može imati najviše 50 znakova",
+    "emailMaxLength": "Email može imati najviše 255 znakova",
+    "invalidEmail": "Nevažeća email adresa",
+    "websiteMaxLength": "Adresa veb-sajta može imati najviše 255 znakova",
+    "descriptionMaxLength": "Opis može imati najviše 500 znakova"
+  },
+
+  "Notification": {
+    "saveSuccess": "Podaci o preduzeću su uspešno sačuvani!",
+    "saveError": "Došlo je do greške prilikom čuvanja podataka o preduzeću."
+  }
+}

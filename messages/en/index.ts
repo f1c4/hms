@@ -11,6 +11,7 @@ import Patient from "./Patient.json";
 import Services from "./Services.json";
 import Countries from "./Countries.json";
 import Settings from "./Settings.json";
+import CompanyInfo from "./CompanyInfo.json";
 
 const messages = {
   Ambulance,
@@ -26,6 +27,7 @@ const messages = {
   Patient,
   Services,
   Countries,
+  CompanyInfo,
 };
 
 export default messages;

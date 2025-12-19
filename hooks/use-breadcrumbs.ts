@@ -50,6 +50,11 @@ export function useBreadcrumbs() {
         { title: "HMS Vraneš", link: "#" },
         { title: t("company"), link: "/dashboard/company" },
       ],
+      "/dashboard/company/info": [
+        { title: "HMS Vraneš", link: "#" },
+        { title: t("company"), link: "#" },
+        { title: t("companyInfo"), link: "/dashboard/company/info" },
+      ],
       "/dashboard/company/employees": [
         { title: "HMS Vraneš", link: "#" },
         { title: t("company"), link: "/dashboard/company" },

@@ -26,7 +26,10 @@ export async function getCompanies(): Promise<CompaniesTypeDb["Row"][]> {
 }
 
 // --- CREATE COMPANY ---
-export async function createCompany(formData: CompanyServerInput) {
+export async function createCompany(
+    formData: CompanyServerInput,
+    options?: { skipRevalidate?: boolean },
+) {
     const validation = CompanyServerSchema.safeParse(formData);
     if (!validation.success) {
         return {
@@ -40,10 +43,14 @@ export async function createCompany(formData: CompanyServerInput) {
     const supabase = await createClient();
     const { data: { user } } = await supabase.auth.getUser();
 
-    const { error } = await supabase.from("companies").insert({
-        ...validation.data,
-        created_by: user?.id,
-    });
+    const { data, error } = await supabase
+        .from("companies")
+        .insert({
+            ...validation.data,
+            created_by: user?.id,
+        })
+        .select("id, name") // Return the created company
+        .single();
 
     if (error) {
         console.error("Error creating company:", error);
@@ -52,8 +59,14 @@ export async function createCompany(formData: CompanyServerInput) {
         };
     }
 
-    revalidatePath("/dashboard/companies");
-    return { data: { message: "Company created successfully." } };
+    // Only revalidate when called from the companies management page
+    if (!options?.skipRevalidate) {
+        revalidatePath("/dashboard/companies");
+    }
+
+    return {
+        data: { message: "Company created successfully.", company: data },
+    };
 }
 
 // --- UPDATE COMPANY ---

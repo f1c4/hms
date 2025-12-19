@@ -99,7 +99,7 @@ export function PersonalInfoForm({
     {
       name: "name",
       label: tForm("employerNameLabel"),
-      placeholder: tForm("employerSelectPlaceholder"),
+      placeholder: tForm("employerPlaceholder"),
     },
   ];
 

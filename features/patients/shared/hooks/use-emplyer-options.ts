@@ -42,7 +42,6 @@ export function useEmployerOptions() {
 
 /**
  * Provides a mutation function for creating a new company as employer.
- * Simplified since company names are not translated.
  */
 export function useEmployerMutation() {
     const queryClient = useQueryClient();
@@ -51,12 +50,15 @@ export function useEmployerMutation() {
     const { mutate: insertEmployer, isPending: isInsertingEmployer } =
         useMutation({
             mutationFn: async (data: { name: string }) => {
-                const result = await createCompany({
-                    name: data.name,
-                    type: "company",
-                    discount_percentage: 0,
-                    is_partner: false,
-                });
+                const result = await createCompany(
+                    {
+                        name: data.name,
+                        type: "company",
+                        discount_percentage: 0,
+                        is_partner: false,
+                    },
+                    { skipRevalidate: true },
+                );
                 if ("error" in result && result.error) {
                     throw new Error(result.error.message);
                 }

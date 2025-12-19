@@ -73,7 +73,7 @@ export function useSidebarData() {
           items: [
             {
               title: ts("companyInfo"),
-              url: "/dashboard/company",
+              url: "/dashboard/company/info",
               shortcut: ["c", "c"],
             },
             {

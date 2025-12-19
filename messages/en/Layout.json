@@ -18,7 +18,8 @@
     "companies": "Companies",
     "ambulances": "Ambulances",
     "patientNew": "New patient",
-    "patientid": "Patient info"
+    "patientid": "Patient info",
+    "companyInfo": "Company info"
   },
   "Sidebar": {
     "clinic": "Clinic",

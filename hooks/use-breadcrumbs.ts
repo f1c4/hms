@@ -48,26 +48,26 @@ export function useBreadcrumbs() {
       ],
       "/dashboard/company": [
         { title: "HMS Vraneš", link: "#" },
-        { title: t("company"), link: "/dashboard/company" },
+        { title: t("clinic"), link: "/dashboard/company" },
       ],
       "/dashboard/company/info": [
         { title: "HMS Vraneš", link: "#" },
-        { title: t("company"), link: "#" },
+        { title: t("clinic"), link: "#" },
         { title: t("companyInfo"), link: "/dashboard/company/info" },
       ],
       "/dashboard/company/employees": [
         { title: "HMS Vraneš", link: "#" },
-        { title: t("company"), link: "/dashboard/company" },
+        { title: t("clinic"), link: "/dashboard/company" },
         { title: t("employees"), link: "/dashboard/company/employees" },
       ],
       "/dashboard/company/services": [
         { title: "HMS Vraneš", link: "#" },
-        { title: t("company"), link: "/dashboard/company" },
+        { title: t("clinic"), link: "/dashboard/company" },
         { title: t("servicesList"), link: "/dashboard/company/services" },
       ],
       "/dashboard/company/employees/new": [
         { title: "HMS Vraneš", link: "#" },
-        { title: t("company"), link: "/dashboard/company" },
+        { title: t("clinic"), link: "/dashboard/company" },
         { title: t("employees"), link: "/dashboard/company/employees" },
         { title: t("employeesNew"), link: "/dashboard/company/employees/new" },
       ],

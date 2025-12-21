@@ -15,7 +15,7 @@ interface ConfirmDialogProps {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   title: string;
-  description: string;
+  description?: string;
   onConfirm: () => void;
   confirmText?: string;
   cancelText?: string;

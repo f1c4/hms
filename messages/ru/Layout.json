@@ -14,6 +14,7 @@
     "users": "Пользователи",
     "systemData": "Системные данные",
     "company": "Компания",
+    "clinic": "Клиника",
     "companies": "Компании",
     "ambulances": "Амбулатории",
     "patientNew": "Новый пациент",
@@ -36,7 +37,8 @@
     "companies": "Компании",
     "ambulances": "Амбулатории",
     "servicesList": "Список услуг",
-    "systemData": "Системные данные"
+    "systemData": "Системные данные",
+    "documentTypes": "Типы документов"
   },
   "NavUser": {
     "profile": "Профиль",

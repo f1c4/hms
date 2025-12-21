@@ -5,6 +5,7 @@ import Companies from "./Companies.json";
 import Components from "./Components.json";
 import DataTable from "./DataTable.json";
 import Employee from "./Employee.json";
+import Examinations from "./Examinations.json";
 import Layout from "./Layout.json";
 import MedicalCodes from "./MedicalCodes.json";
 import Patient from "./Patient.json";
@@ -23,6 +24,7 @@ const messages = {
   Components,
   DataTable,
   Employee,
+  Examinations,
   Layout,
   MedicalCodes,
   Patient,

@@ -15,11 +15,13 @@
     "users": "Users",
     "systemData": "System data",
     "company": "Company",
+    "clinic": "Clinic",
     "companies": "Companies",
     "ambulances": "Ambulances",
     "patientNew": "New patient",
     "patientid": "Patient info",
-    "companyInfo": "Company info"
+    "companyInfo": "Company info",
+    "documentTypes": "Document types"
   },
   "Sidebar": {
     "clinic": "Clinic",
@@ -37,7 +39,8 @@
     "companies": "Companies",
     "ambulances": "Ambulances",
     "servicesList": "Services list",
-    "systemData": "System data"
+    "systemData": "System data",
+    "documentTypes": "Document types"
   },
   "NavUser": {
     "profile": "Profile",

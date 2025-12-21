@@ -5,7 +5,6 @@ import {
   ChartNoAxesCombined,
   Handshake,
   HeartHandshake,
-  HousePlus,
   Settings2,
   Users,
 } from "lucide-react";
@@ -49,14 +48,6 @@ export function useSidebarData() {
           items: [],
         },
         {
-          title: ts("ambulances"),
-          url: "/dashboard/work-units",
-          icon: HousePlus,
-          isActive: false,
-          shortcut: ["a", "a"],
-          items: [],
-        },
-        {
           title: ts("companies"),
           url: "/dashboard/companies",
           icon: Handshake,
@@ -65,7 +56,7 @@ export function useSidebarData() {
           items: [],
         },
         {
-          title: ts("company"),
+          title: ts("clinic"),
           url: "#",
           icon: Building2,
           isActive: false,
@@ -77,6 +68,11 @@ export function useSidebarData() {
               shortcut: ["c", "c"],
             },
             {
+              title: ts("ambulances"),
+              url: "/dashboard/company/ambulances",
+              shortcut: ["a", "a"],
+            },
+            {
               title: ts("employees"),
               url: "/dashboard/company/employees",
               shortcut: ["z", "z"],
@@ -85,6 +81,16 @@ export function useSidebarData() {
               title: ts("servicesList"),
               url: "/dashboard/company/services",
               shortcut: ["o", "o"],
+            },
+            {
+              title: ts("examinationsType"),
+              url: "/dashboard/company/examination-types",
+              shortcut: ["t", "t"],
+            },
+            {
+              title: ts("documentTypes"),
+              url: "/dashboard/company/document-types",
+              shortcut: ["d", "d"],
             },
           ],
         },

@@ -14,6 +14,7 @@
     "users": "Korisnici",
     "systemData": "Sistemski podaci",
     "company": "Kompanija",
+    "clinic": "Klinika",
     "companies": "Preduzeća",
     "ambulances": "Ambulante",
     "patientNew": "Novi pacijent",
@@ -31,12 +32,13 @@
     "employeesNew": "Novi zaposleni",
     "settings": "Podešavanja",
     "users": "Korisnici",
-    "company": "Preduzeće",
+    "company": "Kompanija",
     "companyInfo": "Informacije o kompaniji",
     "companies": "Kompanije",
     "ambulances": "Ambulante",
     "servicesList": "Lista usluga",
-    "systemData": "Sistemski podaci"
+    "systemData": "Sistemski podaci",
+    "documentTypes": "Tipovi dokumenata"
   },
   "NavUser": {
     "profile": "Profil",

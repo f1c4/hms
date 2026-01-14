@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "@/i18n/navigation";
 import { getLocale } from "next-intl/server";
 import { getTranslations } from "next-intl/server";
-import { loginFormSchema, LoginFormType } from "@/components/login-form";
+import { loginFormSchema, LoginFormType } from "@/lib/schemas";
 
 export const signInAction = async (
   formData: LoginFormType,

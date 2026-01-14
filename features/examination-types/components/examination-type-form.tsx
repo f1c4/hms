@@ -27,6 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
+import { ColorPicker } from "@/components/ui/color-picker";
 
 interface ExaminationTypeFormProps {
   itemToEdit?: ExaminationTypeModel | null;
@@ -115,7 +116,7 @@ export function ExaminationTypeForm({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {/* Name & Type Key */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-baseline">
           <FormField
             control={form.control}
             name="name"
@@ -156,7 +157,7 @@ export function ExaminationTypeForm({
         </div>
 
         {/* Duration, Price & Category */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <FormField
             control={form.control}
             name="durationMinutes"
@@ -221,10 +222,8 @@ export function ExaminationTypeForm({
               </FormItem>
             )}
           />
-        </div>
 
-        {/* Color */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {/* Color */}
           <FormField
             control={form.control}
             name="color"
@@ -232,20 +231,11 @@ export function ExaminationTypeForm({
               <FormItem>
                 <FormLabel>{tForm("color")}</FormLabel>
                 <FormControl>
-                  <div className="flex gap-2">
-                    <Input
-                      {...field}
-                      disabled={isPending}
-                      placeholder={tForm("colorPlaceholder")}
-                      className="flex-1"
-                    />
-                    {field.value && /^#[0-9A-Fa-f]{6}$/.test(field.value) && (
-                      <div
-                        className="h-10 w-10 rounded border shrink-0"
-                        style={{ backgroundColor: field.value }}
-                      />
-                    )}
-                  </div>
+                  <ColorPicker
+                    value={field.value}
+                    onChange={field.onChange}
+                    disabled={isPending}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

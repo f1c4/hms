@@ -20,17 +20,7 @@ import {
 } from "@/components/ui/form";
 import { Spinner } from "./spinner";
 import { signInAction } from "@/lib/auth-actions";
-
-export const loginFormSchema = z.object({
-  email: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-  password: z.string().min(8, {
-    message: "Password must be at least 8 characters.",
-  }),
-});
-
-export type LoginFormType = z.infer<typeof loginFormSchema>;
+import { loginFormSchema, LoginFormType } from "@/lib/schemas";
 
 export function LoginForm() {
   const t = useTranslations("Auth.LoginForm");

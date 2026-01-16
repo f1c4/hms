@@ -10,14 +10,14 @@ import {
     ExaminationTypeModel,
     ExaminationTypeUpdate,
     TRANSLATABLE_COLUMNS,
-} from "../types/examination-types";
+} from "../types";
 
 import {
     type ExaminationTypeCreatePayload,
     ExaminationTypeCreateSchema,
     type ExaminationTypeUpdatePayload,
     ExaminationTypeUpdateSchema,
-} from "../schemas/examination-type-schemas";
+} from "../schemas";
 
 // =============================================================================
 // TYPES FOR ACTION RESPONSES
@@ -51,9 +51,20 @@ function triggerTranslations(recordId: number, sourceLocale: string) {
 }
 
 /**
- * Cast JSONB fields to typed Record objects.
+ * Cast JSONB fields to typed Record objects and include category data.
  */
-function toModel(row: Record<string, unknown>): ExaminationTypeModel {
+function toModel(
+    row: Record<string, unknown>,
+    categoryMap?: Map<
+        number,
+        { id: number; name_translations: Record<string, string> }
+    >,
+): ExaminationTypeModel {
+    const categoryId = row.category_id as number | null;
+    const category = categoryId && categoryMap?.get(categoryId)
+        ? { ...categoryMap.get(categoryId)! }
+        : null;
+
     return {
         ...row,
         name_translations: (row.name_translations as Record<string, string>) ??
@@ -65,6 +76,7 @@ function toModel(row: Record<string, unknown>): ExaminationTypeModel {
             .preparation_instructions_translations as
                 | Record<string, string>
                 | null,
+        category,
     } as ExaminationTypeModel;
 }
 
@@ -81,6 +93,29 @@ export async function getExaminationTypes(
     if (!user) {
         return { error: { message: "Unauthorized" } };
     }
+
+    // Fetch categories first to create a lookup map
+    const { data: categories, error: categoriesError } = await supabase
+        .from("examination_type_categories")
+        .select("id, name_translations");
+
+    if (categoriesError) {
+        console.error("Error fetching categories:", categoriesError);
+        // Continue without categories rather than failing
+    }
+
+    const categoryMap = new Map(
+        (categories || []).map((cat) => [
+            cat.id,
+            {
+                id: cat.id,
+                name_translations: cat.name_translations as Record<
+                    string,
+                    string
+                >,
+            },
+        ]),
+    );
 
     let query = supabase
         .from("examination_types")
@@ -100,7 +135,7 @@ export async function getExaminationTypes(
         return { error: { message: "Failed to fetch examination types." } };
     }
 
-    return { data: data.map(toModel) };
+    return { data: data.map((row) => toModel(row, categoryMap)) };
 }
 
 // =============================================================================
@@ -117,7 +152,8 @@ export async function getExaminationType(
         return { error: { message: "Unauthorized" } };
     }
 
-    const { data, error } = await supabase
+    // Fetch category if exists
+    const { data: examType, error } = await supabase
         .from("examination_types")
         .select("*")
         .eq("id", id)
@@ -128,7 +164,30 @@ export async function getExaminationType(
         return { error: { message: "Examination type not found." } };
     }
 
-    return { data: toModel(data) };
+    let category = null;
+    if (examType.category_id) {
+        const { data: catData } = await supabase
+            .from("examination_type_categories")
+            .select("id, name_translations")
+            .eq("id", examType.category_id)
+            .single();
+
+        if (catData) {
+            category = {
+                id: catData.id,
+                name_translations: catData.name_translations as Record<
+                    string,
+                    string
+                >,
+            };
+        }
+    }
+
+    const categoryMap = category
+        ? new Map([[category.id, category]])
+        : undefined;
+
+    return { data: toModel(examType, categoryMap) };
 }
 
 // =============================================================================
@@ -165,7 +224,7 @@ export async function createExaminationType(
         type_key: validData.type_key,
         duration_minutes: validData.duration_minutes,
         base_price: validData.base_price,
-        category: validData.category,
+        category_id: validData.category_id ?? null,
         color: validData.color,
         sort_order: validData.sort_order,
         is_active: validData.is_active ?? true,
@@ -188,11 +247,10 @@ export async function createExaminationType(
         preparation_instructions_translations:
             validData.preparation_instructions_translations?.[sourceLocale]
                 ? {
-                    [sourceLocale]:
-                        validData
-                            .preparation_instructions_translations[
-                                sourceLocale
-                            ],
+                    [sourceLocale]: validData
+                        .preparation_instructions_translations[
+                            sourceLocale
+                        ],
                 }
                 : validData.preparation_instructions_translations,
     };
@@ -270,8 +328,8 @@ export async function updateExaminationType(
     if (validData.base_price !== undefined) {
         updatePayload.base_price = validData.base_price;
     }
-    if (validData.category !== undefined) {
-        updatePayload.category = validData.category;
+    if (validData.category_id !== undefined) {
+        updatePayload.category_id = validData.category_id ?? null;
     }
     if (validData.color !== undefined) updatePayload.color = validData.color;
     if (validData.sort_order !== undefined) {
@@ -313,11 +371,10 @@ export async function updateExaminationType(
         updatePayload.preparation_instructions_translations =
             validData.preparation_instructions_translations?.[sourceLocale]
                 ? {
-                    [sourceLocale]:
-                        validData
-                            .preparation_instructions_translations[
-                                sourceLocale
-                            ],
+                    [sourceLocale]: validData
+                        .preparation_instructions_translations[
+                            sourceLocale
+                        ],
                 }
                 : validData.preparation_instructions_translations;
     }

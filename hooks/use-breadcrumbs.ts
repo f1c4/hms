@@ -62,8 +62,16 @@ export function useBreadcrumbs() {
       ],
       "/dashboard/company/services": [
         { title: "HMS Vraneš", link: "#" },
-        { title: t("clinic"), link: "/dashboard/company" },
+        { title: t("clinic"), link: "/dashboard/company/info" },
         { title: t("servicesList"), link: "/dashboard/company/services" },
+      ],
+      "/dashboard/company/examination-types": [
+        { title: "HMS Vraneš", link: "#" },
+        { title: t("clinic"), link: "/dashboard/company/info" },
+        {
+          title: t("examinationTypes"),
+          link: "/dashboard/company/examination-types",
+        },
       ],
       "/dashboard/company/employees/new": [
         { title: "HMS Vraneš", link: "#" },

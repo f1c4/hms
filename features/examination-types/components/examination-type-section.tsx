@@ -21,7 +21,14 @@ import { PlusIcon, PencilIcon, Search, X } from "lucide-react";
 import { ExaminationTypeList } from "./examination-type-list";
 import { ExaminationTypeForm } from "./examination-type-form";
 import { useExaminationTypeMutations } from "../hooks/use-examination-types";
-import type { ExaminationTypeModel } from "../types/examination-types";
+import type { ExaminationTypeModel } from "../types";
+import {
+  DialogHeader,
+  DialogTitle,
+  Dialog,
+  DialogContent,
+} from "@/components/ui/dialog";
+import { ExaminationTypeDetails } from "./examination-type-details";
 
 interface ExaminationTypesSectionProps {
   examinationTypes: ExaminationTypeModel[];
@@ -38,9 +45,13 @@ export default function ExaminationTypesSection({
   const [itemToEdit, setItemToEdit] = useState<ExaminationTypeModel | null>(
     null
   );
+  const [itemToView, setItemToView] = useState<ExaminationTypeModel | null>(
+    null
+  );
   const [itemToToggle, setItemToToggle] = useState<ExaminationTypeModel | null>(
     null
   );
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [isToggleDialogOpen, setToggleDialogOpen] = useState(false);
 
   // Search & filter state
@@ -69,7 +80,16 @@ export default function ExaminationTypesSection({
           Object.values(item.name_translations)[0] ||
           "";
         const matchesName = name.toLowerCase().includes(query);
-        const matchesCategory = item.category?.toLowerCase().includes(query);
+
+        // Updated category search
+        const categoryName = item.category
+          ? item.category.name_translations[locale] ||
+            item.category.name_translations["en"] ||
+            Object.values(item.category.name_translations)[0] ||
+            ""
+          : "";
+        const matchesCategory = categoryName.toLowerCase().includes(query);
+
         const matchesKey = item.type_key.toLowerCase().includes(query);
 
         if (!matchesName && !matchesCategory && !matchesKey) {
@@ -93,8 +113,14 @@ export default function ExaminationTypesSection({
   };
 
   const handleView = (item: ExaminationTypeModel) => {
-    // For now, view opens edit mode. Can be changed to a dialog later.
-    setItemToEdit(item);
+    setItemToView(item);
+    setIsViewModalOpen(true);
+  };
+
+  const handleEditFromView = () => {
+    if (!itemToView) return;
+    setIsViewModalOpen(false);
+    setItemToEdit(itemToView);
     setMode("edit");
   };
 
@@ -126,6 +152,11 @@ export default function ExaminationTypesSection({
   const handleCloseForm = () => {
     setItemToEdit(null);
     setMode("view");
+  };
+
+  const handleCloseViewModal = () => {
+    setIsViewModalOpen(false);
+    setItemToView(null);
   };
 
   const handleClearSearch = () => {
@@ -225,6 +256,23 @@ export default function ExaminationTypesSection({
           </Card>
         )}
       </AnimatedSwap>
+
+      {/* View Details Modal */}
+      <Dialog open={isViewModalOpen} onOpenChange={setIsViewModalOpen}>
+        <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{t("detailsTitle")}</DialogTitle>
+          </DialogHeader>
+          {itemToView && (
+            <ExaminationTypeDetails
+              item={itemToView}
+              onEdit={handleEditFromView}
+              onClose={handleCloseViewModal}
+              canEdit={true} // TODO: Replace with actual authorization check
+            />
+          )}
+        </DialogContent>
+      </Dialog>
 
       {/* Deactivate/Reactivate Confirmation Dialog */}
       <ConfirmDialog

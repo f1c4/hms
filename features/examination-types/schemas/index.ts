@@ -51,7 +51,7 @@ export const ExaminationTypeCreateSchema = z.object({
     preparation_instructions_translations: OptionalTranslationsSchema,
     base_price: z.number().min(0, "Price cannot be negative").nullable()
         .optional(),
-    category: z.string().max(50).nullable().optional(),
+    category_id: z.number().int().positive().nullable().optional(),
     color: z
         .string()
         .regex(
@@ -119,7 +119,7 @@ export const ExaminationTypeFormSchema = (t: (key: string) => string) =>
             .min(1, t("durationMin"))
             .max(480, t("durationMax")),
         basePrice: z.number().min(0, t("priceMin")).optional(),
-        category: z.string().max(50).optional(),
+        categoryId: z.number().int().positive().nullable().optional(),
         color: z.string().regex(/^#[0-9A-Fa-f]{6}$/, t("colorFormat"))
             .optional(),
         // Remove .default() - form provides explicit defaultValues

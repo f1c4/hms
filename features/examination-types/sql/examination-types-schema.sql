@@ -28,7 +28,7 @@ CREATE TABLE public.examination_types (
   -- =========================================================================
   -- CATEGORIZATION & DISPLAY
   -- =========================================================================
-  category TEXT,
+  category_id bigint null,
   color TEXT,
   sort_order INTEGER DEFAULT 0,
   

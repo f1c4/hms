@@ -9,11 +9,11 @@ import {
     getExaminationTypes,
     reactivateExaminationType,
     updateExaminationType,
-} from "../actions/examination-type-actions";
+} from "../actions";
 import type {
     ExaminationTypeCreatePayload,
     ExaminationTypeUpdatePayload,
-} from "../schemas/examination-type-schemas";
+} from "../schemas";
 
 const QUERY_KEY = ["examination-types"];
 

@@ -32,6 +32,10 @@ export type ExaminationTypeModel =
         name_translations: Record<string, string>;
         description_translations: Record<string, string> | null;
         preparation_instructions_translations: Record<string, string> | null;
+        category?: {
+            id: number;
+            name_translations: Record<string, string>;
+        } | null;
     };
 
 // =============================================================================

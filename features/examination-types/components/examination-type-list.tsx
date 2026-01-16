@@ -3,7 +3,7 @@
 import { useCallback } from "react";
 import { DataTable } from "@/components/table/data-table";
 import { useExaminationTypeColumns } from "../hooks/use-examination-type-columns";
-import type { ExaminationTypeModel } from "../types/examination-types";
+import type { ExaminationTypeModel } from "../types";
 
 interface ExaminationTypeListProps {
   examinationTypes: ExaminationTypeModel[];

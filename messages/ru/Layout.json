@@ -19,7 +19,9 @@
     "ambulances": "Амбулатории",
     "patientNew": "Новый пациент",
     "patientid": "Информация о пациенте",
-    "companyInfo": "Информация о компании"
+    "companyInfo": "Информация о компании",
+    "documentTypes": "Типы документов",
+    "examinationTypes": "Типы осмотров"
   },
   "Sidebar": {
     "clinic": "Клиника",

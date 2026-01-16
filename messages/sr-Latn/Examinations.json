@@ -3,6 +3,7 @@
   "subtitle": "Upravljajte tipovima medicinskih pregleda koji se nude u vašoj klinici",
   "createTitle": "Kreiraj tip pregleda",
   "editTitle": "Izmeni tip pregleda",
+  "detailsTitle": "Detalji tipa pregleda",
   "searchPlaceholder": "Pretraži po nazivu ili kategoriji...",
   "showInactive": "Prikaži neaktivne",
   "resultsCount": "{count, plural, =0 {Nema rezultata} =1 {1 rezultat} other {# rezultata}}",
@@ -21,6 +22,7 @@
   "active": "Aktivan",
   "deactivate": "Deaktiviraj",
   "reactivate": "Reaktiviraj",
+  "requirements": "Zahtevi",
 
   "requiresReferral": "Potreban uput",
   "requiresReferralDescription": "Pacijentu je potreban uput lekara za ovaj pregled",
@@ -40,13 +42,21 @@
     "price": "Osnovna cena",
     "pricePlaceholder": "npr. 50.00",
     "category": "Kategorija",
-    "categoryPlaceholder": "npr. laboratorija, slikanje, konsultacija",
+    "categoryPlaceholder": "Izaberite kategoriju",
     "color": "Boja kalendara",
     "colorPlaceholder": "#3B82F6",
     "description": "Opis",
     "descriptionPlaceholder": "Kratak opis za osoblje",
     "preparationInstructions": "Uputstvo za pripremu pacijenta",
-    "preparationInstructionsPlaceholder": "npr. Postiti 12 sati pre pregleda"
+    "preparationInstructionsPlaceholder": "npr. Postiti 12 sati pre pregleda",
+    "categoryName": "Naziv kategorije",
+    "categoryNamePlaceholder": "Unesite naziv kategorije",
+    "noCategory": "Bez kategorije",
+    "addNewCategory": "Dodaj novu kategoriju",
+    "addNewCategoryTitle": "Dodaj novu kategoriju",
+    "addNewCategoryDescription": "Unesite informacije o kategoriji",
+    "searchCategory": "Pretraži kategorije...",
+    "noCategoriesFound": "Nema kategorija"
   },
 
   "Validation": {
@@ -73,6 +83,8 @@
     "reactivateSuccess": "Tip pregleda je reaktiviran",
     "reactivateError": "Neuspešno reaktiviranje tipa pregleda",
     "deactivateModalTitle": "Deaktiviraj tip pregleda",
-    "deactivateModalDescription": "Ovaj tip pregleda više neće biti dostupan za zakazivanje. Postojeći pregledi neće biti pogođeni."
+    "deactivateModalDescription": "Ovaj tip pregleda više neće biti dostupan za zakazivanje. Postojeći pregledi neće biti pogođeni.",
+    "categoryAddSuccess": "Kategorija je uspešno kreirana!",
+    "categoryAddError": "Neuspešno kreiranje kategorije"
   }
 }

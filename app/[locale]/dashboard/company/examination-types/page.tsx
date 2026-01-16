@@ -7,7 +7,7 @@ import {
   QueryClient,
   dehydrate,
 } from "@tanstack/react-query";
-import { getExaminationTypes } from "@/features/examination-types/actions/examination-type-actions";
+import { getExaminationTypes } from "@/features/examination-types/actions";
 import { getTranslations } from "next-intl/server";
 
 export default async function ExaminationTypesPage() {
@@ -25,7 +25,7 @@ export default async function ExaminationTypesPage() {
   });
 
   return (
-    <PageContainer scrollable={true}>
+    <PageContainer scrollable={false}>
       <Heading
         title={t("title")}
         description={t("subtitle")}

@@ -19,7 +19,9 @@
     "ambulances": "Ambulante",
     "patientNew": "Novi pacijent",
     "patientid": "Informacije o pacijentu",
-    "companyInfo": "Informacije o kompaniji"
+    "companyInfo": "Informacije o kompaniji",
+    "documentTypes": "Tipovi dokumenata",
+    "examinationTypes": "Tipovi pregleda"
   },
   "Sidebar": {
     "clinic": "Klinika",

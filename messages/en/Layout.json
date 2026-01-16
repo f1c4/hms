@@ -21,7 +21,8 @@
     "patientNew": "New patient",
     "patientid": "Patient info",
     "companyInfo": "Company info",
-    "documentTypes": "Document types"
+    "documentTypes": "Document types",
+    "examinationTypes": "Examination types"
   },
   "Sidebar": {
     "clinic": "Clinic",

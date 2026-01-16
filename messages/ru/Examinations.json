@@ -3,6 +3,7 @@
   "subtitle": "Управление типами медицинских обследований, предлагаемых в вашей клинике",
   "createTitle": "Создать вид обследования",
   "editTitle": "Редактировать вид обследования",
+  "detailsTitle": "Детали вида обследования",
   "searchPlaceholder": "Поиск по названию или категории...",
   "showInactive": "Показать неактивные",
   "resultsCount": "{count, plural, =0 {Нет результатов} =1 {1 результат} other {# результатов}}",
@@ -21,6 +22,7 @@
   "active": "Активен",
   "deactivate": "Деактивировать",
   "reactivate": "Активировать",
+  "requirements": "Требования",
 
   "requiresReferral": "Требуется направление",
   "requiresReferralDescription": "Для этого обследования необходимо направление от врача",
@@ -39,14 +41,22 @@
     "durationPlaceholder": "например, 30",
     "price": "Базовая стоимость",
     "pricePlaceholder": "например, 50.00",
-    "category": "Категория",
-    "categoryPlaceholder": "например, лабораторные, визуализация, консультация",
     "color": "Цвет календаря",
     "colorPlaceholder": "#3B82F6",
     "description": "Описание",
     "descriptionPlaceholder": "Краткое описание для персонала",
     "preparationInstructions": "Инструкции для подготовки пациента",
-    "preparationInstructionsPlaceholder": "например, Голодать 12 часов перед обследованием"
+    "preparationInstructionsPlaceholder": "например, Голодать 12 часов перед обследованием",
+    "category": "Категория",
+    "categoryPlaceholder": "Выберите категорию",
+    "categoryName": "Название категории",
+    "categoryNamePlaceholder": "Введите название категории",
+    "noCategory": "Без категории",
+    "addNewCategory": "Добавить новую категорию",
+    "addNewCategoryTitle": "Добавить новую категорию",
+    "addNewCategoryDescription": "Введите информацию о категории",
+    "searchCategory": "Поиск категорий...",
+    "noCategoriesFound": "Категории не найдены"
   },
 
   "Validation": {
@@ -73,6 +83,8 @@
     "reactivateSuccess": "Вид обследования активирован",
     "reactivateError": "Не удалось активировать вид обследования",
     "deactivateModalTitle": "Деактивировать вид обследования",
-    "deactivateModalDescription": "Этот вид обследования больше не будет доступен для записи. Существующие приёмы не будут затронуты."
+    "deactivateModalDescription": "Этот вид обследования больше не будет доступен для записи. Существующие приёмы не будут затронуты.",
+    "categoryAddSuccess": "Категория успешно создана!",
+    "categoryAddError": "Не удалось создать категорию"
   }
 }

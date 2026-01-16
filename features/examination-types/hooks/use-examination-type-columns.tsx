@@ -16,14 +16,14 @@ import {
 import {
   Stethoscope,
   Clock,
-  DollarSign,
   MoreHorizontal,
   Eye,
   PencilIcon,
   Power,
   PowerOff,
+  Euro,
 } from "lucide-react";
-import type { ExaminationTypeModel } from "../types/examination-types";
+import type { ExaminationTypeModel } from "../types";
 
 interface UseExaminationTypeColumnsOptions {
   onView: (item: ExaminationTypeModel) => void;
@@ -61,6 +61,12 @@ export function useExaminationTypeColumns({
             Object.values(translations)[0] ||
             "—";
           const isActive = row.original.is_active;
+          const categoryName = row.original.category
+            ? row.original.category.name_translations[locale] ||
+              row.original.category.name_translations["en"] ||
+              Object.values(row.original.category.name_translations)[0] ||
+              ""
+            : null;
           return (
             <div className="flex items-center gap-2">
               <span
@@ -80,7 +86,7 @@ export function useExaminationTypeColumns({
                 <span
                   className="h-3 w-3 rounded-full shrink-0"
                   style={{ backgroundColor: row.original.color }}
-                  title={row.original.category || ""}
+                  title={categoryName || ""}
                 />
               )}
             </div>
@@ -93,12 +99,18 @@ export function useExaminationTypeColumns({
         header: () => t("category"),
         cell: ({ row }) => {
           const category = row.original.category;
-          return category ? (
+          if (!category) {
+            return <span className="text-muted-foreground">—</span>;
+          }
+          const categoryName =
+            category.name_translations[locale] ||
+            category.name_translations["en"] ||
+            Object.values(category.name_translations)[0] ||
+            "";
+          return (
             <Badge variant="outline" className="text-xs">
-              {category}
+              {categoryName}
             </Badge>
-          ) : (
-            <span className="text-muted-foreground">—</span>
           );
         },
       },
@@ -125,7 +137,7 @@ export function useExaminationTypeColumns({
         id: "price",
         header: () => (
           <div className="flex items-center justify-end pr-2">
-            <DollarSign className="h-4 w-4 mr-2 hidden md:inline-flex" />
+            <Euro className="h-4 w-4 mr-2 hidden md:inline-flex" />
             <p>{t("price")}</p>
           </div>
         ),

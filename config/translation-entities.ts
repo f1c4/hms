@@ -12,6 +12,7 @@ export const TRANSLATION_ENTITIES = {
     service: "service",
     insurance: "insurance",
     examination_type: "examination_type",
+    examination_category: "examination_category",
 } as const;
 
 export type TranslationEntity =
@@ -44,6 +45,10 @@ export const ENTITY_CONTEXTS: Record<TranslationEntity, string> = {
         "You are translating medical examination type information for a healthcare clinic application. " +
         "Use accurate medical terminology. Keep translations professional and clear for both patients and medical staff. " +
         "For preparation instructions, ensure clarity so patients understand requirements like fasting.",
+    examination_category:
+        "You are translating medical examination category names for a healthcare clinic application. " +
+        "Use standard medical terminology for categories like laboratory, imaging, consultation, procedure, therapy. " +
+        "Keep translations clear and professional for both medical staff and administrative use.",
 };
 
 /**
